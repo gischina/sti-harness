@@ -1,0 +1,32 @@
+# ── 运行时数据（不入版本库，分发时也不要带）──────────────
+# 锚定项目根：只忽略**运行时**数据目录 ROOT/data（见 app/paths.mjs 的 DATA_DIR）。
+# 必须带前导 `/` —— 否则这条会连带命中源码目录 `app/data/`
+# （db.mjs / migrate.mjs / secret.mjs + 全部迁移 + 全部仓储），使数据层永远进不了版本库。
+/data/
+*.db
+*.db-wal
+*.db-shm
+
+# 本机状态与密钥
+.secret
+dsh-config.json
+ui-prefs.yaml
+ui-prefs.json
+
+# 打包产物
+dist/
+*.zip
+
+# 回归报告产出
+tools/*-out.txt
+tools/endpoints.json
+
+# 编辑器 / 系统
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# 依赖目录（本工程刻意不用，列在这里是防止误提交）
+node_modules/

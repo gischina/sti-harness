@@ -1,0 +1,30 @@
+# ── 编辑器约定 ────────────────────────────────────────────────────────────
+#
+# 这里写的是**本仓库既有的、已被验证过的事实**，不是新引入的规矩 ——
+# 目的是让编辑器默认就按同一套约定工作，避免"某次改完多出几百个字节差异"。
+#
+# 为什么要它：本仓库不只有 .mjs，还有 .cmd / .sh / .sql / .md，其中两类对**字节形态**敏感：
+#   · `start.cmd` / `check.cmd` 必须保持 **PURE ASCII**（文件头写了原因：`chcp 65001` 之后
+#     混入非 ASCII 字节会让 cmd.exe 在错误的字节偏移处断行、把注释当命令执行）。
+#     ⚠️ 这一条 `.editorconfig` **表达不了**，改这两个文件时请自己确认没混进非 ASCII 字符。
+#   · 源码与文档里的中文必须是 **UTF-8 且无 BOM**（有 BOM 会让打包/自检输出多出乱码字节）。
+#
+# 实测现状（1.8.0 核对）：全部文本文件均为 **LF、UTF-8 无 BOM**，源码用 **2 空格缩进**。
+# 所以下面只声明 LF，**没有**为 `.cmd` 单独改成 CRLF —— 那会与仓库现状相反。
+#
+# ⚠️ `.editorconfig` 只影响**编辑器**行为，**不会改写磁盘上已有的文件**；
+#    它也**不在发布包白名单里**（见 `tools/pack-release.mjs` 的 `WHITELIST_*`），属纯开发侧文件。
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.md]
+# Markdown 里"行尾两个空格"是**硬换行**的写法，删掉会改变渲染结果。
+trim_trailing_whitespace = false

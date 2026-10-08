@@ -1,0 +1,27 @@
+# ── Git 行尾约定 ──────────────────────────────────────────────────────────
+#
+# 这里写的是**本仓库既有的、已被验证过的事实**（与 `.editorconfig` 同一口径）：
+# 全部文本文件入库即为 **LF**（源码 / 文档 / `.sql` / `.sh` / `.cmd` 无一例外）。
+#
+# 为什么要它：`.editorconfig` 只管编辑器，**拦不住 git**。不同机器上的
+# `core.autocrlf` 会在检出时把行尾改成 CRLF，于是同一个文件在不同人那儿
+# 字节不同、`git status` 常年"有改动"。这里把「入库 LF + 检出 LF」钉死。
+#
+# ⚠️ 刻意**没有**为 `*.cmd` 写 `eol=crlf`：不少同类工程那么写，但
+#    本仓库的 `start.cmd` / `check.cmd` **实测就是 LF**（见 `.editorconfig` 的
+#    "实测现状（1.8.0 核对）"一节），套 CRLF 会与磁盘现状相反、凭空造出 diff。
+#    这两个文件真正敏感的是**纯 ASCII**，那条 `.editorconfig` 表达不了，
+#    改它们时请自行确认没混进非 ASCII 字节。
+* text=auto eol=lf
+
+# 二进制不做任何转换（当前源码树里没有这类文件，列出是防以后加进来被当文本处理）
+*.png  binary
+*.ico  binary
+*.jpg  binary
+*.gif  binary
+*.zip  binary
+*.woff binary
+*.woff2 binary
+
+# ⚠️ 本文件（及 `.gitignore` / `.editorconfig`）是**纯开发侧文件**，
+#    不在发布包白名单里（见 `tools/pack-release.mjs` 的 `WHITELIST_*`）。

@@ -1,0 +1,1723 @@
+/* STI HARNESS 样式
+ * Copyright 2026 liwei（易智瑞西安）.
+ * 主题令牌集中在 :root[data-theme]，支持 light / dark 与"跟随系统"。 */
+
+:root {
+  --font-sans: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", "PingFang SC", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Cascadia Mono", monospace;
+  --radius: 8px;
+  --radius-lg: 12px;
+  --gap: 16px;
+}
+
+:root[data-theme="light"] {
+  --bg: #f6f7f9;
+  --bg-panel: #ffffff;
+  --bg-subtle: #f1f3f5;
+  /* 悬停高亮（0.21.10）：与 --bg-panel 分开的一个**专用语义色**。
+     见 .wb-sideitem:hover 上面那段说明 —— 拿 --bg-panel 当悬停底，
+     在暗色主题里会变成"比侧栏还暗"，几乎看不出划过。
+     ⚠️ 方向在两套主题里是**相反**的，别拿"更亮"当判据：
+        · 亮色主题的高亮 = **压暗**（白底上加深灰，是"被指到"的直觉）；
+        · 暗色主题的高亮 = **提亮**（暗底上提亮，同理由）。
+        所以判据是"与所在容器有**足够的亮度差**"，不是"更亮"。
+        侧栏底是 --bg-subtle(#f1f3f5)，这里压暗到 #dfe4ea（亮度差 ~14，
+        比旧写法 --bg-panel 的 12.3 还更明确一点）。 */
+  --bg-hover: #dfe4ea;
+  --border: #e3e6ea;
+  --border-strong: #cfd4da;
+  --text: #1f2328;
+  --text-dim: #5b6570;
+  --text-faint: #8b949e;
+  --accent: #185fa5;
+  --ok: #3b6d11;
+  --ok-bg: #eaf3de;
+  --warn: #854f0b;
+  --warn-bg: #faeeda;
+  --fail: #a32d2d;
+  --fail-bg: #fcebeb;
+  --info-bg: #e6f1fb;
+  --code-bg: #f1efea;
+}
+
+:root[data-theme="dark"] {
+  --bg: #16181c;
+  --bg-panel: #1e2126;
+  --bg-subtle: #24272d;
+  /* 比 --bg-subtle(#24272d) 亮一档 —— 侧栏就坐在 --bg-subtle 上。
+     ⚠️ 暗色下高亮 = **提亮**（与亮色主题方向相反，详见亮色那边的说明）。 */
+  --bg-hover: #333842;
+  --border: #32363d;
+  --border-strong: #464c55;
+  --text: #e6e8ea;
+  --text-dim: #a8b0b8;
+  --text-faint: #7a838c;
+  --accent: #85b7eb;
+  --ok: #a8d98a;
+  --ok-bg: #23301a;
+  --warn: #f0c274;
+  --warn-bg: #332915;
+  --fail: #f09595;
+  --fail-bg: #331c1c;
+  --info-bg: #17253a;
+  --code-bg: #24272d;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+code, pre, .mono { font-family: var(--font-mono); font-size: 12.5px; }
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.boot-error {
+  max-width: 620px; margin: 12vh auto; padding: 0 24px;
+}
+.boot-error h1 { font-size: 20px; }
+.boot-error pre {
+  background: var(--code-bg); padding: 12px 14px; border-radius: var(--radius); overflow-x: auto;
+}
+.boot-error code { background: var(--code-bg); padding: 1px 5px; border-radius: 4px; }
+
+/* ── 登录 / 初始化向导（全屏，无侧栏）────────────────────── */
+.auth-wrap {
+  /* 登录/初始化页不走 .layout（没有侧栏），但同样住在 #app 这个 flex 列里：
+     要 flex:1 + 自身滚动，否则 #app 的 overflow:hidden 会把超出部分直接裁掉。 */
+  flex: 1; min-height: 0; overflow-y: auto;
+  display: flex; align-items: center; justify-content: center;
+  padding: 40px 20px; background: var(--bg);
+}
+.auth-card {
+  width: 100%; max-width: 460px;
+  background: var(--bg-panel); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 26px 26px 20px;
+}
+.auth-card h1 { font-size: 18px; font-weight: 500; margin: 0 0 6px; }
+.auth-card p { margin: 0 0 14px; }
+.auth-card .note { margin: 14px 0 0; }
+
+.form { display: flex; flex-direction: column; gap: 12px; margin-top: 6px; }
+.field { display: flex; flex-direction: column; gap: 4px; }
+.field-label { font-size: 12.5px; color: var(--text-dim); }
+.field-hint { font-size: 11.5px; color: var(--text-faint); }
+.field input { width: 100%; }
+.form details summary { cursor: pointer; }
+.form details summary:hover { color: var(--text); }
+
+/* ── 布局 ─────────────────────────────────────────────── */
+/* ── 应用外壳：顶栏固定，左栏与主区**各自独立滚动** ─────────
+ *
+ * 为什么必须分开滚（而不是"整页滚 + 侧栏 sticky"）：
+ *   ① 侧栏是导航，用户在主区滚到底时它不该跟着走 —— sticky 只是"吸附"，
+ *      页面滚动条仍然只有一条，滚轮落在长页面上会把两栏一起带着走位；
+ *   ② 长表格页（审计日志 19000+ 字）滚到底后要换页，得先把鼠标移回侧栏再找，
+ *      窄屏上甚至要先滚回顶部才点得到导航；
+ *   ③ 管理后台的通行约定就是"外壳固定、两栏各自滚"，用户的期望即此。
+ *
+ * 实现要点：`html/body/#app` 三层锁死 100% 高度 + `overflow: hidden`，
+ * 高度只剩 `.layout` 一层，再由它把空间分给 `.sidebar` / `.content` 各自 `overflow-y: auto`。
+ * ⚠️ `min-height: 0` 是 flex 子项能真正出现滚动条的前提（默认 `min-height: auto`
+ * 会让子项被内容撑开，滚动条又跑回 body 上去）。
+ */
+html, body { height: 100%; }
+body { overflow: hidden; }
+#app { height: 100vh; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
+
+.topbar {
+  flex: none; z-index: 10;
+  display: flex; align-items: center; gap: 14px;
+  padding: 10px 20px;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border);
+}
+/* 品牌名是顶栏唯一的"产品身份证"（0.20.0 试用反馈：要更大更突出）——
+   加粗 + 拉开字距，副标题保持弱化形成对比 */
+.brand { font-weight: 700; font-size: 19px; letter-spacing: .8px; }
+.brand small { color: var(--text-faint); font-weight: 400; font-size: 12.5px; margin-left: 8px; letter-spacing: .2px; }
+/* 「HARNESS」半截（0.21.10 用户要求："HARNESS 字体小点，颜色改成和对话工作台颜色一样"）。
+   对齐对象是对话工作台的 `.wb-logo b`：**比前半截小一档**、走 accent、字距略开。
+   为什么小一档反而更醒目：前半截 "STI" 大而实，后半截小一号走强调色 → 形成"主标 + 副标"
+   的层级，比两个词等大等色更好认。原先是与 "STI" 同字号同色，用户读作"没区分"。
+   ⚠️ 两处（`.brand b` 与 `.wb-logo b`）要**同字号同色**：同一个产品名在两个界面里
+   不该是两个样子，`test-frontend` 有一条断言在钉这件事。 */
+.brand b { font-weight: 800; font-size: 11.5px; letter-spacing: 2px; color: var(--accent); }
+.topbar .spacer { flex: 1; }
+
+/* 顶栏右侧（0.21.10 重排）。用户原话："标题栏右侧有点乱…一堆平铺这里也不美观"。
+ *
+ * 旧毛病是**五种性质不同的东西做成了同一种东西**：内核状态 / 版本 / 主题动作 / 身份 / 登出
+ * 全是等宽等高的 badge 与 button 平铺在一行 → 分不清哪个能点、身份还被拆成两截。
+ * 这一版靠 `.topbar-group` / `.topbar-account` 两个容器把"只读事实"与"人的操作"分开：
+ *   · `-group`   : 无边框，仅靠内部 gap 成组（轻——它不需要被点）；
+ *   · `-account` : 可交互，有一圈边框 + 淡底（重——它承接点击，边框就是"这里能点"的线索）。
+ * 一轻一重的对比本身就是分组信号，不需要加分隔符或标题。
+ *
+ * ⚠️ 0.21.11：主题切换从账号区挪进状态组（用户："亮色暗色放到版本显示旁边"）。
+ *   于是 `-group` 里现在**混着 badge 与 button** —— 这不是退回旧毛病：
+ *   旧毛病是"五种东西全长一样"，现在是"两种外观 + 两个容器"，读得出层级。
+ *   组内 badge 与 button 靠外观区分即可（badge 有底色无边框、button 有边框）。 */
+.topbar-group { display: flex; align-items: center; gap: 8px; }
+/* 账号区（0.21.11 改成下拉）。用户：「geoscene 下拉登出 可以吗」「角色就不用再单独显示啦」——
+   所以它不再"名字 + 角色徽标 + 登出按钮"三样平铺，而是**一个入口**（名字带 ⌄），
+   点开才出「我的账号 / 登出」。定位锚：菜单是 absolute，必须挂在一个 relative 上。 */
+.topbar-account { position: relative; }
+.topbar-account-id {
+  display: flex; align-items: center; gap: 6px;
+  padding: 3px 8px 3px 4px;
+  background: transparent; border: 1px solid transparent; border-radius: 999px;
+  color: var(--text); font-size: 13px; cursor: pointer;
+  transition: background-color .12s ease, border-color .12s ease;
+}
+.topbar-account-id:hover { background: var(--bg-hover); border-color: var(--border-strong); }
+/* 展开态：入口保持点亮，否则菜单开着却看不出它从哪冒出来的 */
+.topbar-account.menu-open .topbar-account-id { background: var(--bg-hover); border-color: var(--border-strong); }
+/* 头像块：用名字首字，不引资源（与工作台 `.wb-avatar` 同一手法，尺寸小一号适配顶栏） */
+.topbar-avatar {
+  flex: 0 0 auto; width: 20px; height: 20px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--accent); color: #fff; font-size: 11px; font-weight: 600;
+}
+/* 暗色主题的 accent 是**浅色**，白字压上去等于没有对比度 —— 随主题翻成深字 */
+:root[data-theme="dark"] .topbar-avatar { color: #10131a; }
+.topbar-name {
+  color: var(--text); font-size: 13px; font-weight: 500;
+  max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+/* ⌄ 展开时翻 180°：指向"再点一下就收起" */
+.topbar-account-id .wb-ico { flex: 0 0 auto; opacity: .75; transition: transform .12s ease; }
+.topbar-account.menu-open .topbar-account-id .wb-ico { transform: rotate(180deg); }
+/* 下拉面板：复用 `.wb-menu`（与工作台同一套外观），只改对齐 ——
+   `.wb-menu` 默认 `right:4px` 是给行内「⋯」用的；这里要让面板**右对齐到入口右缘**，
+   并按内容撑宽（`min-width` 给个下限，免得"我的账号"四个字被挤断行）。 */
+.topbar-account-menu { top: calc(100% + 6px); right: 0; left: auto; min-width: 140px; }
+/* 菜单里那句细分隔线（与工作台同名同类，别处已定义过，这里不重复）。 */
+
+/* 顶栏里的"幽灵"按钮（无边、无底、悬停才浮出来）。
+   ⚠️ 作用域是 **`.topbar` 全局**，不是只挂在账号区：0.21.11 起状态组里也有一个
+      （主题切换）。写成 `.topbar-acts button.ghost` 会让状态组那颗**掉回默认按钮样式**
+      —— 带边框、带底色，和旁边的 badge 撞在一起（正是 0.21.10 修掉的"一堆平铺"）。
+   圆角 999px：账号区那颗坐在胶囊里要跟着胶囊走；状态组那颗跟在 badge 后面也不显方。
+   两处 padding 一致（3px 10px）→ 高度与 badge 对齐，同一行不会高低不齐。 */
+.topbar button.ghost {
+  padding: 3px 10px; font-size: 12.5px;
+  background: transparent; border-color: transparent;
+  border-radius: 999px; color: var(--text-dim);
+}
+.topbar button.ghost:hover:not(:disabled) { background: var(--bg-hover); color: var(--text); }
+.topbar button.ghost:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.layout { flex: 1; min-height: 0; display: flex; gap: 0; }
+.sidebar {
+  width: 208px; flex: none; padding: 18px 12px;
+  border-right: 1px solid var(--border);
+  overflow-y: auto; overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+.sidebar .group { margin-bottom: 14px; }
+/* 组与组之间一条淡分隔线：23 项导航在视觉上有"块"的边界，扫读成本明显更低 */
+.sidebar .group + .group { border-top: 1px solid var(--border); padding-top: 14px; }
+.sidebar .group-title {
+  font-size: 11.5px; color: var(--text-faint); padding: 0 10px 6px;
+  text-transform: none; letter-spacing: .3px;
+}
+.nav-item {
+  display: block; padding: 7px 10px; border-radius: var(--radius);
+  color: var(--text-dim); cursor: pointer; user-select: none;
+}
+.nav-item:hover { background: var(--bg-subtle); color: var(--text); }
+.nav-item:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.nav-item.active { background: var(--info-bg); color: var(--accent); font-weight: 500; }
+.nav-item .tag {
+  float: right; font-size: 11px; color: var(--text-faint);
+}
+.nav-item.disabled { opacity: .55; cursor: not-allowed; }
+
+.content {
+  flex: 1; min-width: 0; padding: 22px 26px 60px;
+  overflow-y: auto; overscroll-behavior: contain;
+}
+
+/* ── 滚动条：细线条风格（全局统一）─────────────────────────
+ *
+ * 为什么自定义：Windows 原生滚动条又宽又重，侧栏与主区各挂一条，
+ * 视觉上像两块贴片；企业后台的通行观感是「安静的一条细线」——
+ * 平时不抢内容，需要时一眼能找到、能拖、能滚。
+ *
+ * 双通道（缺一个就有半个浏览器拿不到样式）：
+ *   · Chromium / Edge / Safari：::-webkit-scrollbar 系列；
+ *   · Firefox：scrollbar-width / scrollbar-color。
+ *
+ * 形态：轨道全透明；滑块槽位 8px，靠 2px 透明边 + content-box 裁剪
+ * 让可见部分只有 4px 的一条圆角线；悬停时颜色加深，给出可拖拽的反馈。
+ * 只改滚动条本身，不碰容器 padding，内容布局零变化。
+ */
+* { scrollbar-width: thin; scrollbar-color: var(--border-strong) transparent; }
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background-clip: content-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--text-faint);
+  background-clip: content-box;
+}
+*::-webkit-scrollbar-corner { background: transparent; }
+
+.page-title { font-size: 18px; font-weight: 500; margin: 0 0 4px; }
+.page-sub { color: var(--text-dim); margin: 0 0 20px; font-size: 13px; }
+
+/* ── 组件 ─────────────────────────────────────────────── */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--gap); margin-bottom: 22px; }
+.card {
+  background: var(--bg-panel); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 14px 16px;
+}
+.card .label { font-size: 12.5px; color: var(--text-dim); }
+.card .value { font-size: 22px; font-weight: 500; margin-top: 2px; word-break: break-all; }
+.card .hint { font-size: 12px; color: var(--text-faint); margin-top: 4px; }
+
+/* 契约页的做法/事件清单：chip 平铺。
+ * 21 个方法竖排成 21 行 mono 会把页面拉成一根面条；平铺既省高度，也能一眼数清几个。
+ * 颜色复用状态令牌：ok/warn/fail 分别对应"已核实/待核实/已证伪"，dim 表示"可选"。 */
+.chip-wrap { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; }
+.chip {
+  display: inline-block; padding: 1px 8px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--bg-subtle);
+  font-family: var(--font-mono); font-size: 12px; color: var(--text-dim); line-height: 1.7;
+}
+.chip.ok { border-color: var(--ok); color: var(--ok); background: var(--ok-bg); }
+.chip.warn { border-color: var(--warn); color: var(--warn); background: var(--warn-bg); }
+.chip.fail { border-color: var(--fail); color: var(--fail); background: var(--fail-bg); }
+.chip.dim { color: var(--text-faint); border-style: dashed; }
+
+.panel {
+  background: var(--bg-panel); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 16px 18px; margin-bottom: var(--gap);
+}
+.panel > h2 { font-size: 14px; font-weight: 500; margin: 0 0 10px; }
+.panel > h3 { font-size: 13px; font-weight: 500; margin: 16px 0 8px; color: var(--text-dim); }
+
+/* 系统明细折叠块（概览页）：安静、有边框、悬停/展开有反馈 */
+.sys-details {
+  margin-top: 10px;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 9px 14px; background: var(--bg-panel);
+}
+.sys-details > summary { cursor: pointer; font-weight: 500; color: var(--text); }
+.sys-details > summary:hover { color: var(--accent); }
+.sys-details[open] > summary { margin-bottom: 10px; }
+
+.badge {
+  display: inline-block; padding: 1px 8px; border-radius: 999px;
+  font-size: 12px; border: 1px solid transparent; white-space: nowrap;
+}
+.badge.ok { background: var(--ok-bg); color: var(--ok); }
+.badge.warn { background: var(--warn-bg); color: var(--warn); }
+.badge.fail { background: var(--fail-bg); color: var(--fail); }
+.badge.dim { background: var(--bg-subtle); color: var(--text-dim); }
+
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.table-wrap { overflow-x: auto; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { color: var(--text-dim); font-weight: 500; font-size: 12.5px; }
+td.mono, th.mono { font-family: var(--font-mono); font-size: 12px; }
+
+.kv { display: grid; grid-template-columns: minmax(120px, 200px) 1fr; gap: 4px 14px; font-size: 13px; }
+.kv dt { color: var(--text-dim); }
+.kv dd { margin: 0; word-break: break-all; }
+
+.empty {
+  color: var(--text-faint); font-size: 13px; padding: 14px;
+  background: var(--bg-subtle); border-radius: var(--radius);
+}
+.empty b { color: var(--text-dim); font-weight: 500; }
+
+.note {
+  font-size: 12.5px; color: var(--text-dim); background: var(--bg-subtle);
+  border-left: 3px solid var(--border-strong); padding: 8px 12px; border-radius: 0 var(--radius) var(--radius) 0;
+  margin: 10px 0;
+}
+.note.warn { background: var(--warn-bg); border-left-color: var(--warn); color: var(--warn); }
+.note.fail { background: var(--fail-bg); border-left-color: var(--fail); color: var(--fail); }
+
+button, select, input, textarea {
+  font: inherit; color: var(--text);
+  background: var(--bg-panel);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  padding: 6px 10px;
+}
+button { cursor: pointer; }
+button:hover:not(:disabled) { background: var(--bg-subtle); }
+button:disabled { opacity: .5; cursor: not-allowed; }
+button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+/* 破坏性动作（删组、撤销绑定）要一眼能认出来 —— 与"改角色"长得一样的删除按钮迟早会被误点 */
+button.danger { color: var(--fail); border-color: var(--fail); }
+button.danger:hover:not(:disabled) { background: var(--fail); color: #fff; }
+:root[data-theme="dark"] button.primary { color: #10131a; }
+textarea { width: 100%; min-height: 68px; resize: vertical; font-family: var(--font-mono); font-size: 12.5px; }
+
+.row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+/* 表单里的定宽输入。宽度属于布局，**不写进 HTML 的 style 属性** ——
+   内联 style 有一份冻结计数（见 architecture.md §7.6 与 test-frontend 的护栏），
+   每加一处都会让将来收紧 style-src 的工作量变大。 */
+.input-md { width: 240px; }
+/* 导入粘贴区（0.21.10）：原来是内联 style，换成类。
+   ⚠️ `font-family` 必须显式给 mono —— textarea **不继承** body 的字体，
+   它会用浏览器的 UA 默认（等宽或衬线，各引擎不同）。JSON 要按等宽读，
+   对齐的括号才看得出层级。 */
+.import-box { width: 100%; font-family: var(--font-mono); font-size: 12.5px; }
+/* 段间距同理：能用 class 就别写内联 style（内联 style 有冻结计数，见上面那条注释）。 */
+.mt-8 { margin-top: 8px; }
+.muted { color: var(--text-dim); }
+.faint { color: var(--text-faint); font-size: 12.5px; }
+/* 隐藏的文件输入（批量导入用按钮触发 click()）。布局类样式一律走 class —— 
+   HTML 里的内联 style 有一份冻结计数，不要为"藏个东西"去动它。 */
+.hidden { display: none; }
+.mono-block {
+  font-family: var(--font-mono); font-size: 12px; background: var(--code-bg);
+  padding: 10px 12px; border-radius: var(--radius); overflow-x: auto; white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.events { font-family: var(--font-mono); font-size: 12px; }
+.events .ev { display: grid; grid-template-columns: 34px 96px 1fr; gap: 8px; padding: 3px 0; border-bottom: 1px dashed var(--border); }
+.events .ev .t { color: var(--text-faint); }
+.events .ev.unknown { background: var(--warn-bg); }
+
+.spinner { display: inline-block; width: 10px; height: 10px; border: 2px solid var(--border-strong); border-top-color: var(--accent); border-radius: 50%; animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── 对话工作台（P0-B）──────────────────────────────────────
+ * 三栏：左会话列表 / 中对话 / 右上下文。右侧可折叠（.rail-closed）。
+ * 用具名网格而不是 flex 拉伸：聊天区需要"中间列吃掉剩余宽度且能内部滚动"。 */
+/* ── 对话工作台（0.21.2 起是**全屏视图**）────────────────────
+ * 与原生 Harness 第一屏同一布局：左栏 = 工作区树，主区 = 对话。
+ * 此前它是管理外壳里的一张圆角卡片（顶栏 + 22 页导航 + 页标题层层包着）；
+ * 现在整页就是它 —— #app 已是 100dvh 的 flex 列，flex:1 即吃满视口。
+ * 右栏可折叠（.rail-closed），左栏也可折叠（.side-closed，品牌头的收起钮）。
+ * ⚠️ 左栏收起时左侧**不是空的** —— 换成 56px 的竖排入口栏 `.wb-siderail`（0.21.8；0.21.9 加宽），
+ *    见下面 `.wb.side-closed` 那一段（那一列能落到第一格，靠的是一条容易忽略的网格事实）。
+ * 用具名网格而不是 flex 拉伸：聊天区需要"中间列吃掉剩余宽度且能内部滚动"。 */
+.wb {
+  flex: 1; min-height: 0;
+  display: grid;
+  grid-template-columns: 264px minmax(0, 1fr) 320px;
+  gap: 0;
+  align-items: stretch;
+  background: var(--bg-panel);
+}
+.wb.rail-closed { grid-template-columns: 264px minmax(0, 1fr); }
+/* 首屏加载态（0.21.9）：数据没回来之前**不画工作台**，只画这一行。
+   为什么不能让工作台先画一遍空的：那时树会按"停在未分组上"渲染、主区会按"没有会话"
+   渲染品牌页 + 居中输入卡，数据一到整页换装 —— 用户看到的就是"刷新时隐约闪一下
+   未分组 + 居中输入框"。中间态不该长得像一个可用状态（见 84-workbench.js 的 ready 注释）。
+   `grid-column: 1 / -1`：`.wb` 是无名网格（三列），这一格要跨满，否则它会被当成
+   第二列的内容、左栏位置空出一大块。 */
+.wb-boot {
+  grid-column: 1 / -1;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  color: var(--text-faint); font-size: 13px;
+}
+/* 0.21.8：左栏收起时左侧不是"空掉"，而是换成 56px 的**竖排入口栏**（.wb-siderail）。
+   ⚠️ 这一列之所以能落在第一格，依赖一条很容易忽略的 CSS 事实：`.wb-side` 收起时是
+   `display:none`，而 `display:none` 的元素**不生成盒子、也就不是网格项** —— 于是排在
+   它后面的 `.wb-siderail` 顶上来成为第一列，`.wb-main` 顺位到第二列。
+   哪天有人把下面那行改成 `visibility:hidden` 或 `width:0`，"栏"仍会占着第一格，
+   入口栏就被挤到第二列、整个网格错位（而且看起来只是"缩进变了"，很难归因）。
+   改这一行之前先读这条注释。 */
+.wb.side-closed { grid-template-columns: 56px minmax(0, 1fr) 320px; }
+.wb.side-closed.rail-closed { grid-template-columns: 56px minmax(0, 1fr); }
+.wb.side-closed .wb-side { display: none; }
+
+.wb-side {
+  display: flex; flex-direction: column; min-height: 0;
+  border-right: 1px solid var(--border);
+  background: var(--bg-subtle);
+  padding: 10px 10px 12px;
+  /* ⚠️ 0.21.11：**只裁横向**，不裁纵向。
+     原写法 `overflow: hidden` 会把账号下拉整个吃掉 —— 下拉是 `position:absolute` +
+     `bottom:100%`，**弹在 `.wb-account` 盒子外面**，而 `.wb-account` 又贴着栏底，
+     于是面板一出现就被这层 `hidden` 裁掉（用户报的"我的账号/退出显示样式有问题"就是这个：
+     不是长得难看，是**根本没显示出来 / 只剩一截**）。
+     为什么可以放心放宽：纵向滚动**本来就由 `.wb-tree` 自己负责**（`flex:1` +
+     `overflow-y:auto`），这一栏从不需要纵向裁切 —— 底部的「设置」「账号」靠的是
+     flex 布局占位，不是靠 overflow 守住。横向仍然 `hidden`：栏内不允许出现横向滚动条。 */
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+/* 品牌头：名字 + 收起钮（与原生 Harness 的左上角同一位置） */
+.wb-brand { display: flex; align-items: center; gap: 8px; padding: 4px 4px 12px; }
+/* ── 品牌字标（0.21.9 首改，0.21.10 再加强，用户 2026-10-08）──────────────
+ *
+ * 用户原话（第一轮）：「左侧栏顶部 STI HARNESS 样式再醒目一点，字体看是否再大点」。
+ * 用户原话（第二轮，看过 0.21.9 的效果之后）：「STI HARNESS 再醒目一点」。
+ *
+ * ── 0.21.9 改了什么（保留这段是为了说明"为什么还嫌不够"）──────────────
+ * 从前的样子：`STI` 14.5px/700 取默认文字色，`HARNESS` 10px/800/字距 2px 取
+ * **--text-faint**（两档灰里最淡的那档）。三个问题叠在一起：
+ *   ① 字号小（主体才 14.5px，而侧栏正文是 13px —— 只大一档半，**读起来不像标头**）；
+ *   ② 后半截太淡（--text-faint 是留给"禁用/占位"的那一档，拿它当字标 = 主动降低存在感）；
+ *   ③ 两半**没有对比关系** —— 一样深/一样淡，看不出"STI 是名、HARNESS 是后缀"。
+ * 0.21.9 改成：主体 17px/800，后半截走 --accent 且保留字距。
+ * ⚠️ 但用户看过之后**仍然说不够醒目** —— 说明 17px 在一列 13px 的侧栏文字里
+ *    依旧没有形成"层级差"，而**只靠字号是拉不开层级的**（多 4px 在扫读时看不出来）。
+ *
+ * ── 0.21.10 的加强：不再只动字号，而是把"醒目"拆成**三样同时成立** ──────
+ *   ① **字号再上一档**：17 → 19px（与后台 .brand 的 19px 对齐 —— 同一个产品名
+ *      在两个界面里不该是两个大小）。这是"更大"这一半。
+ *   ② **加一条左侧竖条**（`border-left` + accent 色）：这是**结构性**的强调 ——
+ *      它在字标左侧立起一根 3px 的品牌色竖条，眼睛扫过左栏时先撞上它。
+ *      为什么加竖条而不是继续加粗：字重 800 已经接近上限（再重就糊成一团，
+ *      而且中文/西文混排时字重的视觉增益很快饱和）；竖条的可见度增益则**与字号无关**。
+ *   ③ **字距收紧一点点**（.3 → .2）：字号变大后原来的字距会显得松散，
+ *      收紧后整枚字标更"实"。
+ * ⚠️ 竖条占的是**左侧内边距**（padding-left 从 4px 提到 9px，竖条 3px + 间隙），
+ *    不是额外宽度 —— `.wb-brand` 不能被撑宽，否则左栏树的可视区会变窄。
+ *    代价是字标起点从 4px 挪到 9px，比下面「工作区」节头的 4px 略进一格 ——
+ *    这是**刻意的**：字标与节头从此不在同一竖线上，反而更像"标头 vs 内容"。
+ *
+ * ⚠️ 只在这里放大字号，**不动 .wb-brand 的高度预算**：它上面是左栏顶、下面是
+ *    「工作区」节头，撑高会连带把树的可视区压短（树是 flex:1 + overflow:auto）。
+ *    19px 行高 1.2 ≈ 23px，比 17px 版只多 2px —— 在 padding 里吸收掉。
+ *
+ * ⚠️ 现在**没有回归量这枚字标的几何**（test-frontend 只看它存不存在、test-browser
+ *    完全不碰它）。所以这里可以放心动字号；但真机上唯一要顺带瞄一眼的是
+ *    "`STI` 与 `HARNESS` 两半是否仍同一基线"—— 它们字号差 8.5px，靠 `.wb-brand`
+ *    的 `align-items: center` 对齐，改字号时这条关系不变，所以这次不动它。 */
+.wb-logo {
+  flex: 1 1 auto; min-width: 0;
+  font-weight: 800; font-size: 19px; letter-spacing: .2px; line-height: 1.2;
+  color: var(--text);
+  /* 竖条：3px 品牌色 + 6px 间隙（写在 padding-left 里，不占额外宽度） */
+  border-left: 3px solid var(--accent);
+  padding-left: 6px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.wb-logo b {
+  font-weight: 800; font-size: 11.5px; letter-spacing: 2px;
+  color: var(--accent);
+}
+/* 0.21.6 删掉了「新会话」胶囊（.wb-new-chat）与「插件」入口的样式。
+   两件事的原因见 84-workbench.js 里 pageWorkbench 的注释：新会话移到每个工作区行
+   右侧的 ＋（它必须依附一个工作区，放顶部就得先看树上选中谁），插件那条入口也删了。
+   左栏从"品牌头 + 胶囊 + 插件 + 节头"收成"品牌头 + 节头"，树本身占满剩下的空间。 */
+/* 侧栏条目（管理后台 / 设置）与「工作区」节头 */
+.wb-sideitem {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 8px; border-radius: var(--radius);
+  font-size: 13px; color: var(--text-dim); cursor: pointer;
+  /* 悬停要能给出"选中了哪一行"的边界，靠边框跨主题都成立（见下） */
+  border: 1px solid transparent;
+  transition: background-color .12s ease, color .12s ease, border-color .12s ease;
+}
+/* ── 悬停态：**跨主题都要看得见**（0.21.10，用户 2026-10-08）──────────────
+ *
+ * 用户原话：「左侧栏条目（比如管理后台、设置、账号）的悬停效果看不清」。
+ *
+ * 从前的写法是 `background: var(--bg-panel)`，它**在亮色下勉强成立、在暗色下近乎失效**：
+ *   · 亮色：侧栏底 --bg-subtle(#f1f3f5，浅灰) → --bg-panel(#ffffff，白)
+ *           —— 浅灰变白是**变亮**，"划过的这块亮了"读得出来。
+ *   · 暗色：侧栏底 --bg-subtle(#24272d) → --bg-panel(#1e2126)
+ *           —— 白变成**更暗**，可两者只差一点点明度，在一整列同样暗的条目里
+ *           几乎分辨不出来。这就是"看不出划过了"的直接原因。
+ *
+ * ⚠️ 教训：**用一个语义色去当悬停底，等于假设它在两套主题里都恰好比容器亮**。
+ *     `--bg-panel` 的语义是"卡片底"，它并不是为"高亮"设计的。
+ * 现在改成**双管齐下**，两条都不依赖"恰好更亮"：
+ *   ① 底色改用 `--bg-hover`（新增语义色，亮/暗各定义一个**明确比容器亮**的值）；
+ *   ② 加一条 1px 边框（透明 → `--border-strong`）。边框是**结构性**提示 ——
+ *      它给出这一行的轮廓，在极低的对比度下也比底色差更容易被眼睛抓住，
+ *      而且它不占额外空间（基础态就是 1px transparent，不会让行高跳一下）。
+ * 顺带把文字提到 --text（比 --text-dim 高一档）：悬停时"这一行是活的"要有两处证据。
+ */
+.wb-sideitem:hover { background: var(--bg-hover); color: var(--text); border-color: var(--border-strong); }
+/* ⚠️ 这三处是**导航条目**（管理后台 / 设置 / 我的账号），不是正文里的链接。
+   全局那条 `a:hover{text-decoration:underline}` 会让鼠标划过时它们底下多出一条横线，
+   而"这一行可以点"已经由整行高亮在说了 —— 同一处用两个符号说同一件事，多出来的那个
+   被读成"这是个可以点开的链接"，于是它和真正的正文链接混成一个样子。
+   （用户 2026-10-08：「左侧栏管理后台、设置已经鼠标划过还tmd有下划线，去掉下划线」。）
+   ⚠️ 必须**连 `:hover` 一起写**：`a:hover` 的特异度是 (0,1,1)，`.wb-sideitem` 是 (0,1,0) ——
+   只在基础选择器上写 `none` 压不住那条悬停规则（这才是"加了样式没生效"的真正原因）。 */
+.wb-sideitem, .wb-siderail .wb-iconbtn { text-decoration: none; }
+.wb-sideitem:hover, .wb-siderail .wb-iconbtn:hover { text-decoration: none; }
+.wb-sideitem-ico { flex: 0 0 auto; width: 16px; text-align: center; }
+.wb-sec-head { display: flex; align-items: center; gap: 4px; padding: 12px 4px 4px; }
+/* 0.21.9：这一行原本太"轻"了 —— 标题用的是最淡的一档灰（--text-faint），两个动作也是
+ * 幽灵钮的最淡档，加上它们只在划过时才现身，整行读起来像"背景装饰"而不是"这一节的入口"。
+ * 用户原话：「工作区那一行包括右边的搜索、新建工作区，字体颜色样式再调一下，突出一下，不醒目」。
+ *
+ * 调法是**只动颜色与字重**，不动这一行的几何（padding / gap 被真机层的同轴断言盯着）：
+ *   · 标题：--text-faint → **--text-dim**，12px → 12.5px，加 600 字重与 .3px 字距。
+ *     ⚠️ 刻意**不给 --text**：树里的工作区名与会话名是 --text，节标签比内容还深就反了
+ *     （用户要的是"这一节看得见"，不是"这一节比内容还重要"）。
+ *   · 两个动作：--text-faint → --text-dim，并给一个**常驻的底**（底色 + 边框）。
+ *     这一点是关键：它们划过才现身，现身的**那一刻**用的就是这套静息样式 ——
+ *     从前那一刻是"两枚飘着的淡图标"，现在一眼就是"两颗按钮"。
+ * ⚠️ 不改"划过才现身"这条本身（opacity 那条是 0.21.7 用户自己的裁定，回归也钉着它）。 */
+.wb-sec-title {
+  flex: 1 1 auto; font-size: 12.5px; font-weight: 600; letter-spacing: .3px;
+  color: var(--text-dim);
+}
+.wb-sec-tools { display: flex; gap: 2px; }
+/* 0.21.7：节头两个动作（过滤 / 新建工作区）默认隐形，划过这一行才出现（用户裁定）——
+   一行看起来就只有「工作区」三个字，控件不抢视线。
+   ⚠️ 用的是 `opacity` 而不是 `display:none` / `visibility:hidden`：后两者会让按钮
+   **从 Tab 序列里消失**，键盘用户就再也够不到"新建工作区"了。opacity:0 的元素仍可聚焦，
+   所以补一条 `:focus-within` —— Tab 进来这一行立刻显形，纯键盘操作不会摸黑。 */
+.wb-sec-tools { opacity: 0; transition: opacity .12s ease-in-out; }
+.wb-sec-head:hover .wb-sec-tools, .wb-sec-head:focus-within .wb-sec-tools { opacity: 1; }
+/* 节头这两颗钮单独加一档"看得见"的静息长相（0.21.9）。见上面 .wb-sec-title 那段注释。
+   ⚠️ 作用域**只写 .wb-sec-tools 之下**，不动 `.wb-iconbtn` 本身：那个类是
+   节头 / 主区右上 / 卡内 ＋ 三处共用的，改基类会让"只调工作区那一行"变成"全站图标钮都变重"。
+   侧栏底色是 --bg-subtle，所以这里的白底 + 细边正好是"按钮"而不是"糊在栏上的一块"。 */
+.wb-sec-tools .wb-iconbtn {
+  color: var(--text-dim); background: var(--bg-panel); border-color: var(--border);
+}
+.wb-sec-tools .wb-iconbtn:hover:not(:disabled) { border-color: var(--border-strong); }
+/* 幽灵图标钮：全部图标动作共用（节头 / 主区右上 / 卡内 ＋）。 */
+.wb-iconbtn {
+  flex: 0 0 auto; padding: 2px 7px; font-size: 13.5px; line-height: 1.5;
+  color: var(--text-faint); background: transparent;
+  border: 1px solid transparent; border-radius: var(--radius); cursor: pointer;
+  white-space: nowrap;
+}
+.wb-iconbtn:hover:not(:disabled) { color: var(--text); background: var(--bg-panel); border-color: var(--border); }
+.wb-iconbtn:disabled { color: var(--border-strong); cursor: not-allowed; }
+
+/* ── 统一图标（0.21.7）────────────────────────────────────────
+ * 在此之前每个"图标"都是一个散装 Unicode 字形：⇤ ⌕ ⟳ ＋ ⋯ ▾ ▸ 📁 ▦ ⚙ ▤ ⊕ ↑ ⌫。
+ * 三个后果，第三件是真的坏了：
+ *   ① 它们出自不同的字体块（箭头 / 数学符号 / 装饰符 / 表情符号），**基线与字宽各异** ——
+ *      同一个 13.5px 字号排出来有大有小、有高有低，这就是用户说的"图标有大有小难看"；
+ *   ② 语义靠猜：`▤` 是"上下文面板"、`⊕` 是"附件"……只有作者知道；
+ *   ③ `⌗`（U+2317）在 Windows 的中文字体里**没有字形**，真机渲染成豆腐块 □ —— 不是难看，是没渲染。
+ * 现在统一为**一套内联 SVG**：同一个 16×16 视口、同一线宽、`stroke="currentColor"` 跟着文字取色
+ * （主题翻转自动跟随），尺寸只由这里定。内联 SVG 是 document 的一部分，不占额外请求，
+ * 也不受 `img-src 'self' data: blob:` 之外的限制。形状定义在 84-workbench.js 的 WB_ICONS。 */
+.wb-ico { width: 16px; height: 16px; flex: 0 0 auto; vertical-align: -3px; display: inline-block; }
+.wb-ico.sm { width: 14px; height: 14px; vertical-align: -2px; }
+.wb-side-foot {
+  display: flex; flex-direction: column; gap: 2px;
+  border-top: 1px solid var(--border); padding-top: 8px; margin-top: 8px;
+}
+/* 账号条（0.21.11 定稿：**不做下拉，就是一个链接**）。
+   用户裁定：「…那个账号下拉框我的账号 登出不行就去掉，还是保留原来只显示用户名，
+   点击用户名称跳转到我的账号」。
+   所以这里没有菜单、没有 ⌄、没有展开态 —— 一行"头像 + 用户名"，点它去 #/me。
+   ⚠️ 组件仍是 `<a class="wb-account-id">`，所以下面那些"像侧栏条目一样悬停"
+      的样式（透明边框占位 → 悬停点亮）原样保留，视觉与「管理后台/设置」一致。 */
+.wb-account {
+  margin-top: 6px; padding-top: 8px; border-top: 1px solid var(--border);
+}
+.wb-account-id {
+  display: flex; align-items: center; gap: 8px; width: 100%; min-width: 0;
+  padding: 4px 6px; border-radius: var(--radius); color: var(--text-dim); cursor: pointer;
+  /* 与 .wb-sideitem 同一套悬停语言（0.21.10）：透明边框占位，悬停时才显形 */
+  border: 1px solid transparent;
+  transition: background-color .12s ease, color .12s ease, border-color .12s ease;
+}
+/* ⚠️ 必须把 `:hover` 也写上（0.21.11）。这个组件是 `<a>`，而全局有
+   `a:hover { text-decoration: underline }`（第 80 行），它特异度 (0,1,1)
+   **高于** `.wb-account-id` 的 (0,1,0) —— 只在基础态写 `none` 压不住，
+   鼠标划过后用户名底下就会多出一条横线（用户报的正是这个）。
+   `.wb-sideitem` 踩过同一个坑，那边也是基础态 + hover 两条一起写。
+   这里改成"就绪"的无下划线链接：它是导航，不是正文里的超链接。 */
+.wb-account-id, .wb-account-id:hover { text-decoration: none; }
+/* ⚠️ 与 .wb-sideitem:hover 同因同修（见那边的长注释）：`--bg-panel` 在暗色主题里
+   比侧栏底**更暗**，拿它当悬停底等于没有反馈。这里同样换成 --bg-hover + 边框。 */
+.wb-account-id:hover { background: var(--bg-hover); color: var(--text); border-color: var(--border-strong); }
+.wb-avatar {
+  flex: 0 0 auto; width: 22px; height: 22px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--accent); color: #fff; font-size: 12px; font-weight: 600;
+}
+/* 暗色主题的 accent 是**浅色**，白字压上去等于没有对比度 —— 随主题翻成深字（同 .wb-send） */
+:root[data-theme="dark"] .wb-avatar { color: #10131a; }
+.wb-account-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; }
+
+/* 0.21.11 删掉了工作台那份账号下拉的三个类：`.wb-account-menu`（面板定位）、
+   `.wb-account.menu-open` / `.wb-account-id .wb-ico`（展开态与箭头）——
+   账号条不再是下拉，这些都没有 HTML 会用到，留着就是死样式。
+   `.wb-menu-sep` **保留**：顶栏那个下拉（`wbAccountMenuHtml`）仍在用它。 */
+/* 菜单里的一条细分隔线：把「登出」与上面的日常项隔开。它是菜单里唯一不可逆的动作，
+   换个位置就容易被误点 —— 这条线是给它划出的缓冲区。 */
+.wb-menu-sep { height: 1px; background: var(--border); margin: 4px 2px; }
+.wb-sessions { display: flex; flex-direction: column; gap: 4px; }
+.wb-session {
+  padding: 7px 9px; border-radius: var(--radius); cursor: pointer;
+  border: 1px solid transparent;
+  position: relative;
+}
+/* ⚠️ 与 .wb-sideitem:hover 同因同修（见那边的长注释）：会话行也坐在 --bg-subtle 上，
+   拿 --bg-panel 当悬停底在暗色主题里会变成"比底更暗" = 没有反馈。
+   0.21.10 一并改成 --bg-hover。边框不在这里加：`.wb-session` 基础态**已经有**
+   `border: 1px solid transparent`（它是为 .active 态留的），悬停把颜色点亮相
+   与 .wb-sideitem 一致 —— 顺带把"悬停"与"选中"的差别说清了（悬停=灰边，选中=accent 边）。 */
+.wb-session:hover { background: var(--bg-hover); border-color: var(--border-strong); }
+.wb-session.active { background: var(--info-bg); border-color: var(--accent); }
+.wb-session-title { font-size: 13px; padding-right: 20px; }
+.wb-session-meta { font-size: 11px; color: var(--text-faint); }
+
+.wb-main { position: relative; display: flex; flex-direction: column; min-width: 0; min-height: 0; background: var(--bg-panel); }
+/* 右上幽灵图标钮：absolute 悬在主区右上 —— 空态下只有几颗小图标，不挡品牌页。
+   0.21.7 起这里只剩「上下文面板」（流式中多一颗「停止」）：会话内检索与清屏两颗钮已删。 */
+.wb-top { position: absolute; top: 10px; right: 14px; z-index: 20; display: flex; align-items: center; gap: 4px; }
+
+/* 左栏收起后的**竖排入口栏**（0.21.8；0.21.7 时是主区左上角一颗绝对定位的孤钮）。
+   两件事一起说清：
+   ① 那颗孤钮修的是一个真 bug：收起钮住在 `.wb-side` 里，而
+      `.wb.side-closed .wb-side{display:none}` 把整栏（连同那颗钮）一起藏掉 ——
+      收起之后**没有任何可达的展开入口**，只能刷新页面。
+   ② 但它只把"展不开"补上了。收起来之后，底部那三个入口（管理后台 / 设置 / 我的账号，
+      都住在 `.wb-side-foot` 里）照样跟着整栏消失 —— "收起左栏"事实上等于
+      "丢掉整个治理面导航"，想进后台或看账号只能先把栏展开。
+   现在换成这一列：展开入口与那三个入口一起保住。它是**网格里真实的一列**
+   （列宽见上面 `.wb` 的 `grid-template-columns`），不是浮在内容上的层 ——
+   悬浮版看着更省事，但窄视口下必然压住正文列左缘，而且"到底有没有东西被盖住"
+   要看几何算才知道；有自己一列，边界是明摆着的。 */
+.wb-siderail {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 12px 0;
+  border-right: 1px solid var(--border);
+  background: var(--bg-subtle);   /* 与 .wb-side 同色 —— 它接替的就是那一栏的位置 */
+}
+/* 栏里每一项都是正方形（56px 列宽里放 32px 方块，左右各留 12px —— 0.21.9 从 44px 加宽，
+   44px 时左右只剩 6px，图标几乎贴着边框，整栏读起来像一条细缝而不是"栏"）。
+   ⚠️ 尺寸由这里定，不由字形定 —— 这正是"图标有大有小"的另一半原因：
+   同一个字号下，SVG 视口统一了，但**按钮盒**还得统一，否则一排图标仍是参差的。 */
+.wb-siderail .wb-iconbtn {
+  width: 32px; height: 32px; padding: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+/* 底部三项（管理后台 / 设置 / 我的账号）**贴栏底**。
+   `margin-top: auto` 是关键，不是装饰：栏本身是布满全高的网格列（`align-items: stretch`），
+   没有这一条，三项会紧挨着展开钮挤在顶端 —— 那样"收起态的入口栏"会读成一排工具，
+   而不是"顶上一个展开、底下三个入口"。
+   位置与展开态里的 `.wb-side-foot` **一一对应**（同样在左栏最下面）：
+   同一个入口在两种状态下落在同一处，切换开合时视线不用重新找。
+   ⚠️ 这里**不加** `.wb-side-foot` 那条 `border-top`：展开态那条线是用来分隔"上面的树"的，
+   而收起态的这段上方是空白 —— 一条横线悬在半空，看起来像没画完的分隔符。 */
+.wb-siderail-foot {
+  margin-top: auto;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+}
+
+.wb-stream {
+  flex: 1 1 auto; min-height: 0; overflow-y: auto;
+  padding: 52px 24px 12px;   /* 顶部让开悬着的 .wb-top */
+  /* ⚠️ 这一条是"正文与输入卡同轴"的**必要**条件，不是可选润色。
+     消息流是**滚动容器**，而输入卡不是 —— 一旦内容超出高度，滚动条会吃掉内容盒
+     右侧的宽度，`.wb-stream-inner`（margin:0 auto 居中）就整体左移半个滚动条宽
+     （本项目滚动条 8px → 偏 4px），于是"上下两截不在一条轴上"这个用户报的问题
+     会在**长对话**里重新出现，短对话里却看不见。
+     `stable both-edges` 让两侧同时预留同样宽度的沟槽：内容盒相对**内边距盒**始终对称，
+     中心不再随滚动条出现与否漂移 —— 换句话说，无论有没有滚动条、滚动条多宽，
+     正文列的中心恒等于输入卡的中心。 */
+  scrollbar-gutter: stable both-edges;
+  background: var(--bg-panel);   /* 与主区同色 —— 原生 Harness 的主区是一整块，不分层 */
+}
+/* 0.21.7：对话正文套一层与输入卡**同宽同列**的内层容器（左右各 24px 内边距在 .wb-stream 上）。
+   此前正文横跨整个主区、输入卡却居中收窄到 780px —— 一眼看去上下两截不在一条轴上，
+   这就是用户说的"上面的对话内容两边容距太小也没有居中"。
+   ⚠️ 0.21.9：从前还有一条"只在有内容时才套这一层"的理由 —— 空态靠
+   `.wb-main.is-empty .wb-stream:empty{display:none}` 让空流不占位，无条件套一层
+   它就不为空了。**空态分支已整体删除**，那条约束随之失效；但"有内容才套"
+   本身仍然有用（空流里不该多一层空 div），所以保留。
+   ⚠️ 宽度公式与 `.wb-compose-wrap`（`min(...)` 形态）**必须逐字同源** ——
+   0.21.9 之前一个是 `max-width:1200px`、另一个是 `calc(100% - 48px)`，
+   主区窄于约 1250px 时两者差 48px，上下两截再次错轴。见下面那段的说明。 */
+.wb-stream-inner { width: min(var(--wb-compose-w, 1200px), 100%); margin: 0 auto; }
+.wb-empty { padding: 26px 8px; }
+.wb-empty h3 { font-size: 15px; font-weight: 500; margin: 0 0 6px; }
+
+.wb-msg { margin-bottom: 16px; }
+/* ── 轮次分隔条：左上角一个状态标签，下面一条横线（0.21.9）────────────
+ *
+ * 用户 2026-10-08 三次裁定，后一次改掉前一次的位置：
+ *   ① 「每轮对话加个横线区分一下」            → 我画在了**提问之前**；
+ *   ② 「每轮对话横线是放到大模型回复的上面，并标记已完成、用时多少秒」
+ *      → 位置改成**模型回复的上面**，并且线上要带「已完成 [+ 用时]」；
+ *   ③ 「已完成标记到横线左上」→ 我先做成"标签与线同一行、标签在最左"，
+ *      用户立刻纠正：「是上面，不是和横线在一行」
+ *      → 标签要在**线的上方**，且靠**左**。即"左上角"，两行结构。
+ *
+ * 为什么"回复上面"和"提问上面"其实是同一个位置：
+ *   一轮 = 用户气泡 → 助手块。所以"助手块之前"与"用户气泡之后"是同一条缝；
+ *   真正变的是**这一条现在属于助手**（它在给**这个回答**盖状态章），
+ *   而不是属于"下一轮的开头"。用户要的是"回答已完成"这件事被标出来。
+ *
+ * 结构（`.wb-turn-sep` 是**两行**的块：第一行标签，第二行整条横线）：
+ *   · 第一行左端一小段字（`已完成` / `已完成 · 用时 12 秒`）——
+ *     用 `align-self: flex-start` 靠左。字号小、颜色淡，它是**注释**不是内容，
+ *     不能跟正文抢注意力。
+ *   · 第二行 `::after` 画满宽的 1px 横线 —— 它把上一轮的提问与这一轮的回答分开。
+ *
+ * ⚠️ 为什么不用"flex 行 + 标签靠左 + 线在右"（我上一版就是这么写的）：
+ *    那样标签和线**同高**，读起来像"已完成 ——————"是**一行元信息**，
+ *    而用户要的是"标签另起一行、压在这条线上面"，视线顺序是
+ *    「先读到已完成 → 再看到分隔线 → 再看下面的回答」。
+ *    两者差的是一个 `flex-direction`，但语义差一层。
+ *
+ * 颜色用 `--border`（不是 `--accent`）：这是**结构性**分隔 + 淡状态，
+ * 不是"当前选中"。跟着高亮色走会让每一轮都像被选中了。 */
+.wb-turn-sep {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 6px;
+  margin: 22px 0 14px;
+  color: var(--text-faint); font-size: 12px;
+}
+.wb-turn-sep::after {
+  content: ''; align-self: stretch; height: 1px; background: var(--border);
+}
+.wb-turn-sep .wb-turn-meta { flex: 0 0 auto; white-space: nowrap; }
+/* 正在跑的那一轮：状态是「进行中」，用流式光标那套高亮色 —— 与"已完成"的
+   灰字区分开（否则用户看不出这一轮还在跑）。 */
+.wb-turn-sep.running { color: var(--text-dim); }
+.wb-msg.user { display: flex; justify-content: flex-end; }
+.wb-msg.user .wb-bubble {
+  background: var(--accent); color: #fff;
+  padding: 8px 12px; border-radius: var(--radius-lg) var(--radius-lg) 4px var(--radius-lg);
+  max-width: 78%; white-space: pre-wrap; word-break: break-word;
+}
+:root[data-theme="dark"] .wb-msg.user .wb-bubble { color: #10131a; }
+.wb-msg.assistant { max-width: 96%; }
+.wb-text { white-space: pre-wrap; word-break: break-word; }
+.wb-reasoning { margin-bottom: 8px; }
+.wb-reasoning > summary { cursor: pointer; color: var(--text-dim); font-size: 12.5px; }
+.wb-tools { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; }
+.wb-tool {
+  border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 8px 10px; background: var(--bg-panel);
+}
+.wb-tool-head { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.wb-tool .mono-block { margin-top: 4px; }
+.wb-tool-name { font-weight: 600; }
+.wb-tool-row { margin-top: 4px; }
+.wb-tool-inline { background: var(--bg); border: 1px solid var(--border); border-radius: 4px; padding: 0 4px; font-size: 0.92em; word-break: break-all; }
+.wb-tool-json { margin-top: 4px; }
+.wb-tool-json > summary { cursor: pointer; color: var(--text-dim); font-size: 12.5px; }
+
+/* 助手正文安全 markdown 子集渲染（0.19.0，渲染器在 79-wb-render.js） */
+.wb-md { white-space: normal; }   /* 换行已由 <p>/<br> 承担，不能叠加 pre-wrap 双重换行 */
+.wb-md-p { margin: 4px 0; }
+.wb-md-p:first-child { margin-top: 0; }
+.wb-md-p:last-child { margin-bottom: 0; }
+.wb-md-h1, .wb-md-h2, .wb-md-h3, .wb-md-h4, .wb-md-h5, .wb-md-h6 { font-weight: 700; margin: 10px 0 4px; line-height: 1.35; }
+.wb-md-h1 { font-size: 19px; } .wb-md-h2 { font-size: 17px; } .wb-md-h3 { font-size: 15.5px; }
+.wb-md-h4 { font-size: 14.5px; } .wb-md-h5 { font-size: 13.5px; } .wb-md-h6 { font-size: 12.5px; color: var(--text-dim); }
+.wb-md-pre { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 6px 8px; margin: 6px 0; overflow-x: auto; position: relative; }
+.wb-md-pre code { white-space: pre; font-family: inherit; }
+.wb-md-pre[data-lang]::before { content: attr(data-lang); position: absolute; top: 2px; right: 6px; font-size: 11px; color: var(--text-faint); }
+.wb-md-quote { border-left: 3px solid var(--border); margin: 6px 0; padding: 2px 10px; color: var(--text-dim); }
+.wb-md-ul, .wb-md-ol { margin: 4px 0; padding-left: 22px; }
+.wb-md code { background: var(--bg); border: 1px solid var(--border); border-radius: 4px; padding: 0 4px; font-size: 0.92em; }
+.wb-md a { color: var(--accent); }
+/* 右栏「可用能力」面板（0.19.0）：分段标签 + 徽标换行排布 */
+.wb-caps-sec { margin-top: 8px; line-height: 2; }
+.wb-caps-sec .wb-caps-label { font-weight: 600; margin-right: 4px; }
+.wb-caps-sec .faint { display: inline; line-height: 1.5; }
+/* 右栏「实际调用」面板（0.20.0）：一行一次工具调用的对账结果 */
+.wb-calls { margin-top: 6px; display: flex; flex-direction: column; gap: 5px; }
+.wb-call { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; line-height: 1.6; }
+.wb-call .mono { font-size: 12.5px; }
+.wb-call .faint { font-size: 12px; }
+.wb-usage { margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap; }
+.wb-raw { margin-top: 8px; }
+.wb-raw > summary { cursor: pointer; color: var(--text-faint); font-size: 12px; }
+
+.wb-caret {
+  display: inline-block; width: 7px; height: 14px; margin-left: 2px;
+  background: var(--accent); vertical-align: text-bottom;
+  animation: wb-blink 1s step-end infinite;
+}
+@keyframes wb-blink { 50% { opacity: 0; } }
+/* 0.21.9：助手这一轮没有正文时，消息流里只剩一个**静态**光标 —— 不写任何句子。
+ *
+ * 为什么不是"写一句话"：这句话前后写过两版，两版都被用户否掉了
+ *   「（本轮没有正文 —— 推理与工具调用见右侧「轨迹」）」→「"没有正文"是什么意思」
+ *   「这一轮没有文字回复 —— 过程记在「轨迹」选项卡里。」→「什么叫没有文字回复，有歧义」
+ * 歧义的根子在**平台证不了这件事**：这一侧没有正文只说明"助手段落为空"，
+ * 而工具卡与推理都在轨迹选项卡里 —— 把它说成"没有文字回复"是替模型下结论。
+ *
+ * 为什么不干脆什么都不画：一条**空白**的助手块看起来像"卡住了"，与流式中
+ * 那行"正在等待模型响应"+光标不是同一个状态。一个不再闪烁的空心光标就是这个状态的
+ * 全部表达：这一轮结束了、没有正文。它不需要读者懂任何术语，也不会过期。
+ *
+ * ⚠️ 用 `.wb-caret.idle` 这个**修饰类**，不要再包一层容器（第一版包了
+ *    `.wb-idle-caret` 的 inline-flex 外壳）—— 用户报：「有的地方下面有个光标的号，
+ *    然后间距特别大，感觉是外部容器间距的问题」。
+ *    根因：外层 `inline-flex` 生成的是一个**原子行内盒**，它与 `.wb-msg` 的
+ *    16px 下边距叠在一起，在"这一块只有光标"时特别显眼；光标本身还被
+ *    `vertical-align: text-bottom` 在 flex 基线里重新对齐了一次，于是"光标飘在
+ *    一大片空白中间"。现在只有光标这一个行内元素：没有额外盒、没有额外外边距，
+ *    它就跟在正文里一样正常地贴着行基线。
+ *
+ * ⚠️ 用户随后又报「那个光标不明显，改成高亮长条或者闪烁光标吧」。所以**不是**留着
+ *    一个 45% 透明度的灰块：那在浅色底上几乎看不见（`--text-faint` 与背景对比度太低），
+ *    用户读到的就是"这块是空的"，而不是"这一轮结束了、没有正文"。
+ *    现在改成**实心高亮长条 + 缓慢呼吸**：它仍然是"这一轮已结束"（不是 `wb-caret`
+ *    那种 1s 硬闪的"正在跑"），但有足够的存在感让人看见这里有个状态。
+ *    呼吸周期取 2.4s 且最低不透明度给到 .35（不是 0）—— 一个会**完全消失**的块
+ *    在静态截图里可能正好不见，而"最低 .35"保证它任何时刻都在。
+ */
+.wb-caret.idle {
+  background: var(--accent);
+  animation: wb-breathe 2.4s ease-in-out infinite;
+}
+@keyframes wb-breathe {
+  0%, 100% { opacity: .35; }
+  50% { opacity: 1; }
+}
+
+/* ── 输入卡（0.21.2 重做，对齐原生 Harness）──────────────────
+ * 徽片行（工作区 · 模式）在卡片上方且**无边框**（.ghost）；
+ * 卡片是一整块圆角面板，textarea 无边框，右下角是模型 / 推理等级 / 圆形发送钮。
+ *
+ * 0.21.7 改宽度与居中（用户："下面的对话框宽度是不是太窄啦，上面的对话内容是不是
+ * 两边容距太小也没有居中"）：
+ *   · `--wb-compose-w` 从 `min(780px, calc(100% - 48px))` 改成**一个纯长度** 900px ——
+ *     原来把 `calc(100%)` 写进自定义属性是个陷阱：`100%` 是在**使用它的那个元素**上
+ *     解析的，`.wb-compose-wrap`（`.wb-main` 的子元素）和将来的 `.wb-stream-inner`
+ *     （`.wb-stream` 的子元素，而 stream 自己带左右内边距）会解析出**两个不同的值**，
+ *     于是"对话正文"和"输入卡"在同一个窗口里对不齐。现在上限写死，两侧留白交给各容器
+ *     自己的 `max-width: calc(100% - 48px)` / 内边距 —— 宽窗口下两者都是 900px 居中，
+ *     窄窗口下两者都是 `100% - 48px`，任何窗口宽度上都严格同宽同列。 */
+/* 0.21.9：900px → 1200px（用户："留白太多，我只要求不要留白太多"）。
+   900px 是照着"一屏放得下、行长别太长"定的，但在 1600px 以上的窗口里，
+   主区左右各空出 300px 以上，读起来像内容被挤在中间一条窄带里。
+   1200px 之后 1920px 窗口两侧各约 210px —— 仍留出呼吸，但不再是"空一半"。
+   ⚠️ 上下两截（正文列 `.wb-stream-inner` 与输入卡 `.wb-compose-wrap`）必须继续用
+   **同一个**自定义属性取值：它俩同轴是 0.21.7 就定下的硬要求，改宽只改这一处。 */
+.wb-main { --wb-compose-w: 1200px; }
+/* ⚠️ 0.21.9：上面那段"窄窗口下两者都是 100% - 48px"是**当时写下的意图，不是当时的事实** ——
+ *   两个容器的**基准盒不一样**，所以同一个 `calc(100% - 48px)` 算不出同一个数：
+ *     · `.wb-stream-inner` 的父级 `.wb-stream` 带 `padding: 0 24px` → 它的 `100%`
+ *       已经是"主区宽 - 48px"，再写 `calc(100% - 48px)` 就多扣了一次；
+ *     · `.wb-compose-wrap` 的父级是 `.wb-main`，没有内边距 → 它的 `100%` 就是主区宽。
+ *   于是 `.wb-compose-wrap` 恒比 `.wb-stream-inner` **窄 48px**。1920px 窗口看不出来，
+ *   因为两者都已经撞到 1200px 上限 —— 主区窄于约 1250px 时才现形（1600px 窗口差 48px）。
+ *
+ *   统一成 `min(上限, 可用宽度)`：两者都是"取上限与实际可用的较小者"，
+ *   公式**逐字同源**，只有"可用宽度"按各自基准写。两边都不再需要 `max-width`。 */
+.wb-compose-wrap { width: min(var(--wb-compose-w, 1200px), calc(100% - 48px)); margin: 0 auto; padding: 6px 0 22px; }
+/* ── .wb-chips：整块删除（0.21.9）────────────────────────────────────
+ *
+ * 这里曾是输入卡**上方**那行徽片（工作区 + 模式）的**行容器**。它的三样内容前两样
+ * 早一步删了（工作区下拉 0.21.6、模式徽片 0.21.9），最后一样「工作区徽片」也随用户
+ * 2026-10-08 的「工作区那一行信息也可以删掉（对话输入框上面一行）」拿掉。
+ *
+ * 判据是**它买到的信息在别处已经有了**：会话在哪个工作区，左侧树上那一行是高亮的、
+ * 名字就在那里 —— 再在输入卡上方复述一遍，代价是常驻一整行高度、把输入框与正文推远。
+ *
+ * ⚠️ 只删**行容器**这一个类。`.wb-chip` 与 `.wb-chip.ghost` **必须保留**：
+ *    它们还在输入卡**内部**用着 —— 右下那两枚下拉控件就是这个组合。
+ *    （原句还提到「模型徽片 `.wb-model-chip`」，0.21.9 查证那是个**死类**：
+ *      样式表里没有、测试里也没人引用，已从 HTML 一并删掉。）
+ */
+/* `.ghost` = "把徽片做成一段纯文字"（去掉边框与底色）。它在输入卡里仍在使用，
+   所以规则本身留着 —— 删掉的只是上面那个行容器 `.wb-chips`。 */
+.wb-chip.ghost { border-color: transparent; background: transparent; padding: 2px 4px; color: var(--text-dim); }
+
+/* 0.21.6 删掉了 .wb-level-chip（输入卡左下的「◈ 完全权限」档位徽片）——
+   随工作区权限模块一起删除，理由见 84-workbench.js 顶部。 */
+.wb-card {
+  display: flex; flex-direction: column; gap: 6px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-strong);
+  border-radius: 16px;
+  padding: 12px 14px 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .04);
+}
+.wb-card:focus-within { border-color: var(--accent); }
+.wb-card textarea {
+  border: none; background: transparent; resize: none;
+  min-height: 44px; max-height: 200px; margin: 0; padding: 2px 4px;
+  font-size: 14px; line-height: 1.55;
+}
+.wb-card textarea:focus { outline: none; box-shadow: none; }
+.wb-card textarea:disabled { background: transparent; color: var(--text-faint); }
+/* 占位文案：必须**显式**声明字号与颜色（0.21.10）。
+ *
+ * 症状：输入框里的提示语大而蓝，跟整个界面对不上 —— 用户报「这个提示语的颜色和大小
+ * 跟整体不一致」。
+ * 原因：`::placeholder` **不继承** textarea 的 `font-size` / `color`，各浏览器按自己的
+ * UA 默认渲染（Chrome 是偏蓝的 `#757575` 系、字号也不跟）。上面 787 行给 textarea 定的
+ * `font-size: 14px` 管不到它，于是那一行提示语和用户真正打进去的字**长得不一样** ——
+ * 读起来像"另一个控件"，而不像"这个框里还没写东西"。
+ * 所以这里把两样都钉死：字号与正文一致（14px，继承自 textarea 的书写上下文），
+ * 颜色用 `--text-faint`（比 `--text-dim` 更淡一档 —— 它是"还没发生的内容"，
+ * 不能与已输入正文抢注意力，但也**不能低到看不见**）。
+ * ⚠️ 五家引擎的前缀都列上：`::placeholder` 之外还有 `::-webkit-input-placeholder`
+ * 等旧写法，少写一个就会出现"某个浏览器里又变回大蓝字"这种只在别人机器上复现的问题。
+ * 本项目的 `--text-faint` 亮/暗两套都有定义（见文件顶部主题块），所以不必按主题分写。 */
+.wb-card textarea::placeholder { color: var(--text-faint); font-size: 14px; opacity: 1; }
+.wb-card textarea::-webkit-input-placeholder { color: var(--text-faint); font-size: 14px; opacity: 1; }
+.wb-card textarea::-moz-placeholder { color: var(--text-faint); font-size: 14px; opacity: 1; }
+.wb-card textarea:-ms-input-placeholder { color: var(--text-faint); font-size: 14px; opacity: 1; }
+/* 禁用态（无发起权限）时占位文案还要再淡一档：那句话是"你不能发"，不是提示语 */
+.wb-card textarea:disabled::placeholder { color: var(--text-faint); opacity: .75; }
+.wb-card-foot { display: flex; align-items: center; gap: 8px; }
+.wb-foot-left { display: flex; align-items: center; gap: 4px; flex: 1 1 auto; min-width: 0; flex-wrap: wrap; }
+.wb-foot-right { display: flex; align-items: center; gap: 6px; flex: 0 0 auto; }
+/* 徽片里的下拉：做成"一枚真正的控件"（0.21.9 定版，用户 2026-10-08 第二次裁定）。
+ *
+ * ── 先记一轮**被用户否掉的**改法，免得下次又绕回去 ──────────────────────
+ *
+ * 第一次用户说「对话框大模型及推理等级下拉框样式颜色有问题重新修改」，我把它读成
+ * "箭头的问题"，改了箭头（位图 → 真 DOM 元素、跟随 currentColor）。用户的回应是：
+ *   「改的锤子啊，好好看看下拉框颜色 看什么颜色 背景色 字体颜色」
+ * 他指的**不是箭头**，是这两枚下拉**实际渲染出来的底色与字色**。箭头那一轮改得不算错
+ * （位图确实有暗色主题与禁用态两个真缺陷，改动保留），但它**根本没碰到用户看到的问题**。
+ * 教训：用户说"颜色有问题"时，先看元素落在什么底、什么字色上，别先猜是哪个局部零件。
+ *
+ * ── 改前它实际是什么样（这就是用户看到的）──────────────────────────────
+ *
+ * 级联链：`.wb-chip.ghost { background: transparent; color: var(--text-dim) }`（771 行）
+ *      → `.wb-chip select { background: transparent; color: inherit }`（下面那条）
+ *      → 落进 `.wb-card { background: var(--bg-panel) }`（775 行）
+ *
+ * 于是两枚下拉**整块透明**，底就是卡片自己的 --bg-panel（白 / #1e2126）：
+ *   ① **看着不像控件**。没有底、没有边，与卡片背景**逐像素同色** —— 在用户眼里它
+ *      就是两段穿插在卡片里的小灰字，而不是"可以点开的东西"。
+ *      对照组：同在一行的附件钮（`.wb-iconbtn`）与发送钮（`.wb-send` 的 --accent 圆底）
+ *      都是有形体的 —— 一行三个控件里两个有形、一个像文字，这才像"样式坏了"。
+ *   ② **字色比正文还淡**。`--text-dim`（light #5b6570 / dark #a8b0b8）比正文的
+ *      `--text` 淡一档。理由是当年那句"它是'当前设置'不是正文内容"—— 但那句话
+ *      推到"比正文淡"是错的：它是**控件里的值**，读不清就没法确认自己选了什么模型。
+ *   ③ 两枚之间也没有分界，眼睛分不出"模型名 / 推理等级"是两个独立的东西。
+ *
+ * ── 现在的做法：给底、给边、给一个"这是控件"的样子 ───────────────────────
+ *
+ * 底色取 `--bg-subtle`（light #f1f3f5 / dark #24272d）—— 它相对卡片底色 --bg-panel
+ * **朝"凹进去"的方向**偏一档：light 下比白稍暗、dark 下比 #1e2126 稍亮，
+ * 两个主题都是"这块被挖了一下"，正好是输入类控件该有的观感。
+ * ⚠️ 不要用 --bg-panel：那与卡片**同色**，等于没给底（这正是改前的病）。
+ * ⚠️ 也不要用 --info-bg：那是 `.wb-chip.on`（附件"已选中"）的语义色，
+ *    用在这里会让人以为这两枚也处于"选中"状态。
+ * 字色取 `--text`：它是控件当前值，必须一眼读清。**不要**因为它"不是正文"就退到
+ *    --text-dim —— 那一档在 12.5px 上已经偏弱，而这两枚的字恰恰是用户唯一要读的东西。
+ *
+ * ⚠️ 这两条要写在**三类选择器** `.wb-chip.ghost.chip-ctl` 里（见下面那条），
+ *    因为 `.wb-chip.ghost` 的特异度是 (0,2,0)，写在 `.wb-chip` 或 `.chip-ctl` 上压不住它。
+ *
+ * ── 箭头（上一轮保留的成果）────────────────────────────────────────────
+ *
+ * 箭头是**真 DOM 元素**（`.wb-sel-caret`），描边走 `currentColor` —— 位图资源取不到
+ * currentColor、颜色只能写死，那是"暗色主题下箭头几乎看不见"的成因（单色位图没法
+ * 同时适配两个主题）；`mask` 也不行，`<select>` 是替换元素。做成元素后
+ * hover / focus / disabled 三态**自动**跟随，不需要各写一条。
+ *
+ * 容器侧：`appearance:none` 之后浏览器不再给箭头留位置，
+ * 所以 `select` 要自己留右内边距给绝对定位的箭头让位（见下面那条的注释）。 */
+.wb-chip select {
+  appearance: none; -webkit-appearance: none; -moz-appearance: none;
+  /* 底与字色由 `.wb-chip.ghost.chip-ctl` 给（一类到底、不用在 select 上再写一遍），
+     这里只负责"抹掉浏览器原生外观"与**继承**它给的颜色。 */
+  border: none; background: transparent; color: inherit;
+  /* ⚠️ 右内边距 17px 是**必需**的，不是调出来的：箭头绝对定位贴在 right:3px、
+     宽 12px（见下面 `.wb-sel-caret`）—— 内边距小于 15px 时长模型名会压在箭头上。
+     取 17px = 3 + 12 + 2px 间隙。 */
+  font-size: 12.5px; padding: 0 17px 0 0; max-width: 220px; cursor: pointer;
+}
+.wb-chip select:hover:not(:disabled) { color: var(--accent); }
+.wb-chip select:focus { outline: none; color: var(--accent); }
+/* 键盘聚焦要有**看得见**的焦点环（`:focus` 被上面吃掉了 outline，所以这里补回来）。
+   用 :focus-visible 而不是 :focus：鼠标点一下不该留一个圈（那是给键盘用户的）。 */
+.wb-chip select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+.wb-chip select:disabled { color: var(--text-faint); cursor: not-allowed; }
+
+/* ⚠️ 选择器**必须**是三类（`.wb-chip.ghost.chip-ctl`），不能只写 `.chip-ctl`：
+   这两枚徽片同时带 `.wb-chip` 与 `.ghost` —— `.wb-chip.ghost` 是 (0,2,0)、
+   `.wb-chip` 基类是 (0,1,0)，单写 `.chip-ctl` (0,1,0) 会被**前两条一起**压过去，
+   `background` / `color` 改了等于没改（这正是"加了样式没生效"的典型；
+   本项目在 `.wb-sideitem` 那条下划线上栽过同样的坑）。
+   写成三类后特异度 (0,3,0)，两条都压得住 —— 顺序怎么写都不会翻。 */
+
+/* ★ `.chip-ctl`：输入卡右下那两枚"可点的徽片"（模型 / 推理等级）。
+   ⚠️ 这个类**从前 CSS 里一条规则都没有** —— HTML 写着（84-workbench.js 两处）、
+      样式表里查不到，是纯死类。后果是两枚下拉的内边距完全落在 `.wb-chip` 上，
+      与左边的附件钮（`.wb-iconbtn`）不齐高，一行里的控件看着高低不齐。
+      补上它：一个类要么有样式、要么别写 —— 只写在 HTML 里最像"界面坏了"。
+   `position: relative` 是给绝对定位的箭头（`.wb-sel-caret`）当定位祖先的。
+
+   ── 底色与字色（0.21.9 定版）：这才是"颜色有问题"的落点 ─────────────────
+   用户原话：「改的锤子啊，好好看看下拉框颜色 看什么颜色 背景色 字体颜色」。
+   改前这一整块是**透明**的 —— 底就是卡片自己的 --bg-panel，两枚下拉与卡片背景逐像素
+   同色，而且字色走 `.wb-chip.ghost` 的 --text-dim（比正文淡一档）。用户看到的是
+   "两段穿插在卡片里的小灰字"，不是控件。详细复盘见上面 `.wb-chip select` 那段注释。
+   这里改的就是那两件事：**给底（--bg-subtle）+ 给字色（--text）**。
+   都要写成靠 class 给、由 `select { color: inherit }` 继承 —— 一处定义两处生效。 */
+.wb-chip.ghost.chip-ctl {
+  position: relative;
+  /* ⚠️ 这三条必须写在 `.wb-chip.ghost` **后面**（本文件里在它上面）。
+     机理是特异度而不是顺序：`.wb-chip.ghost` 是 (0,2,0)、`.wb-chip` 基类是 (0,1,0) ——
+     本规则三类选择器同样是 (0,2,0)（`.wb-chip.ghost.chip-ctl` 是 3 个类 = (0,3,0)，
+     压得住前两者）。别把它挪到 `.wb-chip` 基类之前去"靠顺序赢"，那从来赢不了。
+     本项目在 `.wb-sideitem` 下划线那条上栽过同一个坑。 */
+  padding: 3px 6px;
+  /* 底：`--bg-subtle` —— 它是"输入类控件的一大块"该有的那档，且**与卡片底不同**。
+     ⚠️ 不要用 `--bg-panel`：那正是卡片自己的底（.wb-card 用的就是它），
+        画上去与卡片**同色**、视觉上等于没给底 —— 那正是改前的病
+        （两层 transparent 叠在卡片上，落到 --bg-panel）。
+     ⚠️ 也不要用 `--info-bg`：那是 `.wb-chip.on`（附件"已选中"）的语义色。 */
+  background: var(--bg-subtle);
+  /* 边：`--border` 而不是 `.wb-chip` 基类那条 `--border-strong` —— 后者是给"实体徽片"
+     用的，用在这里会太重、把两枚下拉变成两颗抢眼的按钮。悬停再升到 --border-strong。 */
+  border-color: var(--border);
+  /* 圆角：`.wb-chip` 基类给的是 999px（胶囊），那在"有底有边"之后会把两枚下拉做成
+     两颗药丸、与发送钮那颗圆叠在一起像三个圆点。降到 --radius（缩进档）——
+     认得出是控件、又不与圆形发送钮抢形体。 */
+  border-radius: var(--radius);
+  /* 字色：这是**控件的当前值**（我选的是哪个模型），必须一眼读清 —— 不用 --text-dim。
+     与旁边附件钮 hover 后的色阶（--text）取同一档，一行里的控件不抢权重也不掉队。 */
+  color: var(--text);
+}
+/* 悬停/聚焦：把边提亮一档、底抬回卡片底（= 这一块"亮起来"），给出"可以点"的回应。
+   ⚠️ 只动 border-color / background，**不动 color** —— 字色已经由上面定死为 --text
+      （最亮的一档），没有更亮的可去；文字的变化交给 `select:hover` 那条走 --accent，
+     两者分工：容器给"面"、select 给"字"。
+   ⚠️ 这里用 `--bg-panel` 是**对的**（与静息态那张注释不矛盾）：静息时它必须与卡片底
+      **不同**才立得住"这是控件"；悬停时抬回卡片底正是"亮起来"的那个动作。
+   选择器写到三类 + `:hover` 四段，确保压得住 `.wb-chip.ghost` (0,2,0)。 */
+.wb-chip.ghost.chip-ctl:hover,
+.wb-chip.ghost.chip-ctl:focus-within { border-color: var(--border-strong); background: var(--bg-panel); }
+
+/* 箭头元素（0.21.9）：绝对定位贴在右端，颜色走 currentColor —— 跟随文字色，
+   于是 hover / focus / disabled 三种态**自动**都对，不需要各写一条。
+   ⚠️ 它必须 `pointer-events: none`：否则点击会落在箭头上而不是 select 上，
+      表现是"点箭头没反应"（点文字才开）。 */
+.wb-chip .wb-sel-caret {
+  position: absolute; right: 3px; top: 50%; transform: translateY(-50%);
+  pointer-events: none;
+  display: inline-flex; align-items: center;
+  /* 箭头尺寸由**这里**定，不是靠 wbIcon 的 sm 档：wbIcon 的视口是 16×16，
+     `chevronDown` 在 16px 里是一枚很宽的 V（横跨 7.6 单位）—— 当下拉箭头偏大，
+     会和文字抢视线。缩到 12px 才是"一枚提示"的分量。
+     颜色不换，只压 opacity：换颜色会让"跟随 currentColor"这条失效。 */
+  opacity: .75;
+}
+.wb-chip .wb-sel-caret .wb-ico { width: 12px; height: 12px; }
+/* 圆形发送钮（DSH 同款：右下角一颗圆钮，不再是"发送"两个字） */
+.wb-send {
+  flex: 0 0 auto; width: 34px; height: 34px; border-radius: 50%;
+  border: none; background: var(--accent); color: #fff;
+  font-size: 16px; line-height: 1; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 0;
+}
+:root[data-theme="dark"] .wb-send { color: #10131a; }
+.wb-send:hover:not(:disabled) { filter: brightness(1.1); }
+.wb-send:disabled { background: var(--border-strong); cursor: not-allowed; }
+
+/* ── 3.6 工作台最后一公里：附件 / 重生成 ───────────────────────
+ * 0.21.7 删掉了会话内检索那一整套样式：`.wb-search`（主区右上浮层）、`.wb-search-bar`、
+ * `.wb-search-head`、`.wb-hit`、`.wb-hit-text`，以及命中消息的左侧色条 `.wb-msg.hit`。
+ * 它们服务的是"右上角那颗 ⌕ 钮 + 检索面板 + 命中高亮"这条链，本轮随功能整块删除
+ * （服务端路由与仓储函数也一起删了）—— 不只是把按钮藏起来，所以样式也不留。 */
+
+.wb-attach-strip {
+  display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+  padding: 6px 14px; border-top: 1px solid var(--border);
+  background: var(--bg-subtle); font-size: 12px;
+}
+.wb-attach-strip .note { margin: 0; flex-basis: 100%; }
+.wb-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  border: 1px solid var(--border); border-radius: 999px;
+  padding: 2px 8px; background: var(--bg-panel);
+}
+.wb-chip.on { border-color: var(--accent); background: var(--info-bg); }
+/* 图片附件的 chip 用不同底色：它和"通用文件"的结局根本不同（字节真的送给模型），
+   列表里必须一眼能分开，否则用户会以为所有附件的待遇是一样的。 */
+.wb-chip.wb-chip-img { border-style: dashed; }
+.wb-chip.wb-chip-img.on { border-style: solid; }
+.wb-chip label { cursor: pointer; display: inline-flex; align-items: baseline; gap: 4px; }
+.wb-check { font-size: 12px; }
+/* 附件 chip 里的「下载」。⚠️ 它是 `<a>`，所以同样要**连 `:hover` 一起**写
+   `text-decoration: none`（全局 `a:hover{text-decoration:underline}` 是 (0,1,1)，
+   压不住只写基础态的 (0,1,0) —— 与 .wb-sideitem / .wb-account-id 同一个坑，0.21.11 一并修）。
+   它躺在徽片里、旁边还有「✕」，划出一条下划线会把那一小行弄乱。 */
+.wb-chip-dl, .wb-chip-dl:hover { font-size: 11px; color: var(--text-dim); text-decoration: none; }
+.wb-chip-x {
+  border: none; background: transparent; cursor: pointer;
+  padding: 0 2px; color: var(--text-faint); font-size: 13px; line-height: 1;
+}
+.wb-chip-x:hover { color: var(--fail); }
+
+.wb-attach-receipt {
+  font-size: 11.5px; color: var(--text-faint); margin-top: 4px;
+}
+.wb-msg.user .wb-attach-receipt { text-align: right; }
+/* 0.21.9：`.wb-msg-ops`（助手消息底下的「重生成」）随该功能整块删除，
+   连带两条规则一起走 —— 只删按钮、样式留着就是本项目一直在清的那种"藏起来的那份"。
+   删除理由见 71-app-workbench.js 里 `wbRegenerate` 那段。 */
+
+.wb-rail { border-left: 1px solid var(--border); background: var(--bg-subtle); overflow-y: auto; min-height: 0; }
+.wb-rail-inner { padding: 12px; }
+/* ── 会话框的选项卡（0.21.9 定版）：对话 | 轨迹 ────────────────────
+ * 为什么要这一对：从前轨迹（工具卡 / 推理 / 事件折叠）长在消息流里，
+ * 工具卡一多正文就被挤到看不见。拆开是用户裁定的，**放在哪**改过一次：
+ *   0.21.9 第一版把它放进了右栏 → 用户：「轨迹不要放到右侧栏，放到会话框中
+ *   （会话框中选项卡对话、轨迹）」。所以它现在在主区，见 84-workbench.js 的 wbViewTabsHtml。
+ *
+ * ⚠️ 三处位置上的讲究，缺一处它就会读成"页面级导航"而不是"这个会话的两个页签"：
+ *   ① 与正文列 / 输入卡**同宽同轴**（同一个 `--wb-compose-w`）——
+ *      否则上下两截错位（0.21.7 花过一版修这个）；
+ *   ② 顶部要让开**悬着的** `.wb-top`（右上那颗上下文开合钮是 `position:absolute`），
+ *      所以给它 44px 上边距；而 `.wb-stream` 自己也留了 52px 让位 —— 两者叠加会顶出
+ *      一大片空白，所以用相邻兄弟选择器把那 52px 收掉（见下一条）；
+ *   ③ 选中态只用**下划线**、不用色块：主区底色是 bg-panel，铺色块会把它切成两截。 */
+.wb-view-tabs {
+  flex: 0 0 auto;
+  /* ⚠️ 0.21.9：公式与 `.wb-stream-inner` / `.wb-compose-wrap` **逐字同源**。
+     这里从前写的是 `width: var(--wb-compose-w); max-width: calc(100% - 48px)` ——
+     与另外两处**不是同一条公式**（那两个已经换成了 `min(上限, 可用宽度)`）。
+     它在本容器上碰巧算出同一个数（父级无内边距 → `100%` 就是主区宽），
+     所以当时看不出来；但这正是用户报"提交对话时宽度闪一下"的同一类病根：
+     同一件事有几份**长得不一样的**手抄，改一处就会漂。 */
+  width: min(var(--wb-compose-w, 1200px), calc(100% - 48px));
+  margin: 44px auto 6px;
+}
+/* 上面已经有动作提示时（`.wb-notice` 自带 44px 上边距），不要再叠一次 */
+.wb-notice + .wb-view-tabs { margin-top: 12px; }
+/* 紧跟着的正文容器不必再让位给 `.wb-top`（选项卡已经让过了） */
+.wb-view-tabs + .wb-stream { padding-top: 10px; }
+.wb-tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--border); }
+.wb-tab {
+  padding: 6px 12px; font-size: 13px; background: transparent; border: none;
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  color: var(--text-dim); cursor: pointer;
+}
+.wb-tab:hover { color: var(--text); }
+.wb-tab.on { color: var(--accent); border-bottom-color: var(--accent); }
+/* 轨迹里的分段：一个提问 + 它引出的那一串动作。
+   ⚠️ 这一块现在住在**主区**（0.21.9 定版），不再是右栏那条 264px 窄栏 ——
+   所以外层去掉了卡片、段落间距按"读一份记录"来给，而不是按"挤在一个小面板里"来给。 */
+.wb-trace { padding-bottom: 20px; }
+.wb-trace-lead { margin: 2px 0 14px; font-size: 12.5px; line-height: 1.6; }
+.wb-trace-lead b { color: var(--text-dim); }
+.wb-trace-turn { margin: 20px 0 8px; }
+.wb-trace-turn:first-child { margin-top: 4px; }
+.wb-trace-who { font-size: 11.5px; color: var(--text-faint); letter-spacing: .5px; }
+.wb-trace-q { font-size: 13px; color: var(--text); border-left: 2px solid var(--border-strong); padding-left: 10px; margin-top: 3px; white-space: pre-wrap; word-break: break-word; }
+.wb-trace-block { margin: 0 0 12px; padding-bottom: 10px; border-bottom: 1px dashed var(--border); }
+.wb-trace-block:last-child { border-bottom: none; }
+.wb-rail-inner .panel { background: var(--bg-panel); padding: 12px 13px; }
+.wb-rail-inner .cards { grid-template-columns: 1fr 1fr; margin-bottom: 0; }
+
+@media (max-width: 1100px) {
+  /* 四种开合组合都要写：媒体查询里的 `.wb` 特异性压得过桌面单类，
+     但压不过 `.wb.rail-closed` 这类双类 —— 漏一个组合，"收起某栏"的状态
+     就会回退到桌面宽度（2026-10 交付评审修过一次同类问题）。 */
+  .wb { grid-template-columns: 200px minmax(0, 1fr) 300px; }
+  .wb.rail-closed { grid-template-columns: 200px minmax(0, 1fr); }
+  .wb.side-closed { grid-template-columns: 56px minmax(0, 1fr) 300px; }
+  .wb.side-closed.rail-closed { grid-template-columns: 56px minmax(0, 1fr); }
+  /* 2026-10 交付评审：这里曾是 `display: none` —— 右栏连同「显示上下文」按钮一起变成摆设
+     （点开也什么都看不见）。改为折到主区下方：占满整行、限高内部滚动，开合仍由按钮控制。 */
+  .wb-rail {
+    grid-column: 1 / -1;
+    max-height: 320px;
+    border-left: none;
+    border-top: 1px solid var(--border);
+  }
+}
+@media (max-width: 820px) {
+  /* 窄屏：侧栏折到主区上方，外壳高度重新交还给 body（两栏独立滚动在小屏上
+     会变成两个很窄的滚动区，反而更难用）。 */
+  body { overflow: auto; }
+  #app { height: auto; min-height: 100vh; overflow: visible; }
+  .layout { display: block; }
+  .sidebar { width: auto; overflow-y: visible; border-right: none; border-bottom: 1px solid var(--border); }
+  .content { overflow-y: visible; padding: 16px; }
+  .wb, .wb.rail-closed, .wb.side-closed, .wb.side-closed.rail-closed { grid-template-columns: minmax(0, 1fr); }
+  /* 0.21.8 例外：收起态仍留 56px 给竖排入口栏（它在窄屏上也不该变成悬浮层 ——
+     那会压住正文左缘）。⚠️ 必须写在上一条**之后**：`.wb.side-closed.rail-closed`
+     是三类选择器，特异性高于两类的 `.wb.side-closed`，只有同样写到三类才压得住。 */
+  .wb.side-closed, .wb.side-closed.rail-closed { grid-template-columns: 56px minmax(0, 1fr); }
+  /* ⚠️ 窄屏这里**必须**把纵向裁切加回来（0.21.11）。宽屏那条 `.wb-side` 是
+     `overflow-y: visible`（当时是为了放行账号下拉向上弹），但窄屏这一栏被限高 190px、
+     且 `.wb-tree` 要在里面滚动 —— 不加回来，树会直接溢出到正文上面去。
+     ⚠️ 工作台那份账号下拉已在本轮删掉（账号条改成一个链接，不再有浮层），
+        所以"宽屏放宽 overflow"现在**没有任何消费者**；这里保留 auto 是因为
+        **限高 190px + 树要滚**这个理由与下拉无关，它自己就成立。
+     ⚠️ 写成具体两值而不是 `overflow: hidden`：`overflow` 简写会把宽屏那条
+     `overflow-x: hidden` 一起重置，虽然本块里值相同，但显式两值更不容易被后来的
+     改动带偏（这条改动本身就是在改 overflow，最容易踩的就是简写覆盖顺序）。 */
+  .wb-side {
+    max-height: 190px; border-right: none; border-bottom: 1px solid var(--border);
+    overflow-x: hidden; overflow-y: auto;
+  }
+  .wb-side-foot { border-top: none; padding-top: 0; }
+}
+
+
+/* ── 0.14.0 会话挂载知识库（RAG）────────────────────────────
+ *
+ * 与附件条（`.wb-attach-strip`）并列，位于消息流与输入框之间 ——
+ * 视觉上刻意做得比附件条更"轻"：它是一行状态 + 一个可展开的勾选面板，
+ * 不该抢走输入框的注意力。
+ */
+.wb-kb-strip {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+  padding: 7px 12px; border-top: 1px solid var(--border);
+  font-size: 12.5px; background: var(--bg-panel);
+}
+.wb-kb-label {
+  color: var(--text-dim); font-weight: 600;
+  /* 与输入区对齐：标签列宽度固定，展开面板出现时不会把整条推来推去 */
+  min-width: 42px;
+}
+.wb-kb-strip button { padding: 4px 10px; font-size: 12.5px; }
+.wb-kb-panel {
+  flex: 1 1 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+  padding: 9px 10px; margin-top: 2px;
+  background: var(--bg-subtle); border: 1px solid var(--border); border-radius: var(--radius);
+}
+/* 面板里的说明整行占满，不跟 chip 抢横向空间 */
+.wb-kb-panel > .faint { flex: 1 1 100%; line-height: 1.6; }
+
+/* 助手块里的知识检索回执（命中数 / 引用列表） */
+.wb-kb {
+  border: 1px solid var(--border); border-left: 3px solid var(--accent);
+  border-radius: var(--radius); padding: 8px 10px; margin-bottom: 8px;
+  background: var(--bg-subtle); font-size: 12.5px;
+}
+.wb-kb-head { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.wb-kb .faint { margin-top: 4px; line-height: 1.6; }
+.wb-kb .wb-raw { margin-top: 6px; }
+
+/* ── 两处实测出来的布局缺陷（0.14.0 一并修掉）──────────────────
+ *
+ * ① 右栏「会话 id」竖排：
+ *    `.kv` 的列宽是 `minmax(120px, 200px) 1fr`，而 `.wb-rail` 内宽只有约 264px ——
+ *    第一列先吃掉 120px，值列只剩 64px，配上 `word-break: break-all`，
+ *    `ses_0muqq5k2bc8a9dfdfef06` 就变成一列单字往下掉。不是"字太长"，
+ *    是**列宽预算**的问题：窄容器里第一列必须让位。
+ *    同时补 `overflow-wrap: anywhere`：长串在**任意位置**都能断，
+ *    不依赖 `word-break` 对无空格串的处理差异。
+ */
+.wb-rail-inner .kv { grid-template-columns: minmax(0, 76px) minmax(0, 1fr); }
+.wb-rail-inner .kv dd { overflow-wrap: anywhere; }
+
+/*
+ * ② 顶栏按钮在流式期间被压成竖排（"发 送""停 止""搜 索"）：
+ *    `.wb-head` 是 flex，默认 `flex-shrink: 1`，且按钮内的文字允许换行 ——
+ *    于是"流式接收中…"一出现就把旁边的按钮挤窄，文字只能逐字往下排。
+ *    正确的做法是让**按钮和徽标不参与收缩**（它们的内容是短语，不该被拆），
+ *    由 `spacer` 和搜索框去吸收宽度变化。
+ *    0.21.2 页头（.wb-head）已撤销（全屏视图里没有页头），这里只剩 .wb-top 同一条纪律：
+ */
+.wb-top button, .wb-top .badge, .wb-top .spinner { flex: 0 0 auto; white-space: nowrap; }
+
+/* ── 0.14.0 追加的实测修正 ──────────────────────────────────
+ *
+ * ③ 右栏说明文字横向溢出：窄栏里的长句没有断行规则，
+ *    在 264px 的窄栏里会顶出卡片边界。
+ */
+.wb-rail-inner .panel { overflow-wrap: anywhere; min-width: 0; }
+
+/* ④ 用户气泡与"已注入 N 条"回执并排（flex row）时会互相挤压 ——
+ *    回执是给用户看的**结账单**，不该跟气泡抢一行。改纵向堆叠、右对齐：
+ *    气泡在上，回执贴着气泡下缘，一眼能对上"哪句问话配哪张账单"。
+ */
+.wb-msg.user { flex-direction: column; align-items: flex-end; gap: 4px; }
+
+/* ── 右栏「产物」清单（0.21.9 重做）───────────────────────────────
+ *
+ * 旧版是一张**三列表格**（方向徽标 / 完整路径 / 工具名），在 264px 的右栏里必然出事：
+ * `.table-wrap` 是 `overflow-x:auto`，长路径把格子撑开后横向滚动条一出来，
+ * 工具名那一列就被推出可视区 —— 用户读到的是"每一行都不一样、对不齐"，
+ * 而那看起来"像是数据乱了"，其实是**排版**（格子放不下一串 80 字符的路径）。
+ *
+ * 新版没有表格：一行 = 一颗可点的「文件」按钮 + 下面一行小字（目录 / 出处）。
+ * 所以这里所有规则的第一目标是 **绝不允许横向滚动**：
+ *   · 每一层都写 `min-width: 0`（flex 子项默认 `min-width:auto`，不加就是"不肯收缩"，
+ *     这是"明明写了 ellipsis 却还是溢出"最常见的原因）；
+ *   · 真正需要截断的两处（文件名 / 目录）才写 `text-overflow`，其余交给 `overflow-wrap`。
+ */
+.wb-art { list-style: none; margin: 0; padding: 0; }
+.wb-art > li { margin-bottom: 6px; min-width: 0; }
+.wb-art > li:last-child { margin-bottom: 0; }
+
+/* 整行 = 打开按钮。做成"看着能点"就**必须真能点** —— 它是本清单唯一的动作。 */
+.wb-art-row {
+  display: flex; align-items: center; gap: 6px; width: 100%; min-width: 0;
+  padding: 5px 7px; margin: 0; cursor: pointer; text-align: left;
+  background: var(--bg-subtle); color: var(--text);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  font: inherit;
+}
+.wb-art-row:hover { border-color: var(--accent); background: var(--info-bg); }
+.wb-art-row:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+/* 图标不许被挤扁（它是"这是个文件"的唯一视觉线索） */
+.wb-art-row .wb-ico { flex: 0 0 auto; color: var(--text-dim); }
+.wb-art-row:hover .wb-ico { color: var(--accent); }
+/* 文件名：这是**主体**，所以它拿剩余宽度、且允许省略（完整路径在 title 里，不丢） */
+.wb-art-name {
+  flex: 1 1 auto; min-width: 0;
+  font-size: 12.5px; font-weight: 500;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+/* 副行：目录（左，可省略）+ 出处工具名（右，不收缩）—— 一左一右分开，
+   不会出现"路径和工具名黏成一串、看不出哪是哪" */
+.wb-art-meta { display: flex; align-items: baseline; gap: 6px; margin: 3px 0 0 22px; min-width: 0; }
+.wb-art-dir { flex: 1 1 auto; min-width: 0; font-size: 11px; color: var(--text-faint);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; direction: rtl; text-align: left; }
+/* ⚠️ `direction: rtl` 是为了**从左边截掉**长路径、保住最有信息量的末尾 ——
+   但它会把中性字符（`\` `<` `>` 等）的显示顺序也一起翻掉。
+   用 `unicode-bidi: plaintext` 把定序交还给内容本身的**首强字符**：
+   路径以盘符或 `/` 开头，因此整串仍按 LTR 排版，只有溢出的**那一头**换成了左端。
+   不写这一句的后果很隐蔽：`C:\a\b` 会渲染成 `C/:a\b`。 */
+.wb-art-dir { unicode-bidi: plaintext; }
+.wb-art-tool { flex: 0 0 auto; font-size: 11px; color: var(--text-dim); max-width: 45%;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* 边界说明整块说一次（旧版把它塞在空态里，于是"有产物"时反而看不到这句话） */
+.wb-art-note { margin-top: 8px; font-size: 11px; line-height: 1.5; }
+/* 分组小标题：借用 .panel > h3 的字号，只把间距压紧到清单里合适 */
+.wb-rail-inner .panel > h3 { margin: 12px 0 6px; }
+.wb-rail-inner .panel > h3:first-of-type { margin-top: 2px; }
+
+/* ── 内核接入（P0）─────────────────────────────────────────
+ * 这一块把"手改 config.json 再重启"换成了页面上的三步。样式要解决的问题很具体：
+ *   · 诊断卡必须能一眼看出**卡在哪一步**（靠左侧色条 + 徽标，不靠读完整段字）；
+ *   · "可核对项"（地址 / HTTP / 版本 / 令牌）用等宽字排一行 —— 排查时人会拿它们去别处比对；
+ *   · 未接入时是**整页阻断**（.kg-page，见下），不是浮层 —— 没有关闭按钮，
+ *     因为关掉它并不能让平台变得可用。 */
+.kernel-form { display: flex; flex-direction: column; gap: 12px; max-width: 720px; }
+.kernel-actions { margin-top: 2px; }
+.kernel-actions button { white-space: nowrap; }
+/* ⚠️ 这里**没有** `.kernel-force`：那个"跳过检测直接保存"的勾选框 0.21.5 已删。
+   样式跟着一起删，否则下一个人会以为还有这么个控件（样式表里的死规则比代码里的更难发现）。 */
+
+.kb-probe { border: 1px solid var(--border); border-left: 3px solid var(--border-strong);
+  border-radius: var(--radius); padding: 10px 12px; margin: 10px 0; background: var(--bg-subtle); }
+.kb-probe.ok { border-color: var(--ok); background: var(--ok-bg); color: var(--ok); }
+.kb-probe.warn { border-color: var(--warn); background: var(--warn-bg); color: var(--warn); }
+.kb-probe.fail { border-color: var(--fail); background: var(--fail-bg); color: var(--fail); }
+.kb-probe-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.kb-probe-detail { font-size: 12.5px; line-height: 1.55; word-break: break-word; }
+.kb-probe-hint { font-size: 12.5px; line-height: 1.55; margin-top: 5px; }
+.kb-probe-facts { display: flex; flex-wrap: wrap; gap: 3px 14px; margin-top: 9px;
+  padding-top: 8px; border-top: 1px dashed currentColor; opacity: .8;
+  font-family: var(--font-mono); font-size: 11.5px; }
+
+/* 阻断式引导：盖在整页之上的一层 */
+.modal-wrap { position: fixed; inset: 0; z-index: 100; padding: 5vh 16px 40px;
+  background: rgba(14, 17, 21, .58);
+  display: flex; align-items: flex-start; justify-content: center; overflow: auto; }
+.modal { width: 100%; max-width: 780px; background: var(--bg-panel);
+  border: 1px solid var(--border-strong); border-radius: var(--radius-lg);
+  padding: 22px 24px; box-shadow: 0 18px 60px rgba(0, 0, 0, .3); }
+.modal h2 { margin: 0 0 8px; font-size: 18px; }
+.modal p { margin: 0 0 12px; color: var(--text-dim); line-height: 1.6; }
+.modal .kernel-form { max-width: none; }
+.kernel-details-body { margin-top: 10px; }
+
+/* ── 内核不可用的整页阻断（0.21.4；0.21.5 收敛成一个弹框）───────
+ * 它是**整页**而不是浮层：背后不留任何"看起来正常、实际点不动"的界面。
+ * 因此这里不共用 .modal-wrap（那层带半透明遮罩，暗示"背后还有东西"）。
+ *
+ * 但**宽度按弹框给**（520px，不是整页那种 760px）：这一页上只做两件事
+ * —— 填地址、点检测。放宽到 760 会让那两行输入框与大段留白一起摊开，
+ * 读起来像一张配置页，而不是"一件事没做完，先做完它"。*/
+.kg-page { min-height: 100vh; display: flex; align-items: flex-start; justify-content: center;
+  padding: 9vh 20px 40px; overflow: auto; background: var(--bg); }
+.kg-card { width: 100%; max-width: 520px; background: var(--bg-panel);
+  border: 1px solid var(--border-strong); border-radius: var(--radius-lg);
+  padding: 26px 28px; box-shadow: 0 18px 60px rgba(0, 0, 0, .18); }
+.kg-brand { font-weight: 700; letter-spacing: .5px; margin-bottom: 18px;
+  display: flex; align-items: baseline; gap: 10px; }
+.kg-brand small { font-weight: 400; font-size: 12px; color: var(--text-dim); letter-spacing: 0; }
+.kg-card h1 { margin: 0 0 8px; font-size: 21px; }
+.kg-lead { margin: 0 0 10px; color: var(--text-dim); line-height: 1.6; }
+.kg-card .kernel-form { margin-top: 14px; max-width: none; }
+.kg-foot { display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--border); }
+
+/* ── 应用内对话框（替代原生 prompt / confirm / alert）──────────────────
+   与内核引导共用 .modal-wrap / .modal 这套外壳，只加"更紧凑、垂直居中"两处差异。
+   遮罩是**独立的绝对定位层**（.dlg-backdrop），面板压在它上面 —— 这样点面板内部
+   不会冒泡到遮罩把窗关掉。*/
+.modal-wrap.dlg { align-items: center; padding: 6vh 16px; }
+.dlg-backdrop { position: absolute; inset: 0; }
+.modal.dlg { position: relative; max-width: 520px; }
+.modal.dlg h2 { font-size: 17px; }
+.dlg-body { color: var(--text-dim); line-height: 1.7; font-size: 13px; margin: 0 0 14px; }
+.dlg-body p { margin: 0 0 6px; }
+.dlg-body p:last-child { margin-bottom: 0; }
+.dlg-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+.dlg-field input { width: 100%; }
+.dlg-err { color: var(--fail); font-size: 12.5px; margin: -6px 0 12px; }
+
+/* ── 目录选择器（0.21.7，`.dlg.kind=browse`）────────────────────
+   「新建工作区」第二步原来是让用户**手打** cwd。问题在于 cwd 是**服务器上**的路径，
+   不是用户自己机器上的 —— 手打就有两种必然结局：打错（路径不存在）或打对但根本不知道
+   那是什么目录。所以改成"逐级点进去"：当前路径只读展示 → 常用起点 → 子目录列表。
+   列表高度收在 44vh（与 .dlg-choices 同口径）：目录可能几百个，弹层不能长到屏幕外面去。 */
+/* ── 文件夹选择器（`.modal.dlg.kind-browse`）──────────────────────
+   「新建工作区」的弹框。结构按 **Windows 的「浏览文件夹」** 排（用户 2026-10-08：
+   「新建工作区弹框不能做成 Windows 那种选择文件夹框样式吗」）：
+   上方一个大列表框、**下方一行 `文件夹(F): 路径`**、右下两个按钮。
+   ⚠️ 宽度必须加大：Windows 那个框就是宽的，而目录名一窄就被省略号吃掉 ——
+   用户正要在列表里挑出自己那一个目录，恰好看不见它，这个框就白做了。 */
+.modal.dlg.kind-browse { max-width: 640px; }
+/* 列表给足高度：它是这个框的**主体**（0.21.9 之前只占一小条）。 */
+.modal.dlg.kind-browse .dlg-list { max-height: 52vh; min-height: 176px; }
+/* 说明行直接用 `.field-label`（同一个视觉：12.5px + text-dim）—— 不另起一个只有两行
+   声明的新类。"它是个 div 不是 label" 不影响：那条规则只设字号与颜色，不涉及表单语义。 */
+/* 结果行（Windows 的 `文件夹(F):` 那一行）。路径是**结果**，不是输入框 ——
+   它只读、可整块选中复制（排查"到底在哪一层"时很值钱）。 */
+.dlg-pathrow { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.dlg-pathrow-label { flex: 0 0 auto; font-size: 12.5px; color: var(--text-dim); }
+.dlg-path {
+  flex: 1 1 auto; min-width: 0;
+  padding: 5px 9px; border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--bg-subtle); color: var(--text-dim);
+  font-size: 12px; line-height: 1.5; word-break: break-all; user-select: all;
+}
+/* 名称的**结果**（0.21.9）：它不是输入框，是"你选的这个目录会让工作区叫什么"。
+   0.21.7~0.21.9 初版这里是一个必填输入框，于是整个弹框读起来还是"填表"——
+   用户的原话是"不要搞这么复杂，就搞成这种选择文件夹框就行啦"。 */
+.dlg-name-hint { font-size: 12.5px; color: var(--text-dim); }
+.dlg-name-hint b { color: var(--text); }
+.dlg-name-hint .faint { margin-left: 4px; }
+.dlg-roots { display: flex; flex-wrap: wrap; gap: 6px; }
+.dlg-root {
+  padding: 3px 9px; font-size: 12px; cursor: pointer;
+  color: var(--text-dim); background: transparent;
+  border: 1px solid var(--border); border-radius: 999px;
+}
+.dlg-root:hover { color: var(--text); border-color: var(--border-strong); background: var(--bg-subtle); }
+.dlg-list {
+  display: flex; flex-direction: column; gap: 1px;
+  max-height: 44vh; overflow: auto;
+  border: 1px solid var(--border); border-radius: var(--radius); padding: 3px;
+}
+.dlg-item {
+  display: flex; align-items: center; gap: 7px; width: 100%;
+  padding: 5px 8px; text-align: left; cursor: pointer;
+  color: var(--text); background: transparent; border: none; border-radius: 6px;
+  font-size: 13px; font-family: inherit;
+}
+.dlg-item:hover { background: var(--bg-subtle); }
+.dlg-item.up { color: var(--text-dim); font-size: 12.5px; }
+.dlg-item-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dlg-item-none { padding: 8px; color: var(--text-faint); font-size: 12.5px; }
+.dlg-choices { display: flex; flex-direction: column; gap: 7px; max-height: 44vh;
+  overflow: auto; margin-bottom: 14px; }
+.dlg-choice { display: flex; gap: 9px; align-items: flex-start; padding: 9px 11px;
+  border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer;
+  transition: border-color .12s, background .12s; }
+.dlg-choice:hover { border-color: var(--border-strong); background: var(--bg-subtle); }
+.dlg-choice input { margin: 3px 0 0; flex: 0 0 auto; }
+.dlg-choice-main { display: flex; flex-direction: column; gap: 2px; }
+.dlg-choice-main b { font-weight: 600; font-size: 13px; }
+.dlg-choice-desc { color: var(--text-dim); font-size: 12px; line-height: 1.5; }
+.dlg-mono { margin-bottom: 12px; }
+.dlg-warn { margin: 0 0 14px; }
+.dlg-actions { display: flex; justify-content: flex-end; gap: 8px; }
+.dlg-actions button { min-width: 84px; justify-content: center; }
+
+/* ── 工作区树（0.21.0）：工作区节点 → 会话子节点 + 未分组桶 ──────────
+   与原生 Harness 第一屏同一布局语汇：树形缩进、档位徽标常驻、操作收进「⋯」。
+   0.21.2：树自己吃掉左栏剩余高度（.wb-side 整栏不滚）——底部「设置」因此守得住。 */
+.wb-tree {
+  flex: 1 1 auto; min-height: 0; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 6px; padding: 4px 2px;
+}
+.wb-tree-filter { width: 100%; margin-bottom: 8px; font-size: 12.5px; padding: 4px 8px; }
+.wb-ws { display: flex; flex-direction: column; gap: 3px; }
+.wb-ws-row {
+  display: flex; align-items: center; gap: 6px; padding: 5px 6px;
+  border-radius: var(--radius); cursor: default; min-width: 0;
+  position: relative;
+}
+/* 同上（0.21.10）：工作区行也在 --bg-subtle 上，悬停底改用 --bg-hover。
+   ⚠️ 这一行**刻意不加** `border: 1px solid transparent`：它是 flex 行、里面的
+   「⋯ / ＋」按绝对定位贴右边缘，凭空多 1px 边框会让那两个图标横移一格。
+   .wb-session 那边能加是因为它本来就有那条透明边框（为 .active 留的），这里没有。 */
+.wb-ws-row:hover { background: var(--bg-hover); }
+.wb-ws-row.active { background: var(--info-bg); }
+.wb-ws-caret { cursor: pointer; flex: 0 0 auto; width: 14px; text-align: center;
+  color: var(--text-faint); user-select: none; }
+.wb-ws-name { font-weight: 600; font-size: 13px; cursor: pointer; overflow: hidden;
+  text-overflow: ellipsis; white-space: nowrap; flex: 1 1 auto; min-width: 0; }
+/* 0.21.7：工作区名前多了一颗文件夹 SVG（替换原来那个 📁 emoji）。
+   emoji 是**彩色位图**，字号一变大小就跟着变，而且各平台画风不同 —— 所以名字这一行
+   改成"图标 + 文本"的 flex：图标固定 14px 不参与压缩，省略号由文本自己承担。 */
+.wb-ws-row .wb-ws-name { display: flex; align-items: center; gap: 5px; }
+.wb-ws-label { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wb-ws-empty { padding: 2px 6px 4px 26px; font-size: 12px; }
+/* 树里的会话行沿用 .wb-session，只加缩进对齐到工作区名下 */
+.wb-ws .wb-session { margin-left: 20px; }
+
+/* ── 行内「⋯」菜单（0.21.1）─────────────────────────────────────
+   ⚠️ 0.21.9 修了两处，两处都是"点击没反应"级：
+   ① **类名对不上**：JS 给行加的是 `menu-open`，这里从前写 `.wb-menu-open` ——
+      那条"菜单开着时保持 ⋯ / ＋ 可见"的规则**从来没生效过**，指针一离开行，
+      菜单还开着、按钮却隐了，看不出菜单是从哪一行弹出来的。
+   ② **菜单必须渲染在行里面**（见 84-workbench.js 的 wbTreeHtml）：它的定位祖先是
+      `.wb-ws-row`（唯一带 position:relative 的那层）。从前挂在没有定位的 `.wb-ws` 上，
+      定位祖先退到视口，菜单被画到视口下方 —— 点 ⋯ 毫无反应。这条样式本身没写错，
+      错的是 DOM 挂载位置，所以只有真机点一下才看得见。
+   为什么把改名/删除这些收进菜单：一行文本原本被 3~4 个按钮挤成两行，树的层级
+   反而看不出来了。改成"名字右侧一个「⋯」，点开才出菜单"之后，一行就是一行。
+   位置用 absolute 挂在行上（行是 position:relative）—— 不引入任何 JS 定位逻辑，
+   重绘即真相：菜单的开合完全由 State.wb.rowMenu 决定。 */
+/* 0.21.9：与 `.wb-row-add` 同一处裁定（用户「三个点和加号…看不清」），同一套调法 ——
+   字号 13 → 14px、静息色 --text-faint → --text-dim、补上可见的底与边。
+   两颗钮必须**成对改**：它们是同一行、同时现身的一组，只调一颗会出现"一个清楚一个糊"，
+   比两颗都糊更像坏了。⚠️ 会话行那颗 ⋯ 也共用本类（`.wb-session > .wb-row-more`），
+   所以左右两处一起变清楚 —— 那是同一件事，不是副作用。 */
+.wb-row-more {
+  flex: 0 0 auto; margin-left: 2px; padding: 0 6px; font-size: 14px; line-height: 1.5;
+  color: var(--text-dim); background: var(--bg-panel); border: 1px solid var(--border);
+  border-radius: var(--radius); cursor: pointer;
+  /* 0.21.2：默认隐形，悬停 / 聚焦 / 菜单开着时才出现 —— 一行看起来就只有名字，
+     与原生 Harness 同一手感。键盘用户走 :focus-visible，不依赖悬停。 */
+  opacity: 0;
+  transition: opacity .12s ease-in-out;
+}
+.wb-ws-row:hover .wb-row-more, .wb-session:hover .wb-row-more,
+.wb-row-more:focus-visible, .menu-open .wb-row-more { opacity: 1; }
+.wb-session > .wb-row-more { position: absolute; top: 5px; right: 5px; margin: 0; }
+.wb-row-more:hover { color: var(--text); background: var(--bg-subtle); border-color: var(--border-strong); }
+
+/* ── 行尾操作区（0.21.6）───────────────────────────────────────
+   工作区行右侧两个动作：⋯（重命名 / 删除工作区）在左，＋（在这一行新建会话）在右。
+   两者都默认隐形、划过才出现 —— 树是靠"名字"读的，不是靠一排图标。
+   ⚠️ 从前的 `.menu-open > .wb-row-more` 用的是**子**选择器；⋯ 现在包在 .wb-row-ops
+   里，所以那一处改成后代选择器（见上一条），否则菜单开着时 ⋯ 会跟着隐掉 ——
+   用户会看不到菜单是从哪一行弹出来的。
+
+   ── 0.21.9：划过时"看不清"（用户 2026-10-08）─────────────────────────
+   用户原话：「鼠标划过工作区名称 三个点和加号（新建会话）样式再突出一点，看不清」。
+
+   根因是这两颗钮的**静息长相几乎不存在**：`color: --text-faint`（最淡一档）+
+   `background: transparent` + `border: 1px solid transparent`。它们又是**划过才现身**
+   的（opacity 0→1）—— 于是"现身那一瞬"看到的仍是一枚淡灰细字形。
+   淡灰字压底下那层（hover 时行自己变成 --bg-panel 的白）是本例里对比度最低的一对，
+   所以在"名字没被划过"的那半边看着就是糊的。
+
+   调法**只动颜色与尺寸，不动排布/几何**（`.wb-row-ops` 的 flex 被真机层盯着）：
+     · **图标盒** 14 → 16px（`.wb-ico` 的基准档，见下面那条规则）—— 这是**唯一真正
+       让它变大的一步**。⚠️ 0.21.7 起这两颗钮里装的是**内联 SVG**，尺寸由
+       `.wb-ico` 的 width/height 定，**不由 font-size 定** —— 我第一版只把
+       `font-size` 从 13 调到 14，那对 SVG 一点作用都没有（它只管按钮盒的行高），
+       图标还是 14px。"看不清楚"要解决的是图标本身，所以必须改图标盒。
+     · 按钮盒内边距 0 5px → 0 6px（点击区稍大，仍是 22px 级的小钮）；
+     · 静息色 --text-faint → **--text-dim**（这一档在 light/dark 下都够读）；
+     · 给一层**可见的底与边**（--bg-panel + --border），让"这是按钮"在现身时就成立
+       —— 与节头那两颗动作钮（.wb-sec-tools .wb-iconbtn）取同一套长相，
+       同一栏里两处"划过才现身的动作"不该长成两种东西。
+
+   ⚠️ 底下那句 `font-size: 14px` 保留但**不再是放大图标的手段**：它决定按钮盒的高度
+      （line-height 1.5 撑出 21px），也让将来若换回字形时有个合理的基准。
+      真正放大图标的是下面那条 `.wb-row-add .wb-ico, .wb-row-more .wb-ico`。
+
+   ⚠️ 底色用 --bg-panel 而不是 --bg-subtle：这一行 hover 时自身就是 --bg-panel，
+      用 --bg-subtle 会比它周围**更浅**，看着像"被抠掉一块"。
+      靠 border 划边界、底色与行底同色即可（按钮嵌在行上，不浮在行上）。
+   ⚠️ hover 的强调色语义不变：`＋` 仍是 --accent（全站"新建"都是这个色），
+      `⋯` 仍归中性 --text。见下面 `.wb-row-more` 那一组。 */
+.wb-row-ops { display: flex; align-items: center; gap: 2px; flex: 0 0 auto; margin-left: 2px; }
+.wb-row-add {
+  flex: 0 0 auto; padding: 0 6px; font-size: 14px; line-height: 1.5;
+  color: var(--text-dim); background: var(--bg-panel); border: 1px solid var(--border);
+  border-radius: var(--radius); cursor: pointer;
+  opacity: 0; transition: opacity .12s ease-in-out;
+}
+.wb-ws-row:hover .wb-row-add, .wb-row-add:focus-visible, .menu-open .wb-row-add { opacity: 1; }
+.wb-row-add:hover:not(:disabled) { color: var(--accent); background: var(--bg-subtle); border-color: var(--border-strong); }
+.wb-row-add:disabled { cursor: not-allowed; }
+/* ★ 真正让那两颗钮"看得清"的一步：把行尾的小图标从小号（14px）提到基准档（16px）。
+   ⚠️ 作用域挂在**这两颗钮自己身上**（`.wb-row-add` 是 ＋，`.wb-row-more` 是 ⋯），
+      不动 `.wb-ico.sm` 本身 —— 小号图标别处在用（卡内 ＋、产物行、工作区名的文件夹…），
+      改基类会变成"全站小图标都变大"。这一条就是"改基类 vs 改这一处"的分界。
+   ⚠️ 为什么用**两个类**而不是只写 `.wb-row-ops .wb-ico`：那颗 ⋯ 在两种地方出现，
+      位置不一样 —— 工作区行里它包在 `.wb-row-ops` 里，**会话行里它直接挂在
+      `.wb-session` 上**（见 84-workbench.js 的 wbSessionRow，它要 `position:absolute`
+      贴右上角，所以不能套那层 flex 容器）。只写 `.wb-row-ops` 会漏掉会话行那一颗，
+      于是用户会看到"工作区那颗大的、会话那颗还是小的"—— 一个更难解释的状态。
+   ⚠️ 顺带删掉 sm 的 `vertical-align: -2px` 偏差：16px 图标配 13px 字号时用它自己的
+      基准对齐（`-3px`，与 `.wb-ico` 一致），否则两档混排会高低不齐。 */
+.wb-row-add .wb-ico, .wb-row-more .wb-ico { width: 16px; height: 16px; vertical-align: -3px; }
+.wb-menu {
+  position: absolute; top: 100%; right: 4px; z-index: 30; min-width: 132px;
+  display: flex; flex-direction: column; gap: 1px; padding: 4px;
+  background: var(--bg-panel); border: 1px solid var(--border-strong);
+  border-radius: var(--radius); box-shadow: 0 6px 18px rgba(0, 0, 0, .18);
+}
+/* 会话行的菜单挂在条目右上，别把下面的兄弟节点压住 */
+.wb-session > .wb-menu { top: 26px; right: 4px; }
+.wb-menu button {
+  display: block; width: 100%; text-align: left; padding: 4px 8px; font-size: 12.5px;
+  background: transparent; border: none; border-radius: var(--radius); cursor: pointer;
+  color: inherit;
+}
+.wb-menu button:hover:not(:disabled) { background: var(--bg-subtle); }
+.wb-menu button.danger { color: var(--fail); }
+.wb-menu button:disabled { color: var(--text-faint); cursor: not-allowed; }
+/* 菜单里的一句说明（0.21.9）：兜底工作区那一行的两项都是禁用的，光有灰按钮
+   说不出"为什么不能动"—— 这句就是理由，比把菜单项撤掉好（撤掉之后用户只会
+   看到"这一行没有 ⋯"，然后再来问）。 */
+.wb-menu-note { padding: 2px 8px 1px; font-size: 11.5px; color: var(--text-faint); border-top: 1px solid var(--border); margin-top: 3px; }
+
+/* 0.21.6 删掉了 .wb-grants / .wb-grant-* 一整组（工作区授权面板的样式）。
+   面板本身已随工作区权限模块删除 —— 没有 HTML 会再用到这些类，留着就是死样式。 */
+/* 0.21.11 同因删掉 `.wb-logout`：账号区改成下拉后，登出进了菜单（由 `.wb-menu button`
+   承接外观），左栏底部不再有那颗常驻按钮 —— 留着就是没有 HTML 会用的死样式。 */
+
+/* （0.21.2）选择器条 .wb-compose-meta 已撤销：模型与推理等级收进输入卡右下。
+   ⚠️ 后半句"工作区与模式收进卡片上方的徽片行（.wb-chips / .wb-chip.ghost）"
+   已经过期 —— 那一行连同它装的两枚徽片在 0.21.9 全部删掉了（见上面 `.wb-chips` 那段）。
+   现在输入卡上方**没有任何东西**：卡片直接就是输入卡。 */
+
+/* ── .wb-hero / .wb-main.is-empty：整块删除（0.21.9）──────────────────
+ *
+ * 这里曾有一套**空态布局**：没有会话时主区渲染品牌页 `.wb-hero`（大 logo + 引导语），
+ * 并用 `.wb-main.is-empty { justify-content: center }` 把品牌页与输入卡**整体垂直居中**，
+ * 同时靠 `.wb-stream:empty{display:none}` 让空的消息流不占位。
+ *
+ * 用户 2026-10-08 裁定删除：「搞成一套，统一新建会话后的样式，不再搞什么会话前的样式，
+ * 增加复杂性」。
+ *
+ * 删它的判据是**它买到的东西不值这个复杂度**：
+ *   · 它只在"从没点过任何会话"时出现过一次 —— `isEmpty` 的判据是 `!sessionId && !msgs.length`，
+ *     而 `sessionId` 在新建的那一刻就非空了（`wbNewSession` 一返回就设上）。
+ *     换句话说：为**一次**出现维护了第二套布局。
+ *   · 代价是每次新建会话都看它跳一下（居中→靠下、页签从无到有）。**跳变比朴素更可疑** ——
+ *     用户会先怀疑"是不是坏了"，而不是"这是两种正常状态"。
+ *   · 那句引导语「选好工作区与模式，直接开始」也已经过期（模式不在界面上了）。
+ *
+ * 现在主区只有一套：页签条 + 消息流 + 输入卡，有会话与没会话**逐字相同**。
+ * 空的消息流里由 `wbStreamHtml` 写一句"开始一段对话"——它是**内容**，不是另一套布局。
+ */
+
+/* ── 全屏布局的收尾（0.21.2）────────────────────────────────
+ * 知识库条 / 附件条与输入卡同宽（不再是横跨整行的灰条）；
+ * 动作提示（w.notice）也压在同一列里，不飘在别处。
+ * ⚠️ 这些宽度公式与 `.wb-stream-inner` / `.wb-compose-wrap` / `.wb-view-tabs` 是
+ *    **同一件事的四份手抄**（见下面 --wb-compose-w 那段注）。0.21.9 报过两次宽度问题
+ *    （上下两截差 48px、提交瞬间闪 48px），两次的病根都是"几份公式长得不一样"。
+ *    改这里的任何一处，都要把另外三处一起看 —— 最好是把它们收成一个共同形态。
+ *    （0.21.9 已把它们统一成 `min(上限, 可用宽度)`；剩下的是"可用宽度"按各自基准写。） */
+.wb-notice { width: min(var(--wb-compose-w, 1200px), calc(100% - 48px)); margin: 44px auto 0; }
+.wb-main .wb-kb-strip, .wb-main .wb-attach-strip {
+  width: min(var(--wb-compose-w, 1200px), calc(100% - 48px));
+  margin: 0 auto 6px; border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--bg-panel);
+}

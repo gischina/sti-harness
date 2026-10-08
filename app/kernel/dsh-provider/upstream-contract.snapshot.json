@@ -1,0 +1,96 @@
+{
+  "_note": "由 tools/snapshot-upstream-contract.mjs 生成。请勿手改——手改会让\"上游变了\"这一信号失真。",
+  "version": "0.2.0-rc.2",
+  "extractedAt": "2026-09-30T12:22:23.154Z",
+  "sources": {
+    "sessionTypes": "@deepseek-ai/dsh-session/lib/types/types.d.ts",
+    "llmTypes": "@deepseek-ai/dsh-llm/lib/types/types.d.ts",
+    "tokenMeterTurnUsage": "@deepseek-ai/dsh-token-meter/lib/types/turn-usage.d.ts"
+  },
+  "sessionEventTypes": {
+    "turn/start": [
+      "turn"
+    ],
+    "turn/end": [
+      "turn",
+      "reason"
+    ],
+    "step/start": [
+      "turn",
+      "step"
+    ],
+    "step/end": [
+      "turn",
+      "step"
+    ],
+    "user/message": [
+      "@UserMessage"
+    ],
+    "developer/message": [
+      "turn",
+      "step",
+      "message",
+      "headerSeq?"
+    ],
+    "system/message": [
+      "turn",
+      "step",
+      "message"
+    ],
+    "assistant/message": [
+      "turn",
+      "step",
+      "message",
+      "stream",
+      "usage?",
+      "interrupted?"
+    ],
+    "assistant/attempt": [
+      "turn",
+      "step",
+      "stream"
+    ],
+    "tool/call": [
+      "turn",
+      "step",
+      "callId",
+      "name",
+      "arguments"
+    ],
+    "tool/result": [
+      "turn",
+      "step",
+      "message",
+      "error?",
+      "meta?"
+    ],
+    "request/header": [
+      "header",
+      "reason",
+      "startsSeries?"
+    ],
+    "request/context": [
+      "@RequestContext"
+    ],
+    "session/end-seed": [
+      "inherited?"
+    ]
+  },
+  "tokenUsageFields": [
+    "inputTokens",
+    "outputTokens",
+    "totalTokens?",
+    "cacheReadTokens?",
+    "cacheWriteTokens?",
+    "reasoningTokens?"
+  ],
+  "turnTokenUsageFields": [
+    "uncachedInputTokens",
+    "outputTokens",
+    "totalTokens",
+    "cacheReadTokens?",
+    "cacheWriteTokens?",
+    "reasoningTokens?",
+    "routes?"
+  ]
+}

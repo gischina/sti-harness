@@ -1,0 +1,4231 @@
+{
+  "meta": {
+    "note": "由 tools/record-fixtures.mjs 录制并脱敏。请勿手改：脱敏规则在脚本里，手改会让\"真实结构\"这一价值失真。",
+    "source": "dsh session log (concatenated zstd frame container)",
+    "upstreamPackage": "@deepseek-ai/dsh",
+    "upstreamVersion": "0.2.0-rc.2",
+    "sessionFormatVersion": 4,
+    "sourceSha256_12": "00168123a3ae",
+    "recordedAt": "2026-09-30T13:35:27.833Z",
+    "sourceEventsTotal": 989,
+    "recordedEvents": 55,
+    "observedTypes": [
+      "permission/preset",
+      "sandbox/mode",
+      "approval/policy",
+      "agent/inbox/spliced",
+      "turn/start",
+      "step/start",
+      "system/message",
+      "user/message",
+      "request/header",
+      "request/context",
+      "session/title",
+      "session/title-llm-request",
+      "session-log-deepseek/delivery-accepted",
+      "assistant/message",
+      "tool/call",
+      "tool/result",
+      "step/end",
+      "subagent/catalog",
+      "workspace/changes",
+      "turn/end"
+    ],
+    "typeCounts": {
+      "permission/preset": 1,
+      "sandbox/mode": 1,
+      "approval/policy": 1,
+      "agent/inbox/spliced": 21,
+      "turn/start": 2,
+      "step/start": 144,
+      "system/message": 1,
+      "user/message": 13,
+      "request/header": 1,
+      "request/context": 1,
+      "session/title": 2,
+      "session/title-llm-request": 1,
+      "session-log-deepseek/delivery-accepted": 145,
+      "assistant/message": 144,
+      "tool/call": 180,
+      "tool/result": 180,
+      "step/end": 144,
+      "subagent/catalog": 4,
+      "workspace/changes": 1,
+      "turn/end": 2
+    },
+    "redaction": [
+      "保留：事件信封（type/seq/time/surfaceOp）、所有数字与布尔、数组长度与元素结构",
+      "保留：枚举型键的值（type/kind/role/status/reason/preset/mode/policy/provider/model/name/isError/origin/agentPreset/lang/operation/shape/form/version）",
+      "替换：id 类键 → \"<id>\"；其余字符串 → \"<text:N>\"（N=原字符数，保留长度信息）",
+      "未保留：原始文件路径（只存 sha256 前 12 位，避免泄漏本机目录结构）"
+    ]
+  },
+  "events": [
+    {
+      "type": "permission/preset",
+      "seq": 0,
+      "time": 1790733513669,
+      "data": {
+        "preset": "workspace-write"
+      }
+    },
+    {
+      "type": "sandbox/mode",
+      "seq": 1,
+      "time": 1790733513671,
+      "data": {
+        "mode": "workspace-write"
+      }
+    },
+    {
+      "type": "approval/policy",
+      "seq": 2,
+      "time": 1790733513671,
+      "data": {
+        "policy": "ask"
+      }
+    },
+    {
+      "type": "agent/inbox/spliced",
+      "seq": 3,
+      "time": 1790733727248,
+      "data": {
+        "target": "<text:9>",
+        "start": 0,
+        "inserted": [
+          {
+            "content": [
+              {
+                "type": "text",
+                "text": "<text:115>"
+              }
+            ],
+            "source": {
+              "kind": "user",
+              "rpcId": "<id>",
+              "clientTimeZone": "<text:13>"
+            },
+            "role": "user",
+            "id": "<id>"
+          }
+        ]
+      }
+    },
+    {
+      "type": "turn/start",
+      "seq": 4,
+      "time": 1790733727251,
+      "data": {
+        "turn": 1
+      }
+    },
+    {
+      "type": "agent/inbox/spliced",
+      "seq": 5,
+      "time": 1790733727255,
+      "data": {
+        "target": "<text:9>",
+        "start": 0,
+        "removedCount": 1,
+        "inserted": []
+      }
+    },
+    {
+      "type": "step/start",
+      "seq": 6,
+      "time": 1790733727377,
+      "data": {
+        "turn": 1,
+        "step": 1
+      }
+    },
+    {
+      "type": "system/message",
+      "seq": 7,
+      "time": 1790733727379,
+      "data": {
+        "turn": 1,
+        "step": 1,
+        "message": {
+          "role": "system",
+          "content": [
+            {
+              "type": "text",
+              "text": "<text:5967>"
+            }
+          ],
+          "source": {
+            "kind": "system-prompt"
+          },
+          "id": "<id>"
+        }
+      },
+      "surfaceOp": "append"
+    },
+    {
+      "type": "user/message",
+      "seq": 8,
+      "time": 1790733727380,
+      "data": {
+        "content": [
+          {
+            "type": "text",
+            "text": "<text:115>"
+          }
+        ],
+        "source": {
+          "kind": "user",
+          "rpcId": "<id>",
+          "clientTimeZone": "<text:13>"
+        },
+        "role": "user",
+        "id": "<id>"
+      },
+      "surfaceOp": "append"
+    },
+    {
+      "type": "user/message",
+      "seq": 9,
+      "time": 1790733727381,
+      "data": {
+        "content": [
+          {
+            "type": "text",
+            "text": "<text:476>"
+          }
+        ],
+        "source": {
+          "kind": "runtime-context",
+          "form": "snapshot",
+          "sections": [
+            {
+              "name": "<text:14>",
+              "text": "<text:235>"
+            },
+            {
+              "name": "<text:15>",
+              "text": "<text:153>"
+            }
+          ]
+        },
+        "role": "user",
+        "id": "<id>"
+      },
+      "surfaceOp": "append"
+    },
+    {
+      "type": "user/message",
+      "seq": 10,
+      "time": 1790733727382,
+      "data": {
+        "content": [
+          {
+            "type": "text",
+            "text": "<text:2192>"
+          }
+        ],
+        "source": {
+          "kind": "skill-catalog",
+          "form": "catalog",
+          "entries": [
+            {
+              "name": "<text:28>",
+              "description": "<text:301>"
+            },
+            {
+              "name": "<text:11>",
+              "description": "<text:348>"
+            },
+            {
+              "name": "<text:11>",
+              "description": "<text:358>"
+            },
+            {
+              "name": "<text:11>",
+              "description": "<text:413>"
+            }
+          ]
+        },
+        "role": "user",
+        "id": "<id>"
+      },
+      "surfaceOp": "append"
+    },
+    {
+      "type": "request/header",
+      "seq": 11,
+      "time": 1790733727383,
+      "data": {
+        "header": {
+          "config": {
+            "provider": "deepseek-account",
+            "model": "deepseek-flash",
+            "reasoningEffort": "<text:4>",
+            "maxTokens": 256000
+          },
+          "adapterDefaults": {
+            "maxTokens": true
+          },
+          "tools": [
+            {
+              "name": "<text:17>",
+              "description": "<text:111>",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "questions": {
+                    "type": "array",
+                    "description": "<text:44>",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": true,
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "<text:50>"
+                        },
+                        "question": {
+                          "type": "string",
+                          "description": "<text:38>"
+                        },
+                        "header": {
+                          "type": "string",
+                          "description": "<text:76>"
+                        },
+                        "options": {
+                          "type": "array",
+                          "description": "<text:111>",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": true,
+                            "properties": {
+                              "label": {
+                                "type": "string",
+                                "description": "<text:31>"
+                              },
+                              "description": {
+                                "type": "string",
+                                "description": "<text:47>"
+                              }
+                            },
+                            "required": [
+                              "<text:5>"
+                            ]
+                          }
+                        },
+                        "multi_select": {
+                          "type": "boolean",
+                          "description": "<text:68>"
+                        }
+                      },
+                      "required": [
+                        "<text:2>",
+                        "<text:8>"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "<text:9>"
+                ]
+              }
+            },
+            {
+              "name": "<text:11>",
+              "description": "<text:222>",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "objective": {
+                    "type": "string",
+                    "description": "<text:73>"
+                  },
+                  "max_goal_rounds": {
+                    "type": "number",
+                    "description": "<text:70>"
+                  }
+                },
+                "required": [
+                  "<text:9>"
+                ]
+              }
+            },
+            {
+              "name": "<text:4>",
+              "description": "<text:59>",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "file_path": {
+                    "type": "string",
+                    "description": "<text:49>"
+                  },
+                  "old_string": {
+                    "type": "string",
+                    "description": "<text:24>"
+                  },
+                  "new_string": {
+                    "type": "string",
+                    "description": "<text:66>"
+                  },
+                  "replace_all": {
+                    "type": "boolean",
+                    "description": "<text:88>"
+                  },
+                  "sandbox_permissions": {
+                    "type": "string",
+                    "description": "<text:139>",
+                    "enum": [
+                      "<text:15>",
+                      "<text:18>"
+                    ]
+                  },
+                  "justification": {
+                    "type": "string",
+                    "description": "<text:173>"
+                  }
+                },
+                "required": [
+                  "<text:9>",
+                  "<text:10>",
+                  "<text:10>"
+                ]
+              }
+            },
+            {
+              "name": "<text:14>",
+              "description": "<text:250>",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "plan": {
+                    "type": "string",
+                    "description": "<text:72>"
+                  }
+                },
+                "required": [
+                  "<text:4>"
+                ]
+              }
+            },
+            {
+              "name": "<text:8>",
+              "description": "<text:87>",
+              "parameters": {
+                "type": "object",
+                "properties": {}
+              }
+            },
+            {
+              "name": "<text:4>",
+              "description": "<text:235>",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "pattern": {
+                    "type": "string",
+                    "description": "<text:222>"
+                  },
+                  "path": {
+                    "type": "string",
+                    "description": "<text:95>"
+                  }
+                },
+                "required": [
+                  "<text:7>"
+                ]
+              }
+            },
+            {
+              "name": "<text:4>",
+              "description": "<text:206>",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "pattern": {
+                    "type": "string",
+                    "description": "<text:50>"
+                  },
+                  "path": {
+                    "type": "string",
+                    "description": "<text:100>"
+                  },
+                  "include": {
+                    "type": "string",
+                    "description": "<text:109>"
+                  }
+                },
+                "required": [
+                  "<text:7>"
+                ]
+              }
+            },
+            {
+              "name": "<text:15>",
+              "description": "<text:202>",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "agent_id": {
+                    "type": "string",
+                    "description": "<text:79>"
+                  }
+                },
+                "required": [
+                  "<text:8>"
+                ]
+              }
+            },
+            {
+              "name": "<text:8>",
+              "description": "<text:49>",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "job_id": {
+                    "type": "string",
+                    "description": "<text:61>"
+                  },
+                  "reason": {
+                    "type": "string",
+                    "description": "<text:68>"
+                  }
+                },
+                "required": [
+                  "<text:6>"
+                ]
+              }
+            },
+            {
+              "name": "<text:8>",
+              "description": "<text:85>",
+              "parameters": {
+                "type": "object",
+                "properties": {}
+              }
+            },
+            {
+              "name": "<text:10>",
+              "description": "<text:116>",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "job_id": {
+                    "type": "string",
+                    "description": "<text:61>"
+                  },
+                  "wait": {
+                    "type": "boolean",
+                    "description": "<text:112>"
+                  },
+                  "timeout_ms": {
+                    "type": "number",
+                    "description": "<text:85>"
+                  }
+                },
+                "required": [
+                  "<text:6>"
+                ]
+              }
+            },
+            {
+              "name": "<text:11>",
+              "description": "<text:276>",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "scope": {
+                    "type": "string",
+                    "description": "<text:223>",
+                    "enum": [
+                      "<text:8>",
+                      "<text:11>"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "name": "<text:27>",
+              "description": "<text:530>",
+              "parameters": {
+                "type": "object",
+                "properties": {}
+              }
+            },
+            {
+              "name": "<text:7>",
+              "description": "<text:274>",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "files": {
+                    "type": "array",
+                    "description": "<text:64>",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "path": {
+                          "type": "string",
+                          "description": "<text:83>"
+                        },
+                        "description": {
+                          "type": "string",
+                          "description": "<text:31>"
+                        }
+                      },
+                      "required": [
+                        "<text:4>"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "<text:5>"
+                ]
+              }
+            },
+            {
+              "name": "<text:4>",
+              "description": "<text:1950>",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "command": {
+                    "type": "string",
+                    "description": "<text:34>"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "<text:236>"
+                  },
+                  "timeoutMs": {
+                    "type": "number",
+                    "description": "<text:157>"
+                  },
+                  "workdir": {
+                    "type": "string",
+                    "description": "<text:110>"
+                  },
+                  "run_in_background": {
+                    "type": "boolean",
+                    "description": "<text:120>"
+                  },
+                  "sandbox_permissions": {
+                    "type": "string",
+                    "description": "<text:137>",
+                    "enum": [
+                      "<text:15>",
+                      "<text:18>"
+                    ]
+                  },
+                  "justification": {
+                    "type": "string",
+                    "description": "<text:166>"
+                  }
+                },
+                "required": [
+                  "<text:7>",
+                  "<text:11>"
+                ]
+              }
+            },
+            {
+              "name": "<text:4>",
+              "description": "<text:56>",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "file_path": {
+                    "type": "string",
+                    "description": "<text:49>"
+                  },
+                  "offset": {
+                    "type": "number",
+                    "description": "<text:44>"
+                  },
+                  "limit": {
+                    "type": "number",
+                    "description": "<text:52>"
+                  }
+                },
+                "required": [
+                  "<text:9>"
+                ]
+              }
+            },
+            {
+              "name": "<text:10>",
+              "description": "<text:174>",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "file_path": {
+                    "type": "string",
+                    "description": "<text:59>"
+                  }
+                },
+                "required": [
+                  "<text:9>"
+                ]
+              }
+            },
+            {
+              "name": "<text:12>",
+              "description": "<text:169>",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "agent_id": {
+                    "type": "string",
+                    "description": "<text:111>"
+                  },
+                  "message": {
+                    "type": "string",
+                    "description": "<text:36>"
+                  }
+                },
+                "required": [
+                  "<text:8>",
+                  "<text:7>"
+                ]
+              }
+            },
+            {
+              "name": "<text:5>",
+              "description": "<text:139>",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "<text:52>"
+                  }
+                },
+                "required": [
+                  "<text:4>"
+                ]
+              }
+            },
+            {
+              "name": "<text:8>",
+              "description": "<text:434>",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": "string",
+                    "description": "<text:66>"
+                  },
+                  "prompt": {
+                    "type": "string",
+                    "description": "<text:130>"
+                  },
+                  "run_in_background": {
+                    "type": "boolean",
+                    "description": "<text:77>"
+                  }
+                },
+                "required": [
+                  "<text:11>",
+                  "<text:6>"
+                ]
+              }
+            },
+            {
+              "name": "<text:13>",
+              "description": "<text:535>",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": "string",
+                    "description": "<text:66>"
+                  },
+                  "prompt": {
+                    "type": "string",
+                    "description": "<text:131>"
+                  },
+                  "run_in_background": {
+                    "type": "boolean",
+                    "description": "<text:77>"
+                  }
+                },
+                "required": [
+                  "<text:11>",
+                  "<text:6>"
+                ]
+              }
+            },
+            {
+              "name": "<text:10>",
+              "description": "<text:317>",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "todos": {
+                    "type": "array",
+                    "description": "<text:52>",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "content": {
+                          "type": "string",
+                          "description": "<text:43>"
+                        },
+                        "status": {
+                          "type": "string",
+                          "description": "<text:61>",
+                          "enum": [
+                            "<text:7>",
+                            "<text:11>",
+                            "<text:9>"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "<text:7>",
+                        "<text:6>"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "<text:5>"
+                ]
+              }
+            },
+            {
+              "name": "<text:11>",
+              "description": "<text:24>",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "goal_id": {
+                    "type": "string",
+                    "description": "<text:30>"
+                  },
+                  "revision": {
+                    "type": "number",
+                    "description": "<text:45>"
+                  },
+                  "action": {
+                    "type": "string",
+                    "description": "<text:213>",
+                    "enum": [
+                      "<text:4>",
+                      "<text:5>",
+                      "<text:6>",
+                      "<text:8>",
+                      "<text:7>"
+                    ]
+                  },
+                  "objective": {
+                    "type": "string",
+                    "description": "<text:51>"
+                  },
+                  "max_goal_rounds": {
+                    "type": "number",
+                    "description": "<text:45>"
+                  },
+                  "blocked_reason": {
+                    "type": "string",
+                    "description": "<text:107>"
+                  }
+                },
+                "required": [
+                  "<text:7>",
+                  "<text:8>",
+                  "<text:6>"
+                ]
+              }
+            },
+            {
+              "name": "<text:9>",
+              "description": "<text:74>",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "description": "<text:25>"
+                  }
+                },
+                "required": [
+                  "<text:3>"
+                ]
+              }
+            },
+            {
+              "name": "<text:10>",
+              "description": "<text:101>",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "queries": {
+                    "type": "array",
+                    "description": "<text:45>",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "<text:7>"
+                ]
+              }
+            },
+            {
+              "name": "<text:8>",
+              "description": "<text:1667>",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "script": {
+                    "type": "string",
+                    "description": "<text:193>"
+                  },
+                  "meta": {
+                    "type": "object",
+                    "description": "<text:46>",
+                    "additionalProperties": true,
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "description": "<text:31>"
+                      },
+                      "description": {
+                        "type": "string",
+                        "description": "<text:47>"
+                      },
+                      "whenToUse": {
+                        "type": "string",
+                        "description": "<text:48>"
+                      },
+                      "phases": {
+                        "type": "array",
+                        "description": "<text:53>",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": true,
+                          "properties": {
+                            "title": {
+                              "type": "string",
+                              "description": "<text:52>"
+                            },
+                            "detail": {
+                              "type": "string",
+                              "description": "<text:43>"
+                            },
+                            "provider": {
+                              "type": "string",
+                              "description": "<text:57>"
+                            },
+                            "model": {
+                              "type": "string",
+                              "description": "<text:54>"
+                            }
+                          },
+                          "required": [
+                            "<text:5>"
+                          ]
+                        }
+                      }
+                    },
+                    "required": [
+                      "<text:4>",
+                      "<text:11>"
+                    ]
+                  },
+                  "args": {
+                    "type": "object",
+                    "description": "<text:116>",
+                    "additionalProperties": true
+                  },
+                  "run_in_background": {
+                    "type": "boolean",
+                    "description": "<text:125>"
+                  }
+                },
+                "required": [
+                  "<text:6>",
+                  "<text:4>"
+                ]
+              }
+            },
+            {
+              "name": "<text:5>",
+              "description": "<text:42>",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "file_path": {
+                    "type": "string",
+                    "description": "<text:50>"
+                  },
+                  "content": {
+                    "type": "string",
+                    "description": "<text:33>"
+                  },
+                  "sandbox_permissions": {
+                    "type": "string",
+                    "description": "<text:139>",
+                    "enum": [
+                      "<text:15>",
+                      "<text:18>"
+                    ]
+                  },
+                  "justification": {
+                    "type": "string",
+                    "description": "<text:173>"
+                  }
+                },
+                "required": [
+                  "<text:9>",
+                  "<text:7>"
+                ]
+              }
+            }
+          ]
+        },
+        "reason": "<text:7>"
+      }
+    },
+    {
+      "type": "request/context",
+      "seq": 12,
+      "time": 1790733727384,
+      "data": {
+        "provider": "deepseek-account",
+        "model": "deepseek-flash",
+        "contextWindow": 1000000,
+        "systemPromptUpdate": "<text:10>"
+      }
+    },
+    {
+      "type": "session/title",
+      "seq": 13,
+      "time": 1790733727388,
+      "data": {
+        "title": "<text:26>",
+        "messageSeqs": [
+          8
+        ],
+        "source": {
+          "kind": "fallback"
+        }
+      }
+    },
+    {
+      "type": "session/title-llm-request",
+      "seq": 14,
+      "time": 1790733727389,
+      "data": {
+        "titleProvider": "<text:30>",
+        "messageSeqs": [
+          8
+        ],
+        "route": {
+          "provider": "deepseek-account",
+          "model": "deepseek-flash"
+        },
+        "system": "<text:363>",
+        "messages": [
+          {
+            "content": [
+              {
+                "type": "text",
+                "text": "<text:203>"
+              }
+            ],
+            "source": {
+              "kind": "dsh-session-title-llm"
+            },
+            "role": "user",
+            "id": "<id>"
+          }
+        ],
+        "maxTokens": 64
+      }
+    },
+    {
+      "type": "session-log-deepseek/delivery-accepted",
+      "seq": 15,
+      "time": 1790733727637,
+      "data": {
+        "sessionId": "<id>",
+        "sessionFormatVersion": 4,
+        "throughSeq": 14
+      }
+    },
+    {
+      "type": "session-log-deepseek/delivery-accepted",
+      "seq": 16,
+      "time": 1790733727703,
+      "data": {
+        "sessionId": "<id>",
+        "sessionFormatVersion": 4,
+        "throughSeq": 14
+      }
+    },
+    {
+      "type": "session/title",
+      "seq": 17,
+      "time": 1790733727919,
+      "data": {
+        "title": "<text:32>",
+        "messageSeqs": [
+          8
+        ],
+        "source": {
+          "kind": "provider",
+          "provider": "session-title-first-prompt-llm",
+          "model": {
+            "provider": "deepseek-account",
+            "model": "deepseek-flash"
+          }
+        }
+      }
+    },
+    {
+      "type": "assistant/message",
+      "seq": 18,
+      "time": 1790733728873,
+      "data": {
+        "turn": 1,
+        "step": 1,
+        "message": {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "reasoning",
+              "text": "<text:257>"
+            },
+            {
+              "type": "text",
+              "text": "<text:23>"
+            },
+            {
+              "type": "tool-call",
+              "id": "<id>",
+              "name": "<text:4>",
+              "arguments": "<text:194>"
+            },
+            {
+              "type": "tool-call",
+              "id": "<id>",
+              "name": "<text:4>",
+              "arguments": "<text:222>"
+            }
+          ],
+          "source": {
+            "kind": "model",
+            "provider": "deepseek-account",
+            "model": "deepseek-flash",
+            "replayState": {
+              "response": {
+                "kind": "deepseek-messages",
+                "version": 1,
+                "model": "deepseek-flash"
+              },
+              "blocks": [
+                {
+                  "type": "reasoning",
+                  "signature": "<text:36>"
+                },
+                {
+                  "type": "text"
+                },
+                {
+                  "type": "tool-call"
+                },
+                {
+                  "type": "tool-call"
+                }
+              ]
+            }
+          },
+          "id": "<id>"
+        },
+        "usage": {
+          "inputTokens": 6607,
+          "outputTokens": 253,
+          "cacheReadTokens": 1024,
+          "cacheWriteTokens": 0,
+          "totalTokens": 7884
+        },
+        "stream": [
+          {
+            "type": "chunk",
+            "time": 1790733727704,
+            "chunk": {
+              "type": "block-start",
+              "index": 0,
+              "blockType": "<text:9>"
+            }
+          },
+          {
+            "type": "reasoning-chunks",
+            "time0": 1790733728082,
+            "index": 0,
+            "dt": [
+              56,
+              10,
+              0,
+              0,
+              1,
+              29,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              10,
+              0,
+              0,
+              15,
+              0,
+              0,
+              0,
+              0,
+              0,
+              15,
+              0,
+              12,
+              0,
+              0,
+              13,
+              0,
+              1,
+              24,
+              0,
+              0,
+              0,
+              0,
+              0,
+              2,
+              0,
+              0,
+              17,
+              0,
+              10,
+              0,
+              0
+            ],
+            "texts": [
+              "<text:1>",
+              "<text:5>",
+              "<text:3>",
+              "<text:8>",
+              "<text:4>",
+              "<text:5>",
+              "<text:2>",
+              "<text:2>",
+              "<text:4>",
+              "<text:4>",
+              "<text:5>",
+              "<text:4>",
+              "<text:3>",
+              "<text:11>",
+              "<text:4>",
+              "<text:12>",
+              "<text:8>",
+              "<text:4>",
+              "<text:4>",
+              "<text:4>",
+              "<text:8>",
+              "<text:9>",
+              "<text:1>",
+              "<text:13>",
+              "<text:7>",
+              "<text:8>",
+              "<text:8>",
+              "<text:1>",
+              "<text:8>",
+              "<text:1>",
+              "<text:4>",
+              "<text:14>",
+              "<text:10>",
+              "<text:1>",
+              "<text:4>",
+              "<text:3>",
+              "<text:6>",
+              "<text:3>",
+              "<text:10>",
+              "<text:4>",
+              "<text:10>",
+              "<text:10>",
+              "<text:3>",
+              "<text:4>",
+              "<text:9>",
+              "<text:1>"
+            ]
+          },
+          {
+            "type": "chunk",
+            "time": 1790733728313,
+            "chunk": {
+              "type": "block-end",
+              "index": 0,
+              "block": {
+                "type": "reasoning",
+                "text": "<text:257>"
+              }
+            }
+          },
+          {
+            "type": "chunk",
+            "time": 1790733728314,
+            "chunk": {
+              "type": "block-start",
+              "index": 1,
+              "blockType": "<text:4>"
+            }
+          },
+          {
+            "type": "text-chunks",
+            "time0": 1790733728314,
+            "index": 1,
+            "dt": [
+              0,
+              11,
+              0,
+              0,
+              14,
+              0,
+              1,
+              12,
+              0,
+              14,
+              0,
+              39
+            ],
+            "texts": [
+              "<text:2>",
+              "<text:2>",
+              "<text:2>",
+              "<text:2>",
+              "<text:2>",
+              "<text:1>",
+              "<text:2>",
+              "<text:2>",
+              "<text:1>",
+              "<text:2>",
+              "<text:2>",
+              "<text:2>",
+              "<text:1>"
+            ]
+          },
+          {
+            "type": "chunk",
+            "time": 1790733728409,
+            "chunk": {
+              "type": "block-end",
+              "index": 1,
+              "block": {
+                "type": "text",
+                "text": "<text:23>"
+              }
+            }
+          },
+          {
+            "type": "chunk",
+            "time": 1790733728410,
+            "chunk": {
+              "type": "block-start",
+              "index": 2,
+              "blockType": "<text:9>"
+            }
+          },
+          {
+            "type": "tool-call-chunks",
+            "time0": 1790733728410,
+            "index": 2,
+            "dt": [],
+            "id": "<id>",
+            "name": "<text:4>",
+            "args": [
+              "<text:0>"
+            ]
+          },
+          {
+            "type": "tool-call-chunks",
+            "time0": 1790733728425,
+            "index": 2,
+            "dt": [
+              0,
+              0,
+              13,
+              0,
+              0,
+              0,
+              67,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              3,
+              0,
+              1,
+              13,
+              0,
+              0,
+              0,
+              1,
+              0,
+              13,
+              0,
+              14,
+              0,
+              0,
+              0,
+              0,
+              0,
+              14,
+              0,
+              0,
+              0,
+              13,
+              0,
+              15,
+              0,
+              0,
+              0,
+              13,
+              0,
+              1,
+              14,
+              0
+            ],
+            "id": "<id>",
+            "args": [
+              "<text:1>",
+              "<text:1>",
+              "<text:7>",
+              "<text:1>",
+              "<text:2>",
+              "<text:1>",
+              "<text:1>",
+              "<text:2>",
+              "<text:1>",
+              "<text:5>",
+              "<text:3>",
+              "<text:3>",
+              "<text:3>",
+              "<text:4>",
+              "<text:1>",
+              "<text:5>",
+              "<text:4>",
+              "<text:3>",
+              "<text:1>",
+              "<text:3>",
+              "<text:5>",
+              "<text:3>",
+              "<text:1>",
+              "<text:2>",
+              "<text:7>",
+              "<text:3>",
+              "<text:2>",
+              "<text:4>",
+              "<text:4>",
+              "<text:2>",
+              "<text:2>",
+              "<text:5>",
+              "<text:2>",
+              "<text:7>",
+              "<text:1>",
+              "<text:6>",
+              "<text:5>",
+              "<text:1>",
+              "<text:6>",
+              "<text:1>",
+              "<text:4>",
+              "<text:2>",
+              "<text:7>",
+              "<text:1>",
+              "<text:5>",
+              "<text:2>",
+              "<text:4>",
+              "<text:4>",
+              "<text:1>",
+              "<text:2>",
+              "<text:1>",
+              "<text:11>",
+              "<text:1>",
+              "<text:2>",
+              "<text:1>",
+              "<text:4>",
+              "<text:10>",
+              "<text:9>",
+              "<text:1>",
+              "<text:1>"
+            ]
+          },
+          {
+            "type": "chunk",
+            "time": 1790733728649,
+            "chunk": {
+              "type": "block-end",
+              "index": 2,
+              "block": {
+                "type": "tool-call",
+                "id": "<id>",
+                "name": "<text:4>",
+                "arguments": "<text:194>"
+              }
+            }
+          },
+          {
+            "type": "chunk",
+            "time": 1790733728650,
+            "chunk": {
+              "type": "block-start",
+              "index": 3,
+              "blockType": "<text:9>"
+            }
+          },
+          {
+            "type": "tool-call-chunks",
+            "time0": 1790733728650,
+            "index": 3,
+            "dt": [],
+            "id": "<id>",
+            "name": "<text:4>",
+            "args": [
+              "<text:0>"
+            ]
+          },
+          {
+            "type": "tool-call-chunks",
+            "time0": 1790733728663,
+            "index": 3,
+            "dt": [
+              1,
+              0,
+              0,
+              0,
+              30,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              15,
+              1,
+              0,
+              0,
+              0,
+              0,
+              8,
+              0,
+              0,
+              0,
+              0,
+              0,
+              13,
+              0,
+              0,
+              0,
+              1,
+              0,
+              16,
+              0,
+              0,
+              11,
+              1,
+              0,
+              0,
+              0,
+              0,
+              11,
+              1,
+              0,
+              0,
+              0,
+              0,
+              14,
+              0,
+              0,
+              0,
+              0,
+              0,
+              12,
+              0,
+              1,
+              13,
+              1,
+              0,
+              13,
+              0,
+              0,
+              0,
+              14,
+              0,
+              0,
+              0,
+              0,
+              13
+            ],
+            "id": "<id>",
+            "args": [
+              "<text:1>",
+              "<text:1>",
+              "<text:7>",
+              "<text:1>",
+              "<text:2>",
+              "<text:1>",
+              "<text:3>",
+              "<text:1>",
+              "<text:5>",
+              "<text:4>",
+              "<text:3>",
+              "<text:1>",
+              "<text:3>",
+              "<text:5>",
+              "<text:3>",
+              "<text:1>",
+              "<text:2>",
+              "<text:3>",
+              "<text:4>",
+              "<text:2>",
+              "<text:5>",
+              "<text:2>",
+              "<text:7>",
+              "<text:1>",
+              "<text:2>",
+              "<text:4>",
+              "<text:2>",
+              "<text:2>",
+              "<text:4>",
+              "<text:4>",
+              "<text:2>",
+              "<text:9>",
+              "<text:2>",
+              "<text:3>",
+              "<text:1>",
+              "<text:4>",
+              "<text:3>",
+              "<text:2>",
+              "<text:2>",
+              "<text:2>",
+              "<text:5>",
+              "<text:2>",
+              "<text:7>",
+              "<text:1>",
+              "<text:6>",
+              "<text:5>",
+              "<text:1>",
+              "<text:6>",
+              "<text:1>",
+              "<text:4>",
+              "<text:2>",
+              "<text:7>",
+              "<text:1>",
+              "<text:5>",
+              "<text:2>",
+              "<text:4>",
+              "<text:4>",
+              "<text:1>",
+              "<text:2>",
+              "<text:1>",
+              "<text:11>",
+              "<text:1>",
+              "<text:2>",
+              "<text:1>",
+              "<text:4>",
+              "<text:2>",
+              "<text:2>",
+              "<text:9>",
+              "<text:5>",
+              "<text:1>",
+              "<text:1>"
+            ]
+          },
+          {
+            "type": "chunk",
+            "time": 1790733728871,
+            "chunk": {
+              "type": "block-end",
+              "index": 3,
+              "block": {
+                "type": "tool-call",
+                "id": "<id>",
+                "name": "<text:4>",
+                "arguments": "<text:222>"
+              }
+            }
+          },
+          {
+            "type": "chunk",
+            "time": 1790733728871,
+            "chunk": {
+              "type": "usage",
+              "usage": {
+                "inputTokens": 6607,
+                "outputTokens": 253,
+                "cacheReadTokens": 1024,
+                "cacheWriteTokens": 0,
+                "totalTokens": 7884
+              }
+            }
+          },
+          {
+            "type": "chunk",
+            "time": 1790733728871,
+            "chunk": {
+              "type": "finish",
+              "reason": {
+                "kind": "tool-calls"
+              },
+              "replayState": {
+                "response": {
+                  "kind": "deepseek-messages",
+                  "version": 1,
+                  "model": "deepseek-flash"
+                },
+                "blocks": [
+                  {
+                    "type": "reasoning",
+                    "signature": "<text:36>"
+                  },
+                  {
+                    "type": "text"
+                  },
+                  {
+                    "type": "tool-call"
+                  },
+                  {
+                    "type": "tool-call"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "surfaceOp": "append"
+    },
+    {
+      "type": "tool/call",
+      "seq": 19,
+      "time": 1790733728876,
+      "data": {
+        "turn": 1,
+        "step": 1,
+        "callId": "<id>",
+        "name": "<text:4>",
+        "arguments": "<text:194>"
+      }
+    },
+    {
+      "type": "tool/result",
+      "seq": 20,
+      "time": 1790733729780,
+      "data": {
+        "turn": 1,
+        "step": 1,
+        "message": {
+          "role": "tool",
+          "source": {
+            "kind": "tool",
+            "callId": "<id>"
+          },
+          "toolCallId": "<id>",
+          "content": [
+            {
+              "type": "text",
+              "text": "<text:110>"
+            }
+          ],
+          "isError": false,
+          "id": "<id>"
+        }
+      },
+      "sourceEventSeqs": [
+        19
+      ],
+      "surfaceOp": "append"
+    },
+    {
+      "type": "tool/call",
+      "seq": 21,
+      "time": 1790733729780,
+      "data": {
+        "turn": 1,
+        "step": 1,
+        "callId": "<id>",
+        "name": "<text:4>",
+        "arguments": "<text:222>"
+      }
+    },
+    {
+      "type": "tool/result",
+      "seq": 22,
+      "time": 1790733730774,
+      "data": {
+        "turn": 1,
+        "step": 1,
+        "message": {
+          "role": "tool",
+          "source": {
+            "kind": "tool",
+            "callId": "<id>"
+          },
+          "toolCallId": "<id>",
+          "content": [
+            {
+              "type": "text",
+              "text": "<text:540>"
+            }
+          ],
+          "isError": false,
+          "id": "<id>"
+        }
+      },
+      "sourceEventSeqs": [
+        21
+      ],
+      "surfaceOp": "append"
+    },
+    {
+      "type": "step/end",
+      "seq": 23,
+      "time": 1790733730774,
+      "data": {
+        "turn": 1,
+        "step": 1
+      }
+    },
+    {
+      "type": "step/start",
+      "seq": 24,
+      "time": 1790733730797,
+      "data": {
+        "turn": 1,
+        "step": 2
+      }
+    },
+    {
+      "type": "session-log-deepseek/delivery-accepted",
+      "seq": 25,
+      "time": 1790733730980,
+      "data": {
+        "sessionId": "<id>",
+        "sessionFormatVersion": 4,
+        "throughSeq": 24
+      }
+    },
+    {
+      "type": "assistant/message",
+      "seq": 26,
+      "time": 1790733732205,
+      "data": {
+        "turn": 1,
+        "step": 2,
+        "message": {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "reasoning",
+              "text": "<text:272>"
+            },
+            {
+              "type": "tool-call",
+              "id": "<id>",
+              "name": "<text:4>",
+              "arguments": "<text:153>"
+            },
+            {
+              "type": "tool-call",
+              "id": "<id>",
+              "name": "<text:4>",
+              "arguments": "<text:272>"
+            }
+          ],
+          "source": {
+            "kind": "model",
+            "provider": "deepseek-account",
+            "model": "deepseek-flash",
+            "replayState": {
+              "response": {
+                "kind": "deepseek-messages",
+                "version": 1,
+                "model": "deepseek-flash"
+              },
+              "blocks": [
+                {
+                  "type": "reasoning",
+                  "signature": "<text:36>"
+                },
+                {
+                  "type": "tool-call"
+                },
+                {
+                  "type": "tool-call"
+                }
+              ]
+            }
+          },
+          "id": "<id>"
+        },
+        "usage": {
+          "inputTokens": 301,
+          "outputTokens": 252,
+          "cacheReadTokens": 7808,
+          "cacheWriteTokens": 0,
+          "totalTokens": 8361
+        },
+        "stream": [
+          {
+            "type": "chunk",
+            "time": 1790733730981,
+            "chunk": {
+              "type": "block-start",
+              "index": 0,
+              "blockType": "<text:9>"
+            }
+          },
+          {
+            "type": "reasoning-chunks",
+            "time0": 1790733731434,
+            "index": 0,
+            "dt": [
+              41,
+              17,
+              0,
+              0,
+              0,
+              0,
+              11,
+              0,
+              13,
+              0,
+              0,
+              0,
+              39,
+              1,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              16,
+              0,
+              0,
+              11,
+              1,
+              0,
+              0,
+              0,
+              0,
+              12,
+              1,
+              0,
+              0,
+              35,
+              0,
+              0,
+              1,
+              0,
+              0,
+              6,
+              0,
+              0,
+              0,
+              14,
+              0,
+              1,
+              13,
+              0,
+              0,
+              0,
+              12,
+              0,
+              0,
+              0
+            ],
+            "texts": [
+              "<text:3>",
+              "<text:10>",
+              "<text:3>",
+              "<text:6>",
+              "<text:1>",
+              "<text:4>",
+              "<text:12>",
+              "<text:2>",
+              "<text:1>",
+              "<text:4>",
+              "<text:10>",
+              "<text:2>",
+              "<text:2>",
+              "<text:5>",
+              "<text:6>",
+              "<text:2>",
+              "<text:6>",
+              "<text:7>",
+              "<text:1>",
+              "<text:4>",
+              "<text:8>",
+              "<text:6>",
+              "<text:3>",
+              "<text:8>",
+              "<text:11>",
+              "<text:1>",
+              "<text:1>",
+              "<text:1>",
+              "<text:1>",
+              "<text:1>",
+              "<text:4>",
+              "<text:3>",
+              "<text:2>",
+              "<text:1>",
+              "<text:6>",
+              "<text:9>",
+              "<text:4>",
+              "<text:8>",
+              "<text:6>",
+              "<text:3>",
+              "<text:8>",
+              "<text:5>",
+              "<text:7>",
+              "<text:1>",
+              "<text:4>",
+              "<text:3>",
+              "<text:4>",
+              "<text:5>",
+              "<text:4>",
+              "<text:12>",
+              "<text:10>",
+              "<text:3>",
+              "<text:11>",
+              "<text:5>",
+              "<text:2>",
+              "<text:6>",
+              "<text:3>",
+              "<text:1>"
+            ]
+          },
+          {
+            "type": "chunk",
+            "time": 1790733731713,
+            "chunk": {
+              "type": "block-end",
+              "index": 0,
+              "block": {
+                "type": "reasoning",
+                "text": "<text:272>"
+              }
+            }
+          },
+          {
+            "type": "chunk",
+            "time": 1790733731714,
+            "chunk": {
+              "type": "block-start",
+              "index": 1,
+              "blockType": "<text:9>"
+            }
+          },
+          {
+            "type": "tool-call-chunks",
+            "time0": 1790733731714,
+            "index": 1,
+            "dt": [],
+            "id": "<id>",
+            "name": "<text:4>",
+            "args": [
+              "<text:0>"
+            ]
+          },
+          {
+            "type": "tool-call-chunks",
+            "time0": 1790733731724,
+            "index": 1,
+            "dt": [
+              1,
+              0,
+              13,
+              1,
+              0,
+              0,
+              11,
+              0,
+              0,
+              0,
+              0,
+              0,
+              14,
+              0,
+              0,
+              0,
+              1,
+              0,
+              11,
+              1,
+              0,
+              0,
+              0,
+              0,
+              16,
+              1,
+              0,
+              0,
+              0,
+              0,
+              12,
+              0,
+              0,
+              0,
+              0,
+              0,
+              14,
+              13,
+              0,
+              0,
+              0,
+              0,
+              16,
+              0,
+              13,
+              1,
+              0,
+              0,
+              0,
+              10
+            ],
+            "id": "<id>",
+            "args": [
+              "<text:1>",
+              "<text:1>",
+              "<text:7>",
+              "<text:1>",
+              "<text:2>",
+              "<text:1>",
+              "<text:3>",
+              "<text:1>",
+              "<text:5>",
+              "<text:4>",
+              "<text:4>",
+              "<text:1>",
+              "<text:2>",
+              "<text:6>",
+              "<text:1>",
+              "<text:6>",
+              "<text:2>",
+              "<text:2>",
+              "<text:2>",
+              "<text:4>",
+              "<text:2>",
+              "<text:4>",
+              "<text:2>",
+              "<text:2>",
+              "<text:1>",
+              "<text:1>",
+              "<text:1>",
+              "<text:2>",
+              "<text:2>",
+              "<text:7>",
+              "<text:1>",
+              "<text:5>",
+              "<text:2>",
+              "<text:4>",
+              "<text:4>",
+              "<text:2>",
+              "<text:4>",
+              "<text:1>",
+              "<text:2>",
+              "<text:1>",
+              "<text:11>",
+              "<text:1>",
+              "<text:2>",
+              "<text:1>",
+              "<text:4>",
+              "<text:2>",
+              "<text:2>",
+              "<text:12>",
+              "<text:10>",
+              "<text:1>",
+              "<text:1>"
+            ]
+          },
+          {
+            "type": "chunk",
+            "time": 1790733731902,
+            "chunk": {
+              "type": "block-end",
+              "index": 1,
+              "block": {
+                "type": "tool-call",
+                "id": "<id>",
+                "name": "<text:4>",
+                "arguments": "<text:153>"
+              }
+            }
+          },
+          {
+            "type": "chunk",
+            "time": 1790733731902,
+            "chunk": {
+              "type": "block-start",
+              "index": 2,
+              "blockType": "<text:9>"
+            }
+          },
+          {
+            "type": "tool-call-chunks",
+            "time0": 1790733731902,
+            "index": 2,
+            "dt": [],
+            "id": "<id>",
+            "name": "<text:4>",
+            "args": [
+              "<text:0>"
+            ]
+          },
+          {
+            "type": "tool-call-chunks",
+            "time0": 1790733731915,
+            "index": 2,
+            "dt": [
+              0,
+              0,
+              0,
+              0,
+              14,
+              0,
+              0,
+              0,
+              0,
+              0,
+              15,
+              0,
+              1,
+              0,
+              0,
+              0,
+              13,
+              0,
+              0,
+              0,
+              0,
+              0,
+              23,
+              0,
+              0,
+              0,
+              0,
+              3,
+              0,
+              0,
+              0,
+              0,
+              0,
+              15,
+              0,
+              0,
+              0,
+              0,
+              0,
+              12,
+              0,
+              12,
+              14,
+              15,
+              0,
+              0,
+              0,
+              0,
+              0,
+              13,
+              0,
+              0,
+              0,
+              0,
+              0,
+              19,
+              0,
+              0,
+              0,
+              0,
+              0,
+              16,
+              1,
+              12,
+              0,
+              0,
+              9,
+              0,
+              0,
+              10,
+              0,
+              0,
+              0,
+              15,
+              1,
+              12,
+              15,
+              1
+            ],
+            "id": "<id>",
+            "args": [
+              "<text:1>",
+              "<text:1>",
+              "<text:7>",
+              "<text:1>",
+              "<text:2>",
+              "<text:1>",
+              "<text:3>",
+              "<text:1>",
+              "<text:5>",
+              "<text:4>",
+              "<text:3>",
+              "<text:1>",
+              "<text:3>",
+              "<text:5>",
+              "<text:3>",
+              "<text:1>",
+              "<text:2>",
+              "<text:3>",
+              "<text:4>",
+              "<text:2>",
+              "<text:5>",
+              "<text:2>",
+              "<text:7>",
+              "<text:1>",
+              "<text:2>",
+              "<text:2>",
+              "<text:5>",
+              "<text:2>",
+              "<text:5>",
+              "<text:6>",
+              "<text:4>",
+              "<text:5>",
+              "<text:8>",
+              "<text:2>",
+              "<text:7>",
+              "<text:1>",
+              "<text:6>",
+              "<text:5>",
+              "<text:1>",
+              "<text:5>",
+              "<text:3>",
+              "<text:3>",
+              "<text:8>",
+              "<text:3>",
+              "<text:4>",
+              "<text:1>",
+              "<text:5>",
+              "<text:4>",
+              "<text:3>",
+              "<text:1>",
+              "<text:3>",
+              "<text:5>",
+              "<text:3>",
+              "<text:1>",
+              "<text:2>",
+              "<text:7>",
+              "<text:2>",
+              "<text:2>",
+              "<text:5>",
+              "<text:2>",
+              "<text:7>",
+              "<text:1>",
+              "<text:6>",
+              "<text:5>",
+              "<text:1>",
+              "<text:4>",
+              "<text:1>",
+              "<text:2>",
+              "<text:1>",
+              "<text:11>",
+              "<text:1>",
+              "<text:2>",
+              "<text:1>",
+              "<text:4>",
+              "<text:4>",
+              "<text:8>",
+              "<text:10>",
+              "<text:1>",
+              "<text:1>"
+            ]
+          },
+          {
+            "type": "chunk",
+            "time": 1790733732203,
+            "chunk": {
+              "type": "block-end",
+              "index": 2,
+              "block": {
+                "type": "tool-call",
+                "id": "<id>",
+                "name": "<text:4>",
+                "arguments": "<text:272>"
+              }
+            }
+          },
+          {
+            "type": "chunk",
+            "time": 1790733732204,
+            "chunk": {
+              "type": "usage",
+              "usage": {
+                "inputTokens": 301,
+                "outputTokens": 252,
+                "cacheReadTokens": 7808,
+                "cacheWriteTokens": 0,
+                "totalTokens": 8361
+              }
+            }
+          },
+          {
+            "type": "chunk",
+            "time": 1790733732204,
+            "chunk": {
+              "type": "finish",
+              "reason": {
+                "kind": "tool-calls"
+              },
+              "replayState": {
+                "response": {
+                  "kind": "deepseek-messages",
+                  "version": 1,
+                  "model": "deepseek-flash"
+                },
+                "blocks": [
+                  {
+                    "type": "reasoning",
+                    "signature": "<text:36>"
+                  },
+                  {
+                    "type": "tool-call"
+                  },
+                  {
+                    "type": "tool-call"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "surfaceOp": "append"
+    },
+    {
+      "type": "tool/call",
+      "seq": 27,
+      "time": 1790733732206,
+      "data": {
+        "turn": 1,
+        "step": 2,
+        "callId": "<id>",
+        "name": "<text:4>",
+        "arguments": "<text:153>"
+      }
+    },
+    {
+      "type": "tool/result",
+      "seq": 28,
+      "time": 1790733733124,
+      "data": {
+        "turn": 1,
+        "step": 2,
+        "message": {
+          "role": "tool",
+          "source": {
+            "kind": "tool",
+            "callId": "<id>"
+          },
+          "toolCallId": "<id>",
+          "content": [
+            {
+              "type": "text",
+              "text": "<text:502>"
+            }
+          ],
+          "isError": false,
+          "id": "<id>"
+        }
+      },
+      "sourceEventSeqs": [
+        27
+      ],
+      "surfaceOp": "append"
+    },
+    {
+      "type": "tool/call",
+      "seq": 29,
+      "time": 1790733733125,
+      "data": {
+        "turn": 1,
+        "step": 2,
+        "callId": "<id>",
+        "name": "<text:4>",
+        "arguments": "<text:272>"
+      }
+    },
+    {
+      "type": "tool/result",
+      "seq": 30,
+      "time": 1790733734029,
+      "data": {
+        "turn": 1,
+        "step": 2,
+        "message": {
+          "role": "tool",
+          "source": {
+            "kind": "tool",
+            "callId": "<id>"
+          },
+          "toolCallId": "<id>",
+          "content": [
+            {
+              "type": "text",
+              "text": "<text:355>"
+            }
+          ],
+          "isError": false,
+          "id": "<id>"
+        }
+      },
+      "sourceEventSeqs": [
+        29
+      ],
+      "surfaceOp": "append"
+    },
+    {
+      "type": "step/end",
+      "seq": 31,
+      "time": 1790733734030,
+      "data": {
+        "turn": 1,
+        "step": 2
+      }
+    },
+    {
+      "type": "step/start",
+      "seq": 32,
+      "time": 1790733734051,
+      "data": {
+        "turn": 1,
+        "step": 3
+      }
+    },
+    {
+      "type": "session-log-deepseek/delivery-accepted",
+      "seq": 33,
+      "time": 1790733734250,
+      "data": {
+        "sessionId": "<id>",
+        "sessionFormatVersion": 4,
+        "throughSeq": 32
+      }
+    },
+    {
+      "type": "assistant/message",
+      "seq": 34,
+      "time": 1790733735389,
+      "data": {
+        "turn": 1,
+        "step": 3,
+        "message": {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "reasoning",
+              "text": "<text:133>"
+            },
+            {
+              "type": "tool-call",
+              "id": "<id>",
+              "name": "<text:4>",
+              "arguments": "<text:365>"
+            }
+          ],
+          "source": {
+            "kind": "model",
+            "provider": "deepseek-account",
+            "model": "deepseek-flash",
+            "replayState": {
+              "response": {
+                "kind": "deepseek-messages",
+                "version": 1,
+                "model": "deepseek-flash"
+              },
+              "blocks": [
+                {
+                  "type": "reasoning",
+                  "signature": "<text:36>"
+                },
+                {
+                  "type": "tool-call"
+                }
+              ]
+            }
+          },
+          "id": "<id>"
+        },
+        "usage": {
+          "inputTokens": 293,
+          "outputTokens": 184,
+          "cacheReadTokens": 8320,
+          "cacheWriteTokens": 0,
+          "totalTokens": 8797
+        },
+        "stream": [
+          {
+            "type": "chunk",
+            "time": 1790733734285,
+            "chunk": {
+              "type": "block-start",
+              "index": 0,
+              "blockType": "<text:9>"
+            }
+          },
+          {
+            "type": "reasoning-chunks",
+            "time0": 1790733734836,
+            "index": 0,
+            "dt": [
+              38,
+              14,
+              0,
+              0,
+              15,
+              0,
+              0,
+              15,
+              16,
+              0,
+              0,
+              15,
+              0,
+              0,
+              0,
+              9,
+              0,
+              0,
+              0,
+              13,
+              0,
+              13,
+              1,
+              0,
+              0,
+              15,
+              0,
+              0,
+              0,
+              0,
+              0,
+              13
+            ],
+            "texts": [
+              "<text:1>",
+              "<text:7>",
+              "<text:6>",
+              "<text:4>",
+              "<text:9>",
+              "<text:3>",
+              "<text:4>",
+              "<text:2>",
+              "<text:1>",
+              "<text:2>",
+              "<text:5>",
+              "<text:2>",
+              "<text:1>",
+              "<text:1>",
+              "<text:7>",
+              "<text:2>",
+              "<text:2>",
+              "<text:4>",
+              "<text:1>",
+              "<text:10>",
+              "<text:4>",
+              "<text:5>",
+              "<text:5>",
+              "<text:3>",
+              "<text:4>",
+              "<text:5>",
+              "<text:2>",
+              "<text:2>",
+              "<text:4>",
+              "<text:4>",
+              "<text:13>",
+              "<text:7>",
+              "<text:1>"
+            ]
+          },
+          {
+            "type": "chunk",
+            "time": 1790733735040,
+            "chunk": {
+              "type": "block-end",
+              "index": 0,
+              "block": {
+                "type": "reasoning",
+                "text": "<text:133>"
+              }
+            }
+          },
+          {
+            "type": "chunk",
+            "time": 1790733735040,
+            "chunk": {
+              "type": "block-start",
+              "index": 1,
+              "blockType": "<text:9>"
+            }
+          },
+          {
+            "type": "tool-call-chunks",
+            "time0": 1790733735040,
+            "index": 1,
+            "dt": [],
+            "id": "<id>",
+            "name": "<text:4>",
+            "args": [
+              "<text:0>"
+            ]
+          },
+          {
+            "type": "tool-call-chunks",
+            "time0": 1790733735053,
+            "index": 1,
+            "dt": [
+              1,
+              0,
+              0,
+              0,
+              15,
+              1,
+              0,
+              0,
+              0,
+              11,
+              0,
+              20,
+              0,
+              0,
+              0,
+              0,
+              0,
+              20,
+              0,
+              0,
+              0,
+              0,
+              0,
+              2,
+              0,
+              0,
+              0,
+              0,
+              0,
+              28,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              14,
+              0,
+              0,
+              11,
+              0,
+              1,
+              0,
+              0,
+              0,
+              17,
+              1,
+              0,
+              0,
+              0,
+              0,
+              11,
+              1,
+              0,
+              0,
+              0,
+              0,
+              11,
+              0,
+              0,
+              0,
+              0,
+              0,
+              16,
+              1,
+              0,
+              0,
+              0,
+              15,
+              0,
+              0,
+              0,
+              0,
+              0,
+              11,
+              0,
+              0,
+              1,
+              0,
+              0,
+              47,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              6,
+              0,
+              0,
+              0,
+              0,
+              12,
+              1,
+              0,
+              0,
+              0,
+              14,
+              0,
+              1,
+              0,
+              0,
+              11
+            ],
+            "id": "<id>",
+            "args": [
+              "<text:1>",
+              "<text:1>",
+              "<text:7>",
+              "<text:1>",
+              "<text:2>",
+              "<text:1>",
+              "<text:3>",
+              "<text:1>",
+              "<text:5>",
+              "<text:4>",
+              "<text:3>",
+              "<text:1>",
+              "<text:3>",
+              "<text:5>",
+              "<text:3>",
+              "<text:1>",
+              "<text:2>",
+              "<text:7>",
+              "<text:3>",
+              "<text:2>",
+              "<text:4>",
+              "<text:2>",
+              "<text:2>",
+              "<text:5>",
+              "<text:2>",
+              "<text:7>",
+              "<text:1>",
+              "<text:6>",
+              "<text:5>",
+              "<text:1>",
+              "<text:6>",
+              "<text:1>",
+              "<text:4>",
+              "<text:2>",
+              "<text:7>",
+              "<text:1>",
+              "<text:5>",
+              "<text:2>",
+              "<text:4>",
+              "<text:4>",
+              "<text:1>",
+              "<text:5>",
+              "<text:3>",
+              "<text:3>",
+              "<text:8>",
+              "<text:3>",
+              "<text:4>",
+              "<text:1>",
+              "<text:5>",
+              "<text:4>",
+              "<text:3>",
+              "<text:1>",
+              "<text:3>",
+              "<text:5>",
+              "<text:3>",
+              "<text:1>",
+              "<text:2>",
+              "<text:3>",
+              "<text:4>",
+              "<text:2>",
+              "<text:5>",
+              "<text:2>",
+              "<text:7>",
+              "<text:1>",
+              "<text:2>",
+              "<text:4>",
+              "<text:2>",
+              "<text:2>",
+              "<text:4>",
+              "<text:4>",
+              "<text:2>",
+              "<text:2>",
+              "<text:5>",
+              "<text:2>",
+              "<text:3>",
+              "<text:4>",
+              "<text:2>",
+              "<text:5>",
+              "<text:1>",
+              "<text:1>",
+              "<text:2>",
+              "<text:7>",
+              "<text:1>",
+              "<text:6>",
+              "<text:5>",
+              "<text:1>",
+              "<text:6>",
+              "<text:1>",
+              "<text:4>",
+              "<text:4>",
+              "<text:2>",
+              "<text:7>",
+              "<text:1>",
+              "<text:5>",
+              "<text:2>",
+              "<text:4>",
+              "<text:4>",
+              "<text:1>",
+              "<text:2>",
+              "<text:1>",
+              "<text:11>",
+              "<text:1>",
+              "<text:2>",
+              "<text:1>",
+              "<text:2>",
+              "<text:5>",
+              "<text:2>",
+              "<text:2>",
+              "<text:4>",
+              "<text:4>",
+              "<text:8>",
+              "<text:4>",
+              "<text:1>",
+              "<text:1>"
+            ]
+          },
+          {
+            "type": "chunk",
+            "time": 1790733735387,
+            "chunk": {
+              "type": "block-end",
+              "index": 1,
+              "block": {
+                "type": "tool-call",
+                "id": "<id>",
+                "name": "<text:4>",
+                "arguments": "<text:365>"
+              }
+            }
+          },
+          {
+            "type": "chunk",
+            "time": 1790733735388,
+            "chunk": {
+              "type": "usage",
+              "usage": {
+                "inputTokens": 293,
+                "outputTokens": 184,
+                "cacheReadTokens": 8320,
+                "cacheWriteTokens": 0,
+                "totalTokens": 8797
+              }
+            }
+          },
+          {
+            "type": "chunk",
+            "time": 1790733735388,
+            "chunk": {
+              "type": "finish",
+              "reason": {
+                "kind": "tool-calls"
+              },
+              "replayState": {
+                "response": {
+                  "kind": "deepseek-messages",
+                  "version": 1,
+                  "model": "deepseek-flash"
+                },
+                "blocks": [
+                  {
+                    "type": "reasoning",
+                    "signature": "<text:36>"
+                  },
+                  {
+                    "type": "tool-call"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "surfaceOp": "append"
+    },
+    {
+      "type": "tool/call",
+      "seq": 35,
+      "time": 1790733735390,
+      "data": {
+        "turn": 1,
+        "step": 3,
+        "callId": "<id>",
+        "name": "<text:4>",
+        "arguments": "<text:365>"
+      }
+    },
+    {
+      "type": "tool/result",
+      "seq": 36,
+      "time": 1790733736401,
+      "data": {
+        "turn": 1,
+        "step": 3,
+        "message": {
+          "role": "tool",
+          "source": {
+            "kind": "tool",
+            "callId": "<id>"
+          },
+          "toolCallId": "<id>",
+          "content": [
+            {
+              "type": "text",
+              "text": "<text:9795>"
+            }
+          ],
+          "isError": false,
+          "id": "<id>"
+        }
+      },
+      "sourceEventSeqs": [
+        35
+      ],
+      "surfaceOp": "append"
+    },
+    {
+      "type": "step/end",
+      "seq": 37,
+      "time": 1790733736401,
+      "data": {
+        "turn": 1,
+        "step": 3
+      }
+    },
+    {
+      "type": "step/start",
+      "seq": 38,
+      "time": 1790733736423,
+      "data": {
+        "turn": 1,
+        "step": 4
+      }
+    },
+    {
+      "type": "session-log-deepseek/delivery-accepted",
+      "seq": 39,
+      "time": 1790733736640,
+      "data": {
+        "sessionId": "<id>",
+        "sessionFormatVersion": 4,
+        "throughSeq": 38
+      }
+    },
+    {
+      "type": "assistant/message",
+      "seq": 40,
+      "time": 1790733738473,
+      "data": {
+        "turn": 1,
+        "step": 4,
+        "message": {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "reasoning",
+              "text": "<text:529>"
+            },
+            {
+              "type": "tool-call",
+              "id": "<id>",
+              "name": "<text:4>",
+              "arguments": "<text:284>"
+            },
+            {
+              "type": "tool-call",
+              "id": "<id>",
+              "name": "<text:4>",
+              "arguments": "<text:454>"
+            }
+          ],
+          "source": {
+            "kind": "model",
+            "provider": "deepseek-account",
+            "model": "deepseek-flash",
+            "replayState": {
+              "response": {
+                "kind": "deepseek-messages",
+                "version": 1,
+                "model": "deepseek-flash"
+              },
+              "blocks": [
+                {
+                  "type": "reasoning",
+                  "signature": "<text:36>"
+                },
+                {
+                  "type": "tool-call"
+                },
+                {
+                  "type": "tool-call"
+                }
+              ]
+            }
+          },
+          "id": "<id>"
+        },
+        "usage": {
+          "inputTokens": 3347,
+          "outputTokens": 420,
+          "cacheReadTokens": 8704,
+          "cacheWriteTokens": 0,
+          "totalTokens": 12471
+        },
+        "stream": [
+          {
+            "type": "chunk",
+            "time": 1790733736644,
+            "chunk": {
+              "type": "block-start",
+              "index": 0,
+              "blockType": "<text:9>"
+            }
+          },
+          {
+            "type": "reasoning-chunks",
+            "time0": 1790733737045,
+            "index": 0,
+            "dt": [
+              43,
+              17,
+              0,
+              0,
+              9,
+              0,
+              0,
+              12,
+              0,
+              0,
+              1,
+              0,
+              13,
+              0,
+              0,
+              16,
+              0,
+              0,
+              10,
+              1,
+              0,
+              0,
+              19,
+              0,
+              0,
+              0,
+              20,
+              0,
+              1,
+              1,
+              17,
+              0,
+              0,
+              0,
+              11,
+              1,
+              0,
+              0,
+              0,
+              10,
+              0,
+              1,
+              0,
+              14,
+              0,
+              0,
+              14,
+              0,
+              15,
+              0,
+              0,
+              17,
+              1,
+              0,
+              0,
+              8,
+              15,
+              0,
+              0,
+              12,
+              0,
+              22,
+              6,
+              0,
+              14,
+              0,
+              16,
+              12,
+              0,
+              1,
+              0,
+              15,
+              0,
+              0,
+              10,
+              0,
+              16,
+              14,
+              0,
+              1,
+              0,
+              0,
+              0,
+              11,
+              0,
+              1,
+              0,
+              0,
+              0,
+              13,
+              0,
+              0,
+              15,
+              0,
+              0,
+              0,
+              16,
+              1,
+              0,
+              0,
+              0,
+              0,
+              8,
+              1,
+              0,
+              0,
+              13,
+              0,
+              0,
+              15,
+              15,
+              0,
+              0,
+              14,
+              0,
+              0,
+              0,
+              13,
+              11,
+              0,
+              14,
+              0
+            ],
+            "texts": [
+              "<text:1>",
+              "<text:2>",
+              "<text:10>",
+              "<text:4>",
+              "<text:7>",
+              "<text:7>",
+              "<text:3>",
+              "<text:7>",
+              "<text:3>",
+              "<text:4>",
+              "<text:2>",
+              "<text:3>",
+              "<text:1>",
+              "<text:4>",
+              "<text:1>",
+              "<text:8>",
+              "<text:1>",
+              "<text:3>",
+              "<text:2>",
+              "<text:2>",
+              "<text:5>",
+              "<text:3>",
+              "<text:8>",
+              "<text:3>",
+              "<text:3>",
+              "<text:5>",
+              "<text:4>",
+              "<text:5>",
+              "<text:1>",
+              "<text:7>",
+              "<text:6>",
+              "<text:5>",
+              "<text:5>",
+              "<text:5>",
+              "<text:7>",
+              "<text:1>",
+              "<text:2>",
+              "<text:7>",
+              "<text:6>",
+              "<text:3>",
+              "<text:6>",
+              "<text:2>",
+              "<text:8>",
+              "<text:3>",
+              "<text:7>",
+              "<text:2>",
+              "<text:8>",
+              "<text:3>",
+              "<text:3>",
+              "<text:4>",
+              "<text:7>",
+              "<text:6>",
+              "<text:5>",
+              "<text:3>",
+              "<text:2>",
+              "<text:12>",
+              "<text:9>",
+              "<text:10>",
+              "<text:1>",
+              "<text:5>",
+              "<text:6>",
+              "<text:4>",
+              "<text:5>",
+              "<text:2>",
+              "<text:10>",
+              "<text:3>",
+              "<text:3>",
+              "<text:2>",
+              "<text:1>",
+              "<text:2>",
+              "<text:1>",
+              "<text:2>",
+              "<text:4>",
+              "<text:3>",
+              "<text:10>",
+              "<text:4>",
+              "<text:5>",
+              "<text:2>",
+              "<text:1>",
+              "<text:2>",
+              "<text:4>",
+              "<text:4>",
+              "<text:1>",
+              "<text:4>",
+              "<text:2>",
+              "<text:1>",
+              "<text:2>",
+              "<text:4>",
+              "<text:1>",
+              "<text:8>",
+              "<text:1>",
+              "<text:3>",
+              "<text:4>",
+              "<text:3>",
+              "<text:8>",
+              "<text:4>",
+              "<text:2>",
+              "<text:1>",
+              "<text:2>",
+              "<text:1>",
+              "<text:2>",
+              "<text:1>",
+              "<text:10>",
+              "<text:10>",
+              "<text:3>",
+              "<text:11>",
+              "<text:4>",
+              "<text:4>",
+              "<text:2>",
+              "<text:2>",
+              "<text:5>",
+              "<text:3>",
+              "<text:10>",
+              "<text:4>",
+              "<text:8>",
+              "<text:6>",
+              "<text:2>",
+              "<text:2>",
+              "<text:9>",
+              "<text:7>",
+              "<text:9>",
+              "<text:10>",
+              "<text:1>"
+            ]
+          },
+          {
+            "type": "chunk",
+            "time": 1790733737659,
+            "chunk": {
+              "type": "block-end",
+              "index": 0,
+              "block": {
+                "type": "reasoning",
+                "text": "<text:529>"
+              }
+            }
+          },
+          {
+            "type": "chunk",
+            "time": 1790733737659,
+            "chunk": {
+              "type": "block-start",
+              "index": 1,
+              "blockType": "<text:9>"
+            }
+          },
+          {
+            "type": "tool-call-chunks",
+            "time0": 1790733737659,
+            "index": 1,
+            "dt": [],
+            "id": "<id>",
+            "name": "<text:4>",
+            "args": [
+              "<text:0>"
+            ]
+          },
+          {
+            "type": "tool-call-chunks",
+            "time0": 1790733737673,
+            "index": 1,
+            "dt": [
+              0,
+              0,
+              14,
+              0,
+              0,
+              0,
+              15,
+              0,
+              0,
+              1,
+              0,
+              0,
+              12,
+              0,
+              0,
+              15,
+              1,
+              0,
+              0,
+              0,
+              0,
+              12,
+              0,
+              0,
+              0,
+              0,
+              0,
+              19,
+              1,
+              10,
+              0,
+              0,
+              0,
+              0,
+              15,
+              0,
+              0,
+              0,
+              0,
+              1,
+              10,
+              0,
+              0,
+              0,
+              0,
+              0,
+              13,
+              1,
+              0,
+              0,
+              0,
+              0,
+              28,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              12,
+              0,
+              0,
+              0,
+              0,
+              0,
+              14,
+              0,
+              0,
+              0,
+              0,
+              0,
+              13,
+              1,
+              14,
+              0,
+              0,
+              0,
+              13,
+              0,
+              0,
+              0,
+              14,
+              0,
+              0,
+              0,
+              0,
+              13
+            ],
+            "id": "<id>",
+            "args": [
+              "<text:1>",
+              "<text:1>",
+              "<text:7>",
+              "<text:1>",
+              "<text:2>",
+              "<text:1>",
+              "<text:3>",
+              "<text:1>",
+              "<text:5>",
+              "<text:4>",
+              "<text:3>",
+              "<text:1>",
+              "<text:3>",
+              "<text:5>",
+              "<text:3>",
+              "<text:1>",
+              "<text:3>",
+              "<text:1>",
+              "<text:2>",
+              "<text:2>",
+              "<text:2>",
+              "<text:5>",
+              "<text:2>",
+              "<text:7>",
+              "<text:1>",
+              "<text:6>",
+              "<text:5>",
+              "<text:1>",
+              "<text:4>",
+              "<text:1>",
+              "<text:5>",
+              "<text:3>",
+              "<text:3>",
+              "<text:9>",
+              "<text:3>",
+              "<text:4>",
+              "<text:1>",
+              "<text:5>",
+              "<text:4>",
+              "<text:3>",
+              "<text:1>",
+              "<text:3>",
+              "<text:5>",
+              "<text:3>",
+              "<text:1>",
+              "<text:3>",
+              "<text:1>",
+              "<text:2>",
+              "<text:2>",
+              "<text:4>",
+              "<text:4>",
+              "<text:2>",
+              "<text:2>",
+              "<text:5>",
+              "<text:2>",
+              "<text:3>",
+              "<text:4>",
+              "<text:2>",
+              "<text:5>",
+              "<text:1>",
+              "<text:1>",
+              "<text:2>",
+              "<text:7>",
+              "<text:1>",
+              "<text:6>",
+              "<text:5>",
+              "<text:1>",
+              "<text:4>",
+              "<text:1>",
+              "<text:4>",
+              "<text:4>",
+              "<text:2>",
+              "<text:7>",
+              "<text:1>",
+              "<text:5>",
+              "<text:2>",
+              "<text:4>",
+              "<text:4>",
+              "<text:1>",
+              "<text:2>",
+              "<text:1>",
+              "<text:11>",
+              "<text:1>",
+              "<text:2>",
+              "<text:1>",
+              "<text:2>",
+              "<text:5>",
+              "<text:2>",
+              "<text:2>",
+              "<text:5>",
+              "<text:7>",
+              "<text:1>",
+              "<text:1>"
+            ]
+          },
+          {
+            "type": "chunk",
+            "time": 1790733737964,
+            "chunk": {
+              "type": "block-end",
+              "index": 1,
+              "block": {
+                "type": "tool-call",
+                "id": "<id>",
+                "name": "<text:4>",
+                "arguments": "<text:284>"
+              }
+            }
+          },
+          {
+            "type": "chunk",
+            "time": 1790733737965,
+            "chunk": {
+              "type": "block-start",
+              "index": 2,
+              "blockType": "<text:9>"
+            }
+          },
+          {
+            "type": "tool-call-chunks",
+            "time0": 1790733737965,
+            "index": 2,
+            "dt": [],
+            "id": "<id>",
+            "name": "<text:4>",
+            "args": [
+              "<text:0>"
+            ]
+          },
+          {
+            "type": "tool-call-chunks",
+            "time0": 1790733737978,
+            "index": 2,
+            "dt": [
+              0,
+              0,
+              0,
+              0,
+              13,
+              1,
+              0,
+              0,
+              0,
+              0,
+              15,
+              0,
+              0,
+              23,
+              0,
+              0,
+              0,
+              0,
+              6,
+              0,
+              0,
+              0,
+              0,
+              0,
+              14,
+              0,
+              0,
+              0,
+              0,
+              0,
+              13,
+              0,
+              0,
+              13,
+              0,
+              0,
+              0,
+              15,
+              0,
+              10,
+              1,
+              0,
+              0,
+              0,
+              0,
+              13,
+              0,
+              14,
+              0,
+              13,
+              1,
+              0,
+              0,
+              14,
+              0,
+              0,
+              0,
+              0,
+              64,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              3,
+              0,
+              1,
+              0,
+              0,
+              15,
+              1,
+              0,
+              0,
+              0,
+              0,
+              12,
+              0,
+              0,
+              0,
+              12,
+              13,
+              0,
+              0,
+              0,
+              1,
+              0,
+              14,
+              0,
+              0,
+              0,
+              0,
+              0,
+              27,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              11,
+              0,
+              0,
+              0,
+              0,
+              35,
+              0,
+              0,
+              0,
+              0,
+              8,
+              0,
+              82,
+              0,
+              0,
+              12,
+              0,
+              1
+            ],
+            "id": "<id>",
+            "args": [
+              "<text:1>",
+              "<text:1>",
+              "<text:7>",
+              "<text:1>",
+              "<text:2>",
+              "<text:1>",
+              "<text:3>",
+              "<text:1>",
+              "<text:5>",
+              "<text:4>",
+              "<text:3>",
+              "<text:1>",
+              "<text:3>",
+              "<text:2>",
+              "<text:2>",
+              "<text:9>",
+              "<text:2>",
+              "<text:5>",
+              "<text:2>",
+              "<text:5>",
+              "<text:6>",
+              "<text:4>",
+              "<text:5>",
+              "<text:8>",
+              "<text:2>",
+              "<text:7>",
+              "<text:1>",
+              "<text:6>",
+              "<text:5>",
+              "<text:1>",
+              "<text:5>",
+              "<text:3>",
+              "<text:3>",
+              "<text:4>",
+              "<text:4>",
+              "<text:1>",
+              "<text:3>",
+              "<text:8>",
+              "<text:2>",
+              "<text:1>",
+              "<text:3>",
+              "<text:2>",
+              "<text:3>",
+              "<text:1>",
+              "<text:3>",
+              "<text:3>",
+              "<text:5>",
+              "<text:1>",
+              "<text:3>",
+              "<text:3>",
+              "<text:5>",
+              "<text:1>",
+              "<text:3>",
+              "<text:4>",
+              "<text:5>",
+              "<text:1>",
+              "<text:3>",
+              "<text:5>",
+              "<text:3>",
+              "<text:1>",
+              "<text:2>",
+              "<text:3>",
+              "<text:5>",
+              "<text:1>",
+              "<text:3>",
+              "<text:5>",
+              "<text:3>",
+              "<text:1>",
+              "<text:2>",
+              "<text:3>",
+              "<text:5>",
+              "<text:1>",
+              "<text:3>",
+              "<text:5>",
+              "<text:3>",
+              "<text:1>",
+              "<text:2>",
+              "<text:4>",
+              "<text:5>",
+              "<text:1>",
+              "<text:3>",
+              "<text:5>",
+              "<text:3>",
+              "<text:1>",
+              "<text:2>",
+              "<text:9>",
+              "<text:4>",
+              "<text:1>",
+              "<text:3>",
+              "<text:1>",
+              "<text:4>",
+              "<text:2>",
+              "<text:3>",
+              "<text:2>",
+              "<text:1>",
+              "<text:2>",
+              "<text:5>",
+              "<text:5>",
+              "<text:2>",
+              "<text:1>",
+              "<text:3>",
+              "<text:4>",
+              "<text:1>",
+              "<text:5>",
+              "<text:4>",
+              "<text:2>",
+              "<text:1>",
+              "<text:2>",
+              "<text:5>",
+              "<text:2>",
+              "<text:5>",
+              "<text:6>",
+              "<text:4>",
+              "<text:5>",
+              "<text:8>",
+              "<text:2>",
+              "<text:7>",
+              "<text:1>",
+              "<text:6>",
+              "<text:2>",
+              "<text:5>",
+              "<text:1>",
+              "<text:2>",
+              "<text:5>",
+              "<text:2>",
+              "<text:2>",
+              "<text:1>",
+              "<text:2>",
+              "<text:1>",
+              "<text:11>",
+              "<text:1>",
+              "<text:2>",
+              "<text:1>",
+              "<text:6>",
+              "<text:4>",
+              "<text:7>",
+              "<text:6>",
+              "<text:4>",
+              "<text:1>",
+              "<text:1>"
+            ]
+          },
+          {
+            "type": "chunk",
+            "time": 1790733738472,
+            "chunk": {
+              "type": "block-end",
+              "index": 2,
+              "block": {
+                "type": "tool-call",
+                "id": "<id>",
+                "name": "<text:4>",
+                "arguments": "<text:454>"
+              }
+            }
+          },
+          {
+            "type": "chunk",
+            "time": 1790733738472,
+            "chunk": {
+              "type": "usage",
+              "usage": {
+                "inputTokens": 3347,
+                "outputTokens": 420,
+                "cacheReadTokens": 8704,
+                "cacheWriteTokens": 0,
+                "totalTokens": 12471
+              }
+            }
+          },
+          {
+            "type": "chunk",
+            "time": 1790733738472,
+            "chunk": {
+              "type": "finish",
+              "reason": {
+                "kind": "tool-calls"
+              },
+              "replayState": {
+                "response": {
+                  "kind": "deepseek-messages",
+                  "version": 1,
+                  "model": "deepseek-flash"
+                },
+                "blocks": [
+                  {
+                    "type": "reasoning",
+                    "signature": "<text:36>"
+                  },
+                  {
+                    "type": "tool-call"
+                  },
+                  {
+                    "type": "tool-call"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "surfaceOp": "append"
+    },
+    {
+      "type": "tool/call",
+      "seq": 41,
+      "time": 1790733738474,
+      "data": {
+        "turn": 1,
+        "step": 4,
+        "callId": "<id>",
+        "name": "<text:4>",
+        "arguments": "<text:284>"
+      }
+    },
+    {
+      "type": "tool/result",
+      "seq": 42,
+      "time": 1790733739316,
+      "data": {
+        "turn": 1,
+        "step": 4,
+        "message": {
+          "role": "tool",
+          "source": {
+            "kind": "tool",
+            "callId": "<id>"
+          },
+          "toolCallId": "<id>",
+          "content": [
+            {
+              "type": "text",
+              "text": "<text:789>"
+            }
+          ],
+          "isError": false,
+          "id": "<id>"
+        }
+      },
+      "sourceEventSeqs": [
+        41
+      ],
+      "surfaceOp": "append"
+    },
+    {
+      "type": "step/end",
+      "seq": 45,
+      "time": 1790733740173,
+      "data": {
+        "turn": 1,
+        "step": 4
+      }
+    },
+    {
+      "type": "step/start",
+      "seq": 46,
+      "time": 1790733740191,
+      "data": {
+        "turn": 1,
+        "step": 5
+      }
+    },
+    {
+      "type": "session-log-deepseek/delivery-accepted",
+      "seq": 47,
+      "time": 1790733740469,
+      "data": {
+        "sessionId": "<id>",
+        "sessionFormatVersion": 4,
+        "throughSeq": 46
+      }
+    },
+    {
+      "type": "subagent/catalog",
+      "seq": 471,
+      "time": 1790734472840,
+      "data": {
+        "version": 0,
+        "childId": "<id>",
+        "childCreatedAt": 1790734472799,
+        "mode": "continuable",
+        "label": "<text:29>"
+      }
+    },
+    {
+      "type": "subagent/catalog",
+      "seq": 473,
+      "time": 1790734472854,
+      "data": {
+        "version": 0,
+        "childId": "<id>",
+        "childCreatedAt": 1790734472801,
+        "mode": "continuable",
+        "label": "<text:34>"
+      }
+    },
+    {
+      "type": "agent/inbox/spliced",
+      "seq": 738,
+      "time": 1790734586692,
+      "data": {
+        "target": "<text:9>",
+        "start": 0,
+        "inserted": [
+          {
+            "content": [
+              {
+                "type": "text",
+                "text": "<text:59>"
+              },
+              {
+                "type": "text",
+                "text": "<text:13074>"
+              }
+            ],
+            "source": {
+              "kind": "agent-message",
+              "form": "relay",
+              "senderSessionId": "<id>"
+            },
+            "role": "user",
+            "id": "<id>"
+          }
+        ]
+      }
+    },
+    {
+      "type": "user/message",
+      "seq": 745,
+      "time": 1790734588605,
+      "data": {
+        "content": [
+          {
+            "type": "text",
+            "text": "<text:59>"
+          },
+          {
+            "type": "text",
+            "text": "<text:13074>"
+          }
+        ],
+        "source": {
+          "kind": "agent-message",
+          "form": "relay",
+          "senderSessionId": "<id>"
+        },
+        "role": "user",
+        "id": "<id>"
+      },
+      "surfaceOp": "append"
+    },
+    {
+      "type": "user/message",
+      "seq": 766,
+      "time": 1790734594971,
+      "data": {
+        "content": [
+          {
+            "type": "text",
+            "text": "<text:59>"
+          },
+          {
+            "type": "text",
+            "text": "<text:13749>"
+          }
+        ],
+        "source": {
+          "kind": "agent-message",
+          "form": "relay",
+          "senderSessionId": "<id>"
+        },
+        "role": "user",
+        "id": "<id>"
+      },
+      "surfaceOp": "append"
+    },
+    {
+      "type": "workspace/changes",
+      "seq": 911,
+      "time": 1790734683295,
+      "data": {
+        "turn": 1
+      }
+    },
+    {
+      "type": "turn/end",
+      "seq": 912,
+      "time": 1790734683297,
+      "data": {
+        "turn": 1,
+        "reason": {
+          "kind": "completed"
+        }
+      }
+    },
+    {
+      "type": "turn/start",
+      "seq": 914,
+      "time": 1790735297905,
+      "data": {
+        "turn": 2
+      }
+    },
+    {
+      "type": "turn/end",
+      "seq": 988,
+      "time": 1790735355013,
+      "data": {
+        "turn": 2,
+        "reason": {
+          "kind": "completed"
+        }
+      }
+    }
+  ]
+}

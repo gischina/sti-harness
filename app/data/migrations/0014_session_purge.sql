@@ -1,0 +1,24 @@
+-- ---------------------------------------------------------------------------
+-- 0014 · 会话清理定时任务（全量体检抓出的长期泄漏）
+--
+-- 为什么需要：
+--   `auth_sessions` 每次登录写一行、每次登出改一行，但**从没有任何东西清理它** ——
+--   `authSessions.purgeStale()` 自写下那天起就没有调用点，调度器 0009 的任务白名单里
+--   也没有"清会话"这一项。结果是过期/已吊销的会话记录**只增不减**：单机长期运行
+--   是磁盘与查询的双重慢速泄漏。
+--   本版本新增执行体 `session.purge`（见 app/platform/schedule/tasks.mjs 的 TASK_DEFAULTS），
+--   由组织建立时播种为每日任务（dailyAt:04:10 UTC），并只清**本组织**的记录
+--   （`auth_sessions` 无 tenant_id，经 `users.org_id` 反查收窄）。
+--
+-- 只增不改（迁移纪律）：
+--   · **不新建表** —— 会话清理是"删旧行"，不需要新结构。
+--   · 只补一个索引，让清理谓词里的 `created_at < cutoff` 不至于全表扫。
+--   · `scheduled_jobs.kind` 的白名单在**代码侧**（tasks.mjs），新 kind 无需改列定义；
+--     0009 注释里的 kind 列表是"截至 0009 时点"的记录，**不回改**（迁移不可改）。
+--
+-- Copyright 2026 liwei（易智瑞西安）.
+-- ---------------------------------------------------------------------------
+
+-- 清理谓词：WHERE (revoked_at IS NOT NULL OR expires_at < ?) AND created_at < ?
+-- `created_at` 上的索引把"保留期之内"的行率先排除，其余再用 OR 条件过滤。
+CREATE INDEX IF NOT EXISTS idx_auth_sessions_created ON auth_sessions(created_at);

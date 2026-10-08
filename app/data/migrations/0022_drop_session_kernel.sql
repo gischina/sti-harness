@@ -1,0 +1,12 @@
+-- 0022：删掉 agent_sessions.kernel 列。
+--
+-- 这一列记的是"这个会话建在哪一种内核上"，取值只有 'dsh' 与 'mock' 两种
+-- （0001_init.sql 里 `kernel TEXT NOT NULL DEFAULT 'dsh'`）。
+--
+-- 0.21.4 起内核只有"接入了 / 没接入"两种状态，也没有内置内核可以降级 ——
+-- 于是这列**没有任何取值可填**，它记录的正是被删掉的那套概念。
+-- 保留一个只能填历史模式名的 NOT NULL 列，会让后来读 schema 的人以为
+-- 平台还支持切换内核种类。
+--
+-- 会话与上游的绑定关系仍在 `kernel_session_id` 里，不受影响。
+ALTER TABLE agent_sessions DROP COLUMN kernel;

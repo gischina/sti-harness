@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>STI HARNESS · 企业级时空智能体生产平台</title>
+<link rel="stylesheet" href="./style.css">
+<!-- 首屏引导（上色 + file:// 兜底）走外链：CSP 的 script-src 已不含 'unsafe-inline'，
+     写在 HTML 里的内联脚本会被整段拒绝执行。详见 public/boot.js 顶部说明。 -->
+<script src="./boot.js"></script>
+</head>
+<body>
+<div id="app">
+  <noscript>本控制台需要 JavaScript。请启用后刷新。</noscript>
+</div>
+<!-- 前端按域拆成多片，**顺序加载**（经典脚本，非 ES module —— 共享同一个全局作用域，
+     彼此可直接引用，零构建）。⚠️ 这里的顺序就是依赖顺序：后面的片直接引用前面片里的
+     const / function。新增分片必须以**按依赖插入**为准，而不是按文件名字母序。 -->
+<script src="./app/10-routes.js"></script>
+<script src="./app/15-dialog.js"></script>
+<script src="./app/20-state.js"></script>
+<script src="./app/30-util.js"></script>
+<script src="./app/40-delegate.js"></script>
+<script src="./app/50-boot.js"></script>
+<script src="./app/60-page-platform.js"></script>
+<script src="./app/61-page-identity.js"></script>
+<script src="./app/62-page-org.js"></script>
+<script src="./app/63-page-knowledge.js"></script>
+<script src="./app/70-app.js"></script>
+<script src="./app/71-app-workbench.js"></script>
+<script src="./app/79-wb-render.js"></script>
+<script src="./app/80-pages-governance.js"></script>
+<script src="./app/81-pages-capability.js"></script>
+<script src="./app/82-pages-model.js"></script>
+<script src="./app/83-pages-ops.js"></script>
+<script src="./app/84-workbench.js"></script>
+<script src="./app/90-start.js"></script>
+</body>
+</html>
