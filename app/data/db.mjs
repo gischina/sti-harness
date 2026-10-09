@@ -9,7 +9,7 @@
  * 补充纪律：只用**稳定的 SQL 子集**（普通表、FTS5、json1、BLOB、WAL），
  * 不用任何近期新增的实验性 API。详见 docs/architecture.md §8。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import fs from 'node:fs';
 import { DatabaseSync } from 'node:sqlite';

@@ -8,7 +8,7 @@
  *
  * 落库字段是**语义字段名**（input_tokens 等），不是上游原名。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { run, all, get, tx } from '../db.mjs';
 import { newId, nowIso } from '../../util/ids.mjs';

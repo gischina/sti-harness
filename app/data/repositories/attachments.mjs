@@ -9,7 +9,7 @@
  * 这一层只管元数据；字节落盘/读取在路由层做（见 app/http/routes/kernel.mjs），
  * 因为"存到哪、叫什么名"属于运行时信息（paths.mjs），不属于数据层。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { run, all, get } from '../db.mjs';
 import { newId, nowIso } from '../../util/ids.mjs';

@@ -15,7 +15,7 @@
  *    下一个改动者很可能顺手把某个**外部输入**传进来。白名单让"传了没登记的表/列"
  *    直接抛错，把潜在注入挡在开发期，而不是留到生产。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { get } from '../db.mjs';
 

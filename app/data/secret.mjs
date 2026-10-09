@@ -8,7 +8,7 @@
  *   · 备份策略必须包含这个文件（docs/deploy.md 里写明）；
  *   · 绝不进入分发包（tools/make-dist.mjs 会排除）。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import fs from 'node:fs';
 import crypto from 'node:crypto';

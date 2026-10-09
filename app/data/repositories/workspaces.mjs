@@ -14,7 +14,7 @@
  * 由服务层维持：`ensureDefaultWorkspace` 播种时设，`updateWorkspace` /
  * `deleteWorkspace` 拦。理由见 0024 头注释末段 —— 业务规则留在可读可测的那一层。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { run, all, get } from '../db.mjs';
 import { newId, nowIso } from '../../util/ids.mjs';

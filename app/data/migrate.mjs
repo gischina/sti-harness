@@ -7,7 +7,7 @@
  *     （意味着有人往中间插了一个迁移，或回退了代码但没回退数据）。
  *  3. **单事务应用**：一个迁移文件整体成功或整体回滚，不留半成品。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import fs from 'node:fs';
 import path from 'node:path';

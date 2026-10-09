@@ -4,7 +4,7 @@
  * 纪律：**所有查询强制带 tenant_id 过滤**（仓储层统一注入，调用方无法绕过）。
  * 这是逻辑多租户隔离的第一道也是最关键的一道闸门。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { run, all, get } from '../db.mjs';
 import { newId, nowIso } from '../../util/ids.mjs';
