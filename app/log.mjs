@@ -10,7 +10,7 @@
  *     保留最近若干份（默认 5），旧的最末份删除 —— 长期运行日志不再无界增长；
  *   · 文件流懒初始化（本模块被 import 得很早，数据目录此时可能还没建）。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import fs from 'node:fs';
 import path from 'node:path';

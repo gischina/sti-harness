@@ -4,7 +4,7 @@
  * 账号名在**所有读写处统一规范化**（trim + 小写），与旧内存 Map 的 key
  * 口径一致；调用方传原始大小写也能命中同一行。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { run, get } from '../../../data/db.mjs';
 import { nowIso } from '../../../util/ids.mjs';

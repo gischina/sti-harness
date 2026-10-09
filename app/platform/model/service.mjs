@@ -23,7 +23,7 @@
  *   · **密钥永不回显**。表里存的是凭据**名称**，探活时按名去取、解密、
  *     只用在这一次 fetch 上；响应与日志里不出现值。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { run, all, tx } from '../../data/db.mjs';
 import { newId, nowIso } from '../../util/ids.mjs';

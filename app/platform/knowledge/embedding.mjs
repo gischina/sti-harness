@@ -14,7 +14,7 @@
  *  3. **向量在出口处 L2 归一化**。这样余弦相似度就等于点积，检索循环里少一次开方，
  *     也避免不同 provider 的向量尺度差异影响 RRF 融合。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 export const EMBED_MODES = ['openai-compat', 'ollama', 'none'];
 

@@ -8,7 +8,7 @@
  *  2. **前端文件缺失**：只拷了 app/ 忘了 public/ 是最常见的部署事故，
  *     首页给一段可操作的说明，而不是一句 not found。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import fs from 'node:fs';
 import path from 'node:path';

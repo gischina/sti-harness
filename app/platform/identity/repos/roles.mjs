@@ -9,7 +9,7 @@
  * ⚠️ `roles` 的 `UNIQUE (org_id, key)` 在 SQLite 里对 NULL org_id 不生效
  * （NULL 不参与唯一约束）—— 全局角色（org_id IS NULL）的冲突由本文件保证。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { run, all, get } from '../../../data/db.mjs';
 import { newId, nowIso } from '../../../util/ids.mjs';

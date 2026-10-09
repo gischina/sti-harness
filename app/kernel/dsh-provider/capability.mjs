@@ -6,7 +6,7 @@
  *   · **绝不**用上一次的快照冒充本次结果；
  *   · 解析是「尽力而为」，因此所有结果都带 `tolerant:true`，不声称完全准确。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import fs from 'node:fs';
 import path from 'node:path';

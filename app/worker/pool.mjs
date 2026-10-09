@@ -13,7 +13,7 @@
  *  5. **拿不到线程就诚实降级**：内联执行同一份 `runIngestJob`，并在状态里
  *     标注 `mode:'inline'` 与原因 —— 而不是假装线程在工作。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { Worker } from 'node:worker_threads';
 import { runIngestJob } from '../platform/knowledge/ingest-job.mjs';

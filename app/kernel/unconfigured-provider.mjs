@@ -17,7 +17,7 @@
  * `{items: []}`）。那会让"没接入内核"和"接入了但确实没有会话"变得无法区分，
  * 正是被删掉的那个 mock 降级犯的错。做不到就如实抛错。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { CONTRACT_VERSION } from './contract.mjs';
 

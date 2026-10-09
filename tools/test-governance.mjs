@@ -10,7 +10,7 @@
  * 自包含：临时数据目录 + 随机端口 + 测试替身，不依赖本机服务、不碰真实 data/。
  * 用法：node tools/test-governance.mjs   末行输出 `DONE fails=0`。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import fs from 'node:fs';
 import os from 'node:os';

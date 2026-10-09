@@ -10,7 +10,7 @@
  *
  * 同时保留对**其他**警告的透传 —— 只收敛 SQLite 这一条，不影响别的诊断信息。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 const prior = process.listeners('warning');
 process.removeAllListeners('warning');

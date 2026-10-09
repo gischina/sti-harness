@@ -6,7 +6,7 @@
  * 所以它们的仓库一律 `JOIN knowledge_bases` 来过滤租户 —— 这是故意的：
  * 让「忘记加租户条件」在 SQL 层面就写不出来，而不是靠人记得。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { run, all, get, tx } from '../../../data/db.mjs';
 import { newId, nowIso } from '../../../util/ids.mjs';

@@ -24,7 +24,7 @@
  *      （需要一个租约表），而不是"加个开关"就能用。这条写在这里，防止有人
  *      以为它可以横向扩。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { run, all } from '../../data/db.mjs';
 import { newId, nowIso } from '../../util/ids.mjs';

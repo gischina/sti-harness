@@ -31,7 +31,7 @@
  * 看见数据"。纯函数才能把"租户 / 受限 / 授权 / 管理员 / 角色档位"这些维度
  * **穷举**成表驱动的测试，而不是靠读代码推。查询职责留给调用方。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { can } from '../identity/permissions.mjs';
 

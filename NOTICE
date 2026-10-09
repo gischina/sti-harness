@@ -1,8 +1,21 @@
 STI HARNESS
-Copyright 2026 liwei（易智瑞西安）
+Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>
 
 本产品包含由 liwei（易智瑞西安）开发的原创工作，按 Apache License 2.0 授权发布
 （许可证全文见同目录 LICENSE 文件）。
+
+作者与联系方式
+  · 作者    liwei（易智瑞西安）
+  · 邮箱    liwei@geoscene.cn
+  · 项目    https://github.com/gischina/sti-harness
+
+许可
+  本产品按 **Apache License 2.0** 授权发布。要点（**以 LICENSE 全文为准**，此处仅为摘要）：
+  · 可自由使用、修改、分发（含商业用途），须保留版权与许可声明；
+  · 分发修改版时须标注被修改的文件（Apache-2.0 §4(b)）；
+  · 本产品**不提供任何担保**（§7），作者不对使用后果承担责任；
+  · 本产品含原创工作，**不含**任何外部项目的代码（见下方说明第 2 条），
+    因此不引入外部许可的传染性。
 
 --------------------------------------------------------------------------
 第三方与参考来源说明（attribution / provenance）

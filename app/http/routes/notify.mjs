@@ -11,7 +11,7 @@
  * （钉钉/企微机器人的 `?access_token=` 就是典型），它等价于一个密钥。
  * service 层的 `shape()` 只给 host，路由层不再做二次拼接。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { readJsonBody } from '../context.mjs';
 // 横切件（auditOf / unwrap）单点在 _shared.mjs —— 三条路由曾各留一份逐字拷贝（体检 §A1-#1/#2）。

@@ -11,7 +11,7 @@
  * 表格处理：首行若全为 `<th>`，则后续行渲染成 `列名：值` —— 让
  * 「按列名检索」也能命中，而不是把一行裸值拼在一起。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { decodeEntities, normSpace } from './util.mjs';
 

@@ -1,5 +1,5 @@
 /* STI HARNESS 前端 · App 对象：动作层（数据加载与写操作）
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  *
  * ⚠️ 这里只放"列表页 / 表单页"的动作。**对话工作台**的动作（会话选择、附件、流式回合、
  * 引用回溯 —— 25 个 `wb*` 方法）已按域拆到 `71-app-workbench.js`，由该片 `Object.assign`

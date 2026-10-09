@@ -16,7 +16,7 @@
  *   · 文本侧同理：`fts5-bigram` 是唯一实现；它没有"换索引"的现实诉求，
  *     所以这一层对文本侧更多是**接口对称**，而不是待替换点。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { searchFts, searchFtsIds } from './fts.mjs';
 import { searchVector, SAFE_IN_LIMIT } from './vector.mjs';

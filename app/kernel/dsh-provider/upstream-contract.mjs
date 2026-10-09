@@ -25,7 +25,7 @@
  * `node tools/snapshot-upstream-contract.mjs` 即可看出差异。
  * 快照只记录**包内相对路径**，不写绝对路径（可移植、不泄漏本机目录结构）。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import fs from 'node:fs';
 import path from 'node:path';

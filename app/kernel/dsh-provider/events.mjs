@@ -49,7 +49,7 @@
  * `_verified` 是 `source !== 'guess'` 的简写；`eventMappingReport()` 会暴露全部，
  * 并给出「对上游日志事件类型（含插件事件）的覆盖率」——升级后覆盖率下降即上游加了新事件。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { EVENT_TYPES } from '../contract.mjs';
 import { readSnapshot } from './upstream-contract.mjs';

@@ -21,7 +21,7 @@
  *    所以这不是失真，而是事实。但如果将来真上了多实例，这个模块必须整体重写
  *    （需要一个共享租约），而不是加个开关。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 
 /** key(`tenantId|userId`) → 在途回合数 */

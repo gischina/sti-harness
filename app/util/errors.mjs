@@ -5,7 +5,7 @@
  * 写 try/catch 决定回 400 还是 500。回给前端的 body 里只放 code + message 摘要，
  * 堆栈只进服务端日志（不泄漏内部结构）。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 export class AppError extends Error {
   constructor(code, message, httpStatus = 400, detail) {

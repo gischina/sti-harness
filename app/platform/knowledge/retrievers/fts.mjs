@@ -17,7 +17,7 @@
  * 隔离：SQL 里同时约束 `kb.tenant_id`（租户）与 `c.kb_id IN (...)`（库范围），
  * 并且只检索 `d.status='ready'` 的文档（解析失败的内容不得进入结果集）。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { all } from '../../../data/db.mjs';
 import { buildQueryLadder, tokenize } from '../../../util/bigram.mjs';

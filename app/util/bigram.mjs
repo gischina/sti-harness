@@ -13,7 +13,7 @@
  * 用空格分隔后交给 unicode61 索引；查询侧做同样切分再匹配。
  * 英文/数字保持原样按空格切词，两条路径互不干扰。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 
 // CJK 汉字 + 假名 + 谚文 + 兼容区

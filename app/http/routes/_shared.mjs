@@ -10,7 +10,7 @@
  * 本文件**不是**路由模块：它不导出任何 `*Routes(deps)`，`index.mjs` 也不会装配它。
  * 放在 `routes/` 下只是因为它是"路由层"的东西，跟同层其它文件放一起最好找。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { validateBody } from '../../util/validate.mjs';
 import { errors } from '../../util/errors.mjs';

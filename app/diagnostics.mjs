@@ -7,7 +7,7 @@
  * 原则：每一项都必须给出**实测**结果，而不是"应该没问题"。
  * 探测不到的一律标 `warn`/`fail` 并说明可能的影响，绝不粉饰。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import fs from 'node:fs';
 import net from 'node:net';

@@ -1,5 +1,5 @@
 /* STI HARNESS 首屏引导脚本
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  *
  * 为什么单独一个文件（而不是写在 index.html 里）：
  *   CSP 一旦去掉 `script-src 'unsafe-inline'`，HTML 里的**内联 `<script>` 会被整段拒绝执行**。

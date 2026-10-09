@@ -1,7 +1,7 @@
 @echo off
 rem ============================================================
 rem  STI Harness launcher  (double-click to run)
-rem  Copyright 2026 liwei (YiZhiRui Xi'an).
+rem  Copyright 2026 liwei (YiZhiRui Xi'an) <liwei@geoscene.cn>.
 rem
 rem  Keep this file PURE ASCII.  Non-ASCII bytes here break
 rem  cmd.exe parsing after "chcp 65001" (the parser splits lines

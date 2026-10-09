@@ -423,4 +423,4 @@ $ grep -rn "VectorIndex" app/ tools/ public/  → 0 命中
 
 ---
 
-Copyright 2026 liwei（易智瑞西安）.
+Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.

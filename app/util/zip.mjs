@@ -12,7 +12,7 @@
  * 会话日志导出远达不到）；读侧（解压）不在本文件 —— 回归里用 zlib.inflateRaw
  * 逐条解开验证，那本身就是对格式的最强断言。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import zlib from 'node:zlib';
 import fs from 'node:fs';

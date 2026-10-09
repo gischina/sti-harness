@@ -8,7 +8,7 @@
  * 因此顶栏、侧栏、标题、面包屑、权限校验全部可以从这张表推导出来，
  * 改一处不会在其他地方漂移（沿用同权利人早期作品的 ROUTES 单点定义经验）。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { errors } from '../util/errors.mjs';
 

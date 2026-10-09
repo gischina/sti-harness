@@ -10,7 +10,7 @@
  *   · 此后 /api/* 与实时流 WebSocket 的 upgrade 都必须带这个 cookie，否则 401
  *   · 反代/桥接必须替浏览器完成 token→cookie 的换取并持续携带
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import fs from 'node:fs';
 import path from 'node:path';

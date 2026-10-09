@@ -4,7 +4,7 @@
  * 它同时是「响应助手」：handler 只调 ctx.json() / ctx.text()，
  * 不直接碰 res.writeHead —— 这样错误收敛、审计收尾、统一响应头都有一个挂钩点。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import crypto from 'node:crypto';
 import { toHttpError } from '../util/errors.mjs';

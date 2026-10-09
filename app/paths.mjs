@@ -5,7 +5,7 @@
  * 所有位置都按运行时信息推导，换盘符、换目录名、换机器都不影响。
  * 唯一的例外是 `STI_DATA_DIR` 环境变量（部署者显式指定数据目录时用）。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import path from 'node:path';
 import fs from 'node:fs';

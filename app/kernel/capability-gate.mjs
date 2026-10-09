@@ -32,7 +32,7 @@
  * 判定器可选提供 `mcpVisibleForTenant / skillVisibleForTenant`；没提供时
  * 带租户的调用自动退回保守并集（如实标注 gatedBy）。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 
 /**

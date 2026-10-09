@@ -10,7 +10,7 @@
  *    `new Float32Array(buf.buffer, buf.byteOffset, buf.byteLength / 4)` ——
  *    不能 `Array.from(buf)`，那样会得到一堆 0–255 的字节，而不是浮点数。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { run, all, get, tx } from '../../../data/db.mjs';
 

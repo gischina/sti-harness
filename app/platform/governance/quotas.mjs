@@ -18,7 +18,7 @@
  *     企业最容易被"一个租户跑满并发把平台拖垮"打穿，这条闸就是补这个洞。
  *     M3 时它被如实标为未实装（`unknownMetric`），现在那个标记已经去掉了。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { run, get, all } from '../../data/db.mjs';
 import { newId, nowIso } from '../../util/ids.mjs';

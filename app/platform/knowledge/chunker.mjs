@@ -15,7 +15,7 @@
  *
  * 纯函数、不碰数据库、不碰网络 —— 因此可以被穷举测试。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { splitSentences, estimateTokens } from './parsers/util.mjs';
 

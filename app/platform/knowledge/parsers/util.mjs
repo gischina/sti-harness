@@ -7,7 +7,7 @@
  *  · `decodeEntities`：HTML 不先解实体，检索「&amp;」这类噪声会污染 bigram。
  *  · `stripBom`：Windows 记事本存的 UTF-8 带 BOM，不剥掉会让第一个标题认不出来。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { isCjk } from '../../../util/bigram.mjs';
 

@@ -26,7 +26,7 @@
  *   · **工作区不是上游实体** —— 上游没有工作区 RPC，本服务从不向上游同步；
  *   · **档位是平台自己的访问档** —— 不是上游 permission/preset（那是另一码事，别混）。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import * as wsRepo from '../../data/repositories/workspaces.mjs';
 import * as sessions from '../../data/repositories/sessions.mjs';

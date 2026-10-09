@@ -5,7 +5,7 @@
  * `audit_logs` 等都以 org 的 id 作为 tenant）。本文件的读写函数都要求显式传 orgId，
  * 不做"取全部"的接口 —— 从接口形状上杜绝跨租户误用。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { run, all, get } from '../../../data/db.mjs';
 import { newId, nowIso } from '../../../util/ids.mjs';

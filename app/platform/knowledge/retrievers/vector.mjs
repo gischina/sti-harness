@@ -19,7 +19,7 @@
  * 隔离：候选集的 SQL 同时约束 `kb.tenant_id` 与 `c.kb_id IN (...)`，
  * 与 FTS 路径**各写一遍各自的过滤条件**（两条路径都必须独立可信，不共用中间结果）。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { all } from '../../../data/db.mjs';
 import { blobToVec } from '../repos/chunks.mjs';

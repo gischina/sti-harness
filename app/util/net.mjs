@@ -9,7 +9,7 @@
  *   · 但这两个头**客户端可随意伪造**。所以默认一律不采信，
  *     只有部署者确认"前面确实有自己配的反代"并显式打开 trustProxy 时才读。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 
 /** 去掉 IPv6 zone id（fe80::1%eth0），并把 IPv4-mapped 地址（::ffff:1.2.3.4）还原成 IPv4 */

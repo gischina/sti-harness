@@ -26,7 +26,7 @@
  *
  * 末行输出 `DONE fails=N`。本机没有会话日志 → SKIP（明确说明，不伪装成成功）。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import '../app/util/quiet-warnings.mjs';
 import fs from 'node:fs';

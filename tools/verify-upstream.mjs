@@ -31,7 +31,7 @@
  *
  * 末行输出 `DONE fails=N`。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import '../app/util/quiet-warnings.mjs';
 import fs from 'node:fs';

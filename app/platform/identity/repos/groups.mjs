@@ -9,7 +9,7 @@
  *   · `bindRole`（在 roles.mjs）校验组的 org 与角色的 org 相同（不能借别家的角色）。
  * 这两条合起来，组就不可能成为跨租户提权的跳板。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { run, all, get } from '../../../data/db.mjs';
 import { newId, nowIso } from '../../../util/ids.mjs';

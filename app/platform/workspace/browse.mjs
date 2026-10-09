@@ -30,7 +30,7 @@
  *        readdir 抛都是"这个位置没有你要的目录"。同一个原因给出两个状态码是最难查的
  *        一类不一致（`xxx/VERSION/..` 与 `xxx/VERSION` 会分别走这两条路）。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import fs from 'node:fs';
 import path from 'node:path';

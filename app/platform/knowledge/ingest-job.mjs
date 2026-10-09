@@ -10,7 +10,7 @@
  * 理由是「向量服务临时不可用」不该导致资料进不了库（那样更糟）。
  * 但失败原因会如实记在文档告警与知识库状态里，不静默吞掉。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { parseDocument } from './parsers/index.mjs';
 import { chunkBlocks, DEFAULT_OPTIONS } from './chunker.mjs';

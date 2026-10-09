@@ -7,7 +7,7 @@
  *   2. selectKernel（有地址就用上游内核，没地址就用"未接入"占位 —— 没有第三种可能）；
  *   3. 给 provider 套能力闸（停用/deny 的工具与 Skill 在契约层立即消失）。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { log } from '../log.mjs';
 import { loadConfig } from '../config.mjs';

@@ -13,7 +13,7 @@
  * ⚠️ 本文件在 `app/kernel/` 根下（`tools/audit-layering.mjs` 的豁免范围），
  * 因此这里可以直呼上游的运维变量名 —— 但**产品层与前端不行**，前端一律从接口拿文案。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { parseDshOrigin } from '../config.mjs';
 

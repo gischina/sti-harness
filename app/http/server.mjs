@@ -9,7 +9,7 @@
  *   已接入内核时，/api/* 的 upgrade 桥到上游（透明字节管道）；
  *   未接入时不注册，浏览器连接失败即显示"实时流不可用"——这是真实结果。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import http from 'node:http';
 import { createRouter } from './router.mjs';

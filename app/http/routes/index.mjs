@@ -7,7 +7,7 @@
  *   · 让 `/api/system/routes` 一眼看出"哪些接口还没做、什么时候做"，
  *     比一个 404 页面对使用者友好得多，也杜绝了"以为做了其实没做"。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { systemRoutes } from './system.mjs';
 import { kernelRoutes } from './kernel.mjs';

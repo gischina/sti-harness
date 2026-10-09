@@ -20,7 +20,7 @@
  *   · 内容扫描：app/ 与 public/ 的源码里不得出现"像真实凭据的字符串"
  *     （cipher 块格式 / 长度可疑的硬编码 token）。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import fs from 'node:fs';
 import path from 'node:path';

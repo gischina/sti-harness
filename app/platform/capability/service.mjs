@@ -14,7 +14,7 @@
  *   · 健康探测是**真实探测**：http/sse 做 TCP 连接尝试，stdio 检查命令可执行性；
  *     探不了就如实说探不了 —— health 停在 unknown 并写明原因，绝不假装 ok。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import net from 'node:net';
 import fs from 'node:fs';

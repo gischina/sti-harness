@@ -12,7 +12,7 @@
  *   2. **挑战消费/计数同样用条件 UPDATE**：`useAttempt` 只在还有次数时 +1、
  *      `consume` 只消费未消费的 —— 把"一次性"落实在 SQL 条件里，而不是调用的自觉。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { run, all, get, tx } from '../../../data/db.mjs';
 import { nowIso, newId } from '../../../util/ids.mjs';

@@ -20,7 +20,7 @@
  *   · 计费输入 = `input` + `cache_read` + `cache_write`（`input` 的语义是"未缓存输入"）；
  *   · `reasoning` 是 `output` 的**子集**，不另计（`contract.mjs` 顶部注释）。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { all } from '../../data/db.mjs';
 

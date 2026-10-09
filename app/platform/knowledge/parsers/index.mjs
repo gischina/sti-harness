@@ -6,7 +6,7 @@
  * `application/vnd.ms-excel`（历史遗留）—— 只看 mime 会把 Markdown 当纯文本、
  * 把 CSV 当 Excel 二进制。扩展名是用户自己起的，更可信。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { parseText, looksLikeMarkdown } from './text.mjs';
 import { parseCsv } from './csv.mjs';

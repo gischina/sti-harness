@@ -36,7 +36,7 @@
  *   node tools/seal-kernel-token.mjs --apply         # 执行并校验
  *   node tools/seal-kernel-token.mjs --apply --force # 跳过确认（脚本化场景）
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import fs from 'node:fs';
 import path from 'node:path';

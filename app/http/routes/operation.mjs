@@ -10,7 +10,7 @@
  * 用 `tools/restore-backup.mjs`（停机 → 恢复 → 校验 → 再启动）。
  * HTTP 提供的是：创建备份（在线、VACUUM INTO 一致性快照）与备份文件校验。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { readJsonBody } from '../context.mjs';
 

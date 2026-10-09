@@ -8,7 +8,7 @@
  * 路径是工具自己报出来的：工具不说谎它就在，工具不报它就记不到 —— 这个边界写在这，
  * 不在文档里藏。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { run, all, get } from '../../data/db.mjs';
 import { newId, nowIso } from '../../util/ids.mjs';

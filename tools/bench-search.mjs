@@ -33,7 +33,7 @@
  *
  * 末行输出 `DONE fails=N`（与其它回归脚本一致；有基准断言不达标才算 fails）。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';

@@ -2000,4 +2000,4 @@ null      → 取消，整件事别做
 
 ---
 
-Copyright 2026 liwei（易智瑞西安）.
+Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.

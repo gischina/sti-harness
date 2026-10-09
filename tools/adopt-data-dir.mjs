@@ -21,7 +21,7 @@
  *  2. **绝不覆盖**。规范名文件已存在 → 直接拒绝（与 `backup.mjs` 的防误覆盖同款）。
  *  3. **不猜**。目录里若同时存在多个候选，报"无法判定"并列出它们，不挑一个。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import fs from 'node:fs';
 import path from 'node:path';

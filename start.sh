@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ============================================================
 #  STI Harness 启动器（Linux / macOS）
-#  Copyright 2026 liwei（易智瑞西安）.
+#  Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
 #
 #  与 start.cmd 等价。Node 版本门禁由 app/main.mjs 内部再次执行，
 #  这里的检查只是为了更早、更友好地报错。

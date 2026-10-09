@@ -26,7 +26,7 @@
  * provider 默认拒绝调用 verified:false 的方法（除非 STI_ALLOW_UNVERIFIED=1），
  * 以免"看着能跑、实际静默错误"。核实办法见文件末尾 note。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 export const COMPAT_VERSION = '0.1.5-rc.2';
 

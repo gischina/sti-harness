@@ -40,7 +40,7 @@
  *      问题不存在。⚠️ 注意别把它与上面两条混为一谈 —— 审批与产物是**真的能从事件流
  *      取到**（所以标 stream-sourced），工具清单是**取不到也不该取**（所以删除）。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 
 export const COMPAT_VERSION = '0.2.0-rc.2';

@@ -19,7 +19,7 @@
  * 从"全局"细化到"逐库"：成员可以在**被授权的库**上写（若被授了相应角色），
  * 但默认仍写不了未授权的库。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { readJsonBody } from '../context.mjs';
 import { errors } from '../../util/errors.mjs';

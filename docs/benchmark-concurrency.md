@@ -6,7 +6,7 @@
 > 它回答的是 `docs/assessment-0.11.0.md` §B11 指出的那个**此前一直是空的**数字：
 > 「**能扛多少并发用户**」。此前全项目只有 `benchmark.md` 的**串行**检索延迟 —— 那不是并发吞吐。
 >
-> Copyright 2026 liwei（易智瑞西安）.
+> Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
 
 ---
 
@@ -319,4 +319,4 @@ ELag 大意味着**连最简单的健康检查都会变慢**，因为同步 SQLi
 
 ---
 
-Copyright 2026 liwei（易智瑞西安）.
+Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.

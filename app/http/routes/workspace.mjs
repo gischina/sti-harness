@@ -13,7 +13,7 @@
  *   **上游 dsh 自己有一份工作区权限三档**，平台这份是第二份真相，而平台没有接口
  *   去改上游那一份 —— 两边永远对不上。整块删除，理由详见迁移 0023 的头注释。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { readJsonBody } from '../context.mjs';
 import { requireBody } from './_shared.mjs';

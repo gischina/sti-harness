@@ -26,7 +26,7 @@
  *
  * ⚠️ 主密钥丢失 = 已存凭据不可解密，没有任何后门。备份必须包含 `data/.secret`。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import crypto from 'node:crypto';
 import { AppError } from '../../util/errors.mjs';

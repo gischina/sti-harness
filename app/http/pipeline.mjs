@@ -8,7 +8,7 @@
  *
  * 顺序即执行顺序；任一中间件返回 'stop' 则终止（它自己负责已写出响应）。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { createMiddlewareRegistry } from './middleware/registry.mjs';
 import * as metrics from '../platform/observe/metrics.mjs';

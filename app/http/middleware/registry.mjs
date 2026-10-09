@@ -8,7 +8,7 @@
  * 自 M3 起链上**没有占位项**：`x-sti-passthrough` 响应头不应再出现
  * （回归里有断言钉着 —— 它若出现，说明有中间件退化成了占位）。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { createAuthMiddleware } from './auth.mjs';
 import { createTenantMiddleware } from './tenant.mjs';

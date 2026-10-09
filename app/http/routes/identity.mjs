@@ -8,7 +8,7 @@
  * 鉴权不在 handler 里写：`scope` 已经在路由表上声明，`auth`/`tenant`/`rbac`
  * 三个中间件会按声明执行。handler 能拿到的 `ctx.user` 一定是已认证的身份。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { readJsonBody } from '../context.mjs';
 import { matrixFor, describePermissions, ROLE_KEYS, ROLE_MATRIX } from '../../platform/identity/permissions.mjs';

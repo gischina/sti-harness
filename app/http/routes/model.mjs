@@ -10,7 +10,7 @@
  * 探活要求 `model:write` 而非 read —— 它会**真的发一次最小请求并产生用量**，
  * 是"有副作用的动作"，不是只读查询。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { readJsonBody } from '../context.mjs';
 import { errors } from '../../util/errors.mjs';

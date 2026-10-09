@@ -9,7 +9,7 @@
  *   · 标准 JSON（对象/数组/标量）
  *   · JSON Lines（每行一个 JSON，常见于日志/导出）—— 整体解析失败时自动尝试
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { stripBom, normSpace } from './util.mjs';
 

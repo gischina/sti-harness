@@ -5,7 +5,7 @@
  * 是两回事：本文件管的是 **登录会话**（`auth_sessions`）。命名上刻意用 `authSessions`
  * 区分，避免调用方搞混。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { run, all, get } from '../../../data/db.mjs';
 import { nowIso } from '../../../util/ids.mjs';

@@ -6,7 +6,7 @@
  *   · `getCredentialForUse()` 才返回 `cipher`，命名上写明"这是要去解密的"，
  *     让调用点在 review 时一眼可见 —— 避免"顺手用了列表结果里的密文"。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { run, all, get } from '../../../data/db.mjs';
 import { newId, nowIso } from '../../../util/ids.mjs';

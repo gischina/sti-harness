@@ -16,7 +16,7 @@
  * 用法：node tools/test-http.mjs
  * 末行输出 `DONE fails=0`。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import fs from 'node:fs';
 import os from 'node:os';

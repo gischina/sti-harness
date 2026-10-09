@@ -13,7 +13,7 @@
  * 权限判定本身是纯函数（`platform/identity/permissions.mjs`），本文件只做
  * 「取声明 → 调判定 → 处置结果」这三步。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { can, explain } from '../../platform/identity/permissions.mjs';
 

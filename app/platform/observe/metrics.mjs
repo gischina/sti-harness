@@ -21,7 +21,7 @@
  *    `/upstream/*` 透传与静态资源不经中间件链，因此不在指标里 ——
  *    这是有意的（它们不是"平台接口"，混进来会污染 route 维度）。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { get } from '../../data/db.mjs';
 import { dbInfo } from '../../data/db.mjs';

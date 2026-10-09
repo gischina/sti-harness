@@ -21,7 +21,7 @@
  * 用法：node tools/test-unit.mjs
  * 末行输出 `DONE fails=N`（gate 检查项 `unit`）。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import assert from 'node:assert/strict';
 import { validateBody } from '../app/util/validate.mjs';

@@ -14,7 +14,7 @@
  *
  * ⚠️ 本模块只做**下限**检查（长度/字符类别），不假装能判断"这个口令够不够安全"。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import crypto from 'node:crypto';
 import { promisify } from 'node:util';

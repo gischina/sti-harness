@@ -264,4 +264,4 @@ mock 侧 260 用例同时保持全绿（两条路径都回归，见 `tools/test-
 
 ---
 
-Copyright 2026 liwei（易智瑞西安）.
+Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.

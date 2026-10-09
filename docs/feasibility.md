@@ -694,4 +694,4 @@ M0 的结论是**不把 0.2.0-rc.2 写进已验证矩阵**——因为本机上�
 
 ---
 
-Copyright 2026 liwei（易智瑞西安）.
+Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.

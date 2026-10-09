@@ -25,7 +25,7 @@
  * M1 只用到 `append()`（越权与敏感操作留痕）；查询/校验接口在 M3 补。
  * P1-2 补 `archive()` / `anchor()` / `chainInfo()` / `listAnchors()`。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import crypto from 'node:crypto';
 import fs from 'node:fs';

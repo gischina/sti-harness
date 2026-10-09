@@ -9,7 +9,7 @@
  * 行文本形如 `列名：值；列名：值` —— 这样「按列名检索」也能命中，
  * 而不是把一行裸值拼在一起（检索「负责人=张三」时无法区分是哪一列）。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { stripBom, normSpace } from './util.mjs';
 

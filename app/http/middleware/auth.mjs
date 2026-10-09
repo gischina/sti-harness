@@ -11,7 +11,7 @@
  *   · Cookie 认证 + 状态变更方法 + 跨站来源 → 403 `csrf_blocked`（见下方 CSRF 段）
  * 前三种都写审计（`result='denied'`），因为"谁在什么时候尝试访问被拒"本身是治理信号。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { extractToken } from '../../platform/identity/tokens.mjs';
 import { ANONYMOUS_TENANT } from '../../platform/governance/audit.mjs';

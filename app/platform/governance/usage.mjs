@@ -18,7 +18,7 @@
  * 这些用量会在成本报告里进 `unattributed` 桶。这是如实的：拿默认模型的单价去套
  * 会给出一个确定但错误的数，比"归因不到"更糟。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { run, get, all } from '../../data/db.mjs';
 import { newId, nowIso } from '../../util/ids.mjs';

@@ -18,7 +18,7 @@
  *     刻意不叫 `stit_`：那会与 `sti_` 前缀包含关系纠缠（`authenticate` 里
  *     `startsWith('sti_')` 会把它误收进会话分支），换一个不重叠的前缀省掉这份心算。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import crypto from 'node:crypto';
 import { newId } from '../../util/ids.mjs';

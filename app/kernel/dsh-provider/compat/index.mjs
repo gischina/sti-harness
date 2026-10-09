@@ -13,7 +13,7 @@
  *
  * 这样"上游升级了但没人更新垫片"会**立刻可见**，而不是安静地错下去。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import fs from 'node:fs';
 import path from 'node:path';

@@ -1,7 +1,7 @@
 /**
  * ID 与时间工具。零依赖（只用 node:crypto）。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import crypto from 'node:crypto';
 

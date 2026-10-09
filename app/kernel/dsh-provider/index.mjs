@@ -23,7 +23,7 @@
  *   取不到就说取不到，绝不返回伪造的成功。判据是"这个数据有没有真实来源"，
  *   而不是"调用方会不会不高兴"。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import crypto from 'node:crypto';
 import { createDshClient } from './client.mjs';

@@ -9,7 +9,7 @@
  *
  * 诚实原则同 index.mjs：补得上才补，补不上就说补不上，绝不编一个。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 
 /**

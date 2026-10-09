@@ -30,7 +30,7 @@
  * 本函数判"这个人对工作区的档位到哪"；能不能调 HTTP 由路由层的 `session:read`
  * 等能力把守。两件事不揉在一起（揉了的后果见 knowledge/visibility.mjs 头注释第 4 条）。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { can } from '../identity/permissions.mjs';
 

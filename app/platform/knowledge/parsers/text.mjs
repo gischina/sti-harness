@@ -11,7 +11,7 @@
  *   · 无序/有序列表项（保留为独立块，便于引用到具体条目）
  *   · 其余按空行分段
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { stripBom, joinWrapped, normSpace } from './util.mjs';
 

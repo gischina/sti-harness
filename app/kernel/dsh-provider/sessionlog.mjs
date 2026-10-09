@@ -18,7 +18,7 @@
  *
  * ⚠️ 本文件位于 dsh-provider/ 内，是上游存储布局的合法归属地。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import fs from 'node:fs';
 import path from 'node:path';

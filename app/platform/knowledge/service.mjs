@@ -14,7 +14,7 @@
  *     而不是静默返回（验收 2）；
  *   · 租户与知识库双重过滤，FTS 与向量**两条路径各写各的过滤**（验收 3）。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import fs from 'node:fs';
 import path from 'node:path';

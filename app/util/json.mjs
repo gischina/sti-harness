@@ -13,7 +13,7 @@
  *     不该让整条主流程失败。
  *   两者"失败"的语义相反，强行共用一个函数会把两种意图搅在一起。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 
 /**

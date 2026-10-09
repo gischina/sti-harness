@@ -7,7 +7,7 @@
  * 所以中间既不解帧、也不重新编码，只要「两侧握手都做对，然后双向 pipe 原始字节」。
  * （这套实现从基线实现迁移而来，已在真实环境跑通。）
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import net from 'node:net';
 import tls from 'node:tls';

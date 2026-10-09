@@ -7,7 +7,7 @@
  * 审计校验接口有个顺序细节：**先 verify、再写审计** —— verify 自己也会落一条审计，
  * 若先写后验，验到的链里就混进了"为校验而写"的那条，语义不对。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { readJsonBody } from '../context.mjs';
 import { requireBody } from './_shared.mjs';

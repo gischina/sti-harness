@@ -17,7 +17,7 @@
  * 恢复完成后，目标目录里**没有** .secret（主密钥不在备份包里）——
  * 如果是全新机器，需要先重新初始化或从安全渠道找回主密钥，否则凭据解不开。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import fs from 'node:fs';
 import path from 'node:path';

@@ -15,7 +15,7 @@
  * 诚实失败：引号没闭合 → 抛 400，而不是把整份文件当成一个巨大字段 ——
  * 那会安静地产生一串"串行垃圾"，报表还显示导入成功。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { errors } from './errors.mjs';
 

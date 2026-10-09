@@ -1,5 +1,5 @@
 /* STI HARNESS 前端 · App 对象：对话工作台动作层
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  *
  * 本文件是前端按域拆分后的一片。全部片由 public/index.html **按顺序**加载，
  * 且都是经典脚本（非 ES module）—— 它们共享同一个全局作用域，因此彼此可以直接引用，

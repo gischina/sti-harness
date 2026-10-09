@@ -24,7 +24,7 @@
  *   · **HSTS 只在 HTTPS 下发**：明文 HTTP 上发 HSTS 不仅无效（浏览器要求经 TLS 收到
  *     才记），还会给人"我上了 TLS"的错觉。因此本函数按 `secure` 决定发不发。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 
 /** 内容安全策略。所有资源均同源；内联样式属性的保留理由见文件头说明。 */

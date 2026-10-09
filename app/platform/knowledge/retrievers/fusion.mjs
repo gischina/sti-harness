@@ -14,7 +14,7 @@
  * 这一步是**纯函数**：输入若干「已排好序的列表」，输出合并后的顺序。
  * 因此可以被穷举测试，不需要数据库。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 
 export const DEFAULT_RRF_K = 60;

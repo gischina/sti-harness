@@ -10,7 +10,7 @@
  * 指标里有本组织的审计链长，规格里有每条接口的 `capability` 要求。
  * 把"哪些接口需要管理员"送给未认证调用方，等于把攻击面地图送出去。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { describeContract } from '../../kernel/contract.mjs';
 import { probeKernelConnection } from '../../kernel/index.mjs';

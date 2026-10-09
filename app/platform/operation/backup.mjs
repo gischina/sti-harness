@@ -16,7 +16,7 @@
  *   3. 备份文件落在 DATA_DIR/backups 下 —— 它属于"运行时数据"，
  *      打包产物扫描（M5-3）会把它排除在发布产物之外。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import crypto from 'node:crypto';
 import fs from 'node:fs';

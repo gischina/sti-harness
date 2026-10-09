@@ -5,7 +5,7 @@
  * 不直接 import 各模块 —— 与 identity / knowledge 的装配方式一致，
  * 测试时可以整体替换（test-governance 就是这么做到零第三方依赖自包含的）。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import * as audit from './audit.mjs';
 import * as usage from './usage.mjs';

@@ -1,5 +1,5 @@
 /* STI HARNESS 前端 · 外壳与治理页：写操作收口 / 顶栏 / 审计 / 配额与用量 / 成本 / 会话日志
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  *
  * 本文件是前端按域拆分后的一片。全部片由 public/index.html **按顺序**加载，
  * 且都是经典脚本（非 ES module）—— 它们共享同一个全局作用域，因此彼此可以直接引用，

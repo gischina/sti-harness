@@ -1,7 +1,7 @@
 @echo off
 rem ============================================================
 rem  STI Harness deployment self-check  (double-click to run)
-rem  Copyright 2026 liwei (YiZhiRui Xi'an).
+rem  Copyright 2026 liwei (YiZhiRui Xi'an) <liwei@geoscene.cn>.
 rem
 rem  Runs diagnostics only.  It does NOT listen on a port, so it
 rem  is safe to run while a service is already up.

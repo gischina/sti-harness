@@ -4,7 +4,7 @@
  * 职责：配置装配 → 数据目录/迁移/密钥就位 → 内核选择 → 起 HTTP 服务 → 优雅退出。
  * `--check` 走同一套装配，但只做自检、不监听端口。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 // ⚠️ 必须第一个 import：收敛 node:sqlite 的实验性警告（详见该文件说明）
 import './util/quiet-warnings.mjs';

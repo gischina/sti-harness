@@ -15,7 +15,7 @@
  *      否则登录接口会变成账号枚举器。
  *   2. 校验令牌走 `HMAC(masterSecret, token)` 再查表；库里的哈希**不能**直接当令牌用。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { tx } from '../../data/db.mjs';
 import { errors, AppError } from '../../util/errors.mjs';

@@ -9,7 +9,7 @@
  * LibreOffice 首次启动动辄几秒。放主线程 = 整个服务的接口在这几秒内全卡住。
  * 放进 worker 后，阻塞只发生在这一个线程上，事件循环照常服务其它请求。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import '../util/quiet-warnings.mjs';
 import { parentPort } from 'node:worker_threads';

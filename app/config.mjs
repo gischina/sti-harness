@@ -6,7 +6,7 @@
  *    并**必须**同时配好反向代理与 TLS —— 见 docs/feasibility.md §7.2）；
  *  - 端口默认 `3090`（刻意避开同权利人早期作品占用的 3081，两者可同时运行）。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import fs from 'node:fs';
 import path from 'node:path';

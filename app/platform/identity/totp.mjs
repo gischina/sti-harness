@@ -16,7 +16,7 @@
  * ⚠️ 为什么不用 `crypto.timingSafeEqual` 之外的比较：6 位数字码比对若用 `===`，
  *    理论上可被逐位计时探测；虽然网络噪声下几乎不可行，但常值比较是零成本的纪律。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import crypto from 'node:crypto';
 import { hashToken } from './tokens.mjs';

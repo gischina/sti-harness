@@ -10,7 +10,7 @@
  * 本机未装上游 → 输出 SKIP 并 `DONE fails=0 skipped=1`，**不伪装成通过**
  * （因为"没装上游"不等于"契约没变"）。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import '../app/util/quiet-warnings.mjs';
 import {

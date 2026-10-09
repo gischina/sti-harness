@@ -11,7 +11,7 @@
  * 同步阻塞只会占住那一个 worker（这正是把解析放进 worker 池的目的），
  * 主线程的事件循环不受影响。若放在主线程，LibreOffice 动辄几秒的启动会把服务卡住。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import fs from 'node:fs';
 import os from 'node:os';

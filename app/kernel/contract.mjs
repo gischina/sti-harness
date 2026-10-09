@@ -10,7 +10,7 @@
  *
  * 本文件不 import 任何 provider —— 它是纯定义 + 归一化工具，可被任意 provider 复用。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 
 /** 契约版本。KernelEvent 形状变更必须同时改这里。 */

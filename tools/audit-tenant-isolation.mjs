@@ -13,7 +13,7 @@
  * 局限（诚实边界）：静态扫描抓「忘了过滤」，抓不住「过滤值用错变量」；
  * 后者由双租户动态用例（test-governance 跨租户 section）钉住。两层合在一起才是验收。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import fs from 'node:fs';
 import path from 'node:path';

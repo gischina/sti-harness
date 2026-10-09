@@ -11,7 +11,7 @@
  * 不 import 任何 app 模块、不碰数据库、不起服务 —— 因此独立发包端可以零负担地复用它
  * （发包端绝不该打开数据库或起服务：那样它就不再是"另一台机器上的人"了）。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import crypto from 'node:crypto';
 

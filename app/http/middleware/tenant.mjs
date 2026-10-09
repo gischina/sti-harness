@@ -9,7 +9,7 @@
  * 契约：本中间件执行**之后**，`ctx.tenantId` 必定是一个非空字符串。
  * 仓储层所有查询都以它为过滤条件 —— 这就是逻辑隔离的落点。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { errors } from '../../util/errors.mjs';
 

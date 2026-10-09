@@ -4,7 +4,7 @@
  * 与登录会话的区别：API Key 不绑定浏览器会话、不过期（除非指定），
  * 且带 `scopes`（逗号分隔）。scopes 为空表示"与所属用户的角色权限一致"。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { run, all, get } from '../../../data/db.mjs';
 import { nowIso } from '../../../util/ids.mjs';

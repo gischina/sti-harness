@@ -23,7 +23,7 @@
  *   · 解不开的单元（旧密钥没给全）保持原样、计入 failures，**不丢数据**；
  *   · 写回全部按主键 UPDATE，不做 DELETE/INSERT。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { all, run } from '../../data/db.mjs';
 

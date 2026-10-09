@@ -57,7 +57,7 @@
  * 末行输出 `DONE fails=N` —— `fails` 记的是**正确性问题**（丢写、非预期响应、未捕获异常、
  * 发包端起不来），**不是**"慢"。慢要用数字说话，不靠红绿。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import fs from 'node:fs';
 import os from 'node:os';

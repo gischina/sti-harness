@@ -13,7 +13,7 @@
  *   · 装配失败抛**带前缀的 Error**（"××服务装配失败：原因"），由 main 统一记日志、
  *     置退出码 1 —— 退出码语义（P0-3）不因搬家而变。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import process from 'node:process';
 import fs from 'node:fs';

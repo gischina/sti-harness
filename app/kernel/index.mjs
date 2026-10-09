@@ -20,7 +20,7 @@
  *
  * 对外一律用语义名：上游的具体产品名只允许留在 `dsh-provider/` 内。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { createUnconfiguredProvider } from './unconfigured-provider.mjs';
 import { createDshProvider } from './dsh-provider/index.mjs';

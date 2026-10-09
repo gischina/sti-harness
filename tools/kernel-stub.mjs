@@ -23,7 +23,7 @@
  * 它跑的是与真实 provider 完全相同的归一化链路（normalizeEvent），
  * 所以它对契约的遵守程度本身就是一条回归。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { normalizeEvent, CONTRACT_VERSION } from '../app/kernel/contract.mjs';
 import { newId, nowIso } from '../app/util/ids.mjs';

@@ -33,7 +33,7 @@
  *      "解析到 127.0.0.1 的域名"绕过。
  *      本机自测需要 loopback 时，显式打开 `allowLoopback`（装配层给，非用户输入）。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import dns from 'node:dns/promises';
 import net from 'node:net';

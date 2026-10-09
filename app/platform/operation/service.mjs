@@ -23,7 +23,7 @@
  * 差别只在"删哪几份"：轮转删的永远是最旧的，人工删的是点名的某一份。
  * 护栏细节见 `backup.mjs` 的 `removeBackup` / `pruneBackups`。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import fs from 'node:fs';
 import path from 'node:path';

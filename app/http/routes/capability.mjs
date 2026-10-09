@@ -9,7 +9,7 @@
  *     审计记 error（验收标准 3：不落半成品）。
  *   · 变更类动作全部落审计链（M3 的红线延续到这里）。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import fs from 'node:fs';
 import path from 'node:path';

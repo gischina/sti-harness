@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ============================================================
 #  STI Harness 部署自检（Linux / macOS）
-#  Copyright 2026 liwei（易智瑞西安）.
+#  Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
 #
 #  只做自检，不监听端口；服务已在运行时也可以安全执行。
 #  输出为纯文本，可整段复制发给管理员。

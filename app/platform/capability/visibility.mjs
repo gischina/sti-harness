@@ -33,7 +33,7 @@
  * 为什么判定不读库：读库的版本没法穷举测试，而且「契约层 gate」每次
  * listSkills / listMcpServers 都要调它 —— 保持纯函数，查询职责留给调用方。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 
 /** 合法的绑定层级。capability_bindings.capability_type 的值域（0001 迁移；0.21.10 去掉 tool）。

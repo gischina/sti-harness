@@ -6,7 +6,7 @@
  * 事件落本地库（`events` 表），因此"轨迹/交付物/统计"永远有数据源，
  * 不依赖上游是否还能回放。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { readJsonBody, readRawBody } from '../context.mjs';
 import { openNdjsonStream } from '../stream.mjs';

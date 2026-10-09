@@ -1,5 +1,5 @@
 /* STI HARNESS 前端
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  *
  * 纪律（继承前身项目的经验）：
  *  1. ROUTES 单点定义 —— 顶栏/导航/标题/权限要求全部由它推导，改名不会四处漂移；
@@ -10,7 +10,7 @@
  */
 
 /* STI HARNESS 前端 · 路由表（唯一真源）
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  *
  * 本文件是前端按域拆分后的一片。全部片由 public/index.html **按顺序**加载，
  * 且都是经典脚本（非 ES module）—— 它们共享同一个全局作用域，因此彼此可以直接引用，

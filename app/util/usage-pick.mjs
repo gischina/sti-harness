@@ -21,7 +21,7 @@
  *
  * 与上层无关：这里不认识 HTTP、不认识 SQL、不认识上游 —— 只做"从记录里挑出该计账的那几条"。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 
 /**

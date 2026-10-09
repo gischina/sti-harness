@@ -19,7 +19,7 @@
  * 密钥有效、模型名存在、协议对得上 —— 那种探活给的是**虚假的安心**。
  * 结论里会带上 `billedRequest: true` 让运维知道这一点。
  *
- * Copyright 2026 liwei（易智瑞西安）.
+ * Copyright 2026 liwei（易智瑞西安） <liwei@geoscene.cn>.
  */
 import { createEmbeddingProvider } from '../knowledge/embedding.mjs';
 
